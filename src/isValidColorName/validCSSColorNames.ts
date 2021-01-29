@@ -147,6 +147,4 @@ export const validCSSColorNames = [
   'whitesmoke',
   'yellowgreen',
   'rebeccapurple',
-  'transparent',
-  'currentcolor',
 ];
