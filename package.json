@@ -1,6 +1,6 @@
 {
   "name": "is-valid-css-color",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A tool to help you check if a CSS color string is valid or invalid",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
