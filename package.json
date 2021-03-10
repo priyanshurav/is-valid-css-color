@@ -1,6 +1,6 @@
 {
   "name": "is-valid-css-color",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "description": "A tool to help you check if a CSS color string is valid or invalid",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pr357/is-valid-css-color.git"
+    "url": "git+https://github.com/priyanshurav/is-valid-css-color.git"
   },
   "keywords": [
     "css",
@@ -28,12 +28,12 @@
     "validators",
     "is-valid-css-color"
   ],
-  "author": "pr357",
+  "author": "Priyanshu Rav",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/pr357/is-valid-css-color/issues"
+    "url": "https://github.com/priyanshurav/is-valid-css-color/issues"
   },
-  "homepage": "https://github.com/pr357/is-valid-css-color#readme",
+  "homepage": "https://github.com/priyanshurav/is-valid-css-color#readme",
   "devDependencies": {
     "@types/node": "^14.14.22",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
