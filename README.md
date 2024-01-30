@@ -51,10 +51,6 @@ console.log(isValidColorName('dksjf')); // false
 console.log(isValidColorName('LKJSDK')); // false
 ```
 
-# Contributing
-
-Contributions are welcome. See the [contribution guide](https://github.com/pr357/is-valid-css-color/blob/main/CONTRIBUTING.md) for more info.
-
 # License
 
 This software is licensed under the [MIT License](https://choosealicense.com/licenses/mit/). See the [LICENSE](https://github.com/pr357/is-valid-css-color/blob/main/LICENSE) for more info.
