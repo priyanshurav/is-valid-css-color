@@ -29,7 +29,7 @@ const {
   isValidRGB,
 } = require('is-valid-css-color');
 
-// To validate a RGB or RGBA ot hex string
+// To validate a RGB or RGBA or hex string
 console.log(isValidRGB('rgb(255,255,255)')); // true
 console.log(isValidRGB('rgba(255,255,255,1)')); // true
 console.log(isValidRGB('rgba(-255,255,255,1)')); // false
