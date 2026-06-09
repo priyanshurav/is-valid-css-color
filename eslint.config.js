@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import regexpPlugin from 'eslint-plugin-regexp';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
@@ -12,4 +13,10 @@ export default defineConfig([
     languageOptions: { globals: globals.node },
   },
   tseslint.configs.recommended,
+  regexpPlugin.configs['flat/recommended'],
+  {
+    rules: {
+      'regexp/no-super-linear-backtracking': 'error',
+    },
+  },
 ]);
