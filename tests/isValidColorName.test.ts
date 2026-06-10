@@ -30,6 +30,7 @@ describe('isValidColorName()', () => {
       assert.equal(isValidColorName('mediumspringgreen'), true);
       assert.equal(isValidColorName('rebeccapurple'), true);
       assert.equal(isValidColorName('transparent'), true);
+      assert.equal(isValidColorName('currentcolor'), true);
     });
 
     it('validates grey as an alias for gray', () => {
