@@ -1,4 +1,4 @@
-export const validCSSColorNames = [
+export const validCSSColorNames = new Set([
   'black',
   'silver',
   'gray',
@@ -147,4 +147,28 @@ export const validCSSColorNames = [
   'whitesmoke',
   'yellowgreen',
   'rebeccapurple',
-];
+  'transparent',
+  'currentcolor',
+]);
+
+/**
+ * Tests whether a string is a valid CSS named color.
+ *
+ * The check is case-insensitive and ignores leading/trailing whitespace.
+ * Recognized values include all named colors defined in the CSS Color Level 4
+ * specification, as well as `transparent` and `currentColor`.
+ *
+ * @param colorName - The string to validate.
+ * @returns `true` if `colorName` is a recognized CSS named color, `false` otherwise.
+ *
+ * @example
+ * isValidColorName('red');          // true
+ * isValidColorName('RebeccaPurple'); // true
+ * isValidColorName('transparent');  // true
+ * isValidColorName('#ff0000');      // false — hex values are not named colors
+ * isValidColorName('rouge');        // false — not a CSS color name
+ */
+export const isValidColorName = (colorName: string): boolean => {
+  if (typeof colorName !== 'string') return false;
+  return validCSSColorNames.has(colorName.toLowerCase().trim());
+};
