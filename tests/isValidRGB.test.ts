@@ -43,7 +43,16 @@ describe('isValidRGB()', () => {
 
     it('validates the "none" keyword', () => {
       assert.equal(isValidRGB('rgb(none none none)'), true);
+      assert.equal(isValidRGB('rgb(none 0 0)'), true);
+      assert.equal(isValidRGB('rgb(255 none 0)'), true);
       assert.equal(isValidRGB('rgb(255 0 none / none)'), true);
+      assert.equal(isValidRGB('rgb(255 0 0 / none)'), true);
+    });
+
+    it('validates positive sign prefix', () => {
+      assert.equal(isValidRGB('rgb(+255 +0 +0)'), true);
+      assert.equal(isValidRGB('rgb(+100% +50% +0%)'), true);
+      assert.equal(isValidRGB('rgba(+255 +255 +255 / +1)'), true);
     });
   });
 
@@ -51,6 +60,7 @@ describe('isValidRGB()', () => {
     it('handles decimal and scientific notation', () => {
       assert.equal(isValidRGB('rgb(255.5, 0, 0)'), true);
       assert.equal(isValidRGB('rgb(1e2, 2e1, 3e0)'), true);
+      assert.equal(isValidRGB('rgb(1E2, 2E1, 3E0)'), true);
     });
 
     it('handles out-of-bounds numbers', () => {
@@ -114,6 +124,15 @@ describe('isValidRGB()', () => {
 
     it('rejects empty strings', () => {
       assert.equal(isValidRGB(''), false);
+    });
+
+    it('rejects extra text surrounding valid rgb()', () => {
+      assert.equal(isValidRGB('rgb(255, 0, 0) extra'), false);
+      assert.equal(isValidRGB('extra rgb(255, 0, 0)'), false);
+    });
+
+    it('rejects invalid number formats', () => {
+      assert.equal(isValidRGB('rgb(255.5.5, 0, 0)'), false);
     });
 
     it('rejects "none" in legacy comma-separated syntax', () => {

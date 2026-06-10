@@ -93,6 +93,11 @@ describe('isValidHex()', () => {
       assert.equal(isValidHex('##ffffff'), false);
       assert.equal(isValidHex('f#ff'), false);
     });
+
+    it('rejects extra text surrounding valid hex', () => {
+      assert.equal(isValidHex('#fff extra'), false);
+      assert.equal(isValidHex('extra #fff'), false);
+    });
   });
   describe('Type Validation (Rejections)', () => {
     it('rejects null and undefined', () => {

@@ -48,30 +48,23 @@ describe('isValidHSL()', () => {
     it('validates the "none" keyword', () => {
       assert.equal(isValidHSL('hsl(none 100% 50%)'), true);
       assert.equal(isValidHSL('hsl(120 none 50%)'), true);
+      assert.equal(isValidHSL('hsl(120 100% none)'), true);
+      assert.equal(isValidHSL('hsl(120 100% 50% / none)'), true);
       assert.equal(isValidHSL('hsl(none none none / none)'), true);
     });
   });
 
-  describe('Scientific Notation', () => {
-    it('validates scientific notation in hue', () => {
-      assert.equal(isValidHSL('hsl(1e2, 100%, 50%)'), true);
-      assert.equal(isValidHSL('hsl(1e2 100% 50%)'), true);
-      assert.equal(isValidHSL('hsl(1.5e2, 100%, 50%)'), true);
+  describe('Formatting and Edge Cases', () => {
+    it('handles decimal and scientific notation', () => {
+      assert.equal(isValidHSL('hsl(120.5, 0%, 0%)'), true);
+      assert.equal(isValidHSL('hsl(1e2, 2e1%, 3e0%)'), true);
+      assert.equal(isValidHSL('hsl(1E2, 2E1%, 3E0%)'), true);
       assert.equal(isValidHSL('hsl(-1e2, 100%, 50%)'), true);
-    });
-
-    it('validates scientific notation in saturation and lightness', () => {
-      assert.equal(isValidHSL('hsl(120, 1e2%, 5e1%)'), true);
       assert.equal(isValidHSL('hsl(120 1e2% 5e1%)'), true);
-    });
-
-    it('validates scientific notation in alpha', () => {
       assert.equal(isValidHSL('hsla(120, 100%, 50%, 5e-1)'), true);
       assert.equal(isValidHSL('hsl(120 100% 50% / 5e-1)'), true);
     });
-  });
 
-  describe('Formatting and Edge Cases', () => {
     it('tolerates heavy/irregular whitespace', () => {
       assert.equal(isValidHSL('hsl(  120  ,  100%  ,  50%  )'), true);
       assert.equal(isValidHSL('hsl(\t120,\n100%,\r50%)'), true);
@@ -83,6 +76,11 @@ describe('isValidHSL()', () => {
     it('is case-insensitive', () => {
       assert.equal(isValidHSL('HSL(120, 100%, 50%)'), true);
       assert.equal(isValidHSL('HsLa(120DeG, 100%, 50%, 0.5)'), true);
+    });
+
+    it('validates positive sign prefix', () => {
+      assert.equal(isValidHSL('hsl(+120 +100% +50%)'), true);
+      assert.equal(isValidHSL('hsla(+120, +100%, +50%, +0.5)'), true);
     });
 
     it('handles out-of-bounds numbers', () => {
@@ -122,6 +120,10 @@ describe('isValidHSL()', () => {
       assert.equal(isValidHSL('hsl(120 100% 50% / 0.5 / 0.5)'), false);
     });
 
+    it('rejects invalid number formats', () => {
+      assert.equal(isValidHSL('hsl(120.5.5, 100%, 50%)'), false);
+    });
+
     it('rejects malformed function wrappers', () => {
       assert.equal(isValidHSL('hsl120, 100%, 50%'), false);
       assert.equal(isValidHSL('hsl(120, 100%, 50%'), false);
@@ -133,6 +135,16 @@ describe('isValidHSL()', () => {
       assert.equal(isValidHSL(''), false);
       assert.equal(isValidHSL('   '), false);
       assert.equal(isValidHSL('hsl()'), false);
+    });
+
+    it('rejects hue as a percentage', () => {
+      assert.equal(isValidHSL('hsl(120%, 100%, 50%)'), false);
+      assert.equal(isValidHSL('hsl(120% 100% 50%)'), false);
+    });
+
+    it('rejects extra text surrounding valid hsl()', () => {
+      assert.equal(isValidHSL('hsl(120, 100%, 50%) extra'), false);
+      assert.equal(isValidHSL('extra hsl(120, 100%, 50%)'), false);
     });
 
     it('rejects "none" in legacy comma-separated syntax', () => {

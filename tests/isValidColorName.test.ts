@@ -36,6 +36,11 @@ describe('isValidColorName()', () => {
     it('validates grey as an alias for gray', () => {
       assert.equal(isValidColorName('grey'), true);
     });
+
+    it('validates fuchsia as an alias for magenta', () => {
+      assert.equal(isValidColorName('fuchsia'), true);
+      assert.equal(isValidColorName('magenta'), true);
+    });
   });
 
   describe('Formatting and Edge Cases', () => {
