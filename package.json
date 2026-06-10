@@ -1,19 +1,28 @@
 {
   "name": "is-valid-css-color",
-  "version": "2.0.4",
-  "description": "A tool to help you check if a CSS color string is valid or invalid",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "version": "3.0.0",
+  "description": "A fast, lightweight validator for modern CSS color strings.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
   "files": [
-    "lib/"
+    "dist/"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "scripts": {
-    "test": "jest",
-    "compile": "tsc",
+    "test": "node --import tsx --test",
+    "test:coverage": "c8 node --import tsx --test",
+    "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint ./src/*.ts",
-    "lint:fix": "eslint ./src/*.ts --fix",
-    "format": "prettier --write ."
+    "lint": "eslint ."
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -21,27 +30,49 @@
   },
   "keywords": [
     "css",
-    "colors",
     "color",
-    "validation",
-    "valid",
-    "validators",
-    "is-valid-css-color"
+    "colour",
+    "validate",
+    "validator",
+    "check",
+    "hex",
+    "rgb",
+    "hsl",
+    "oklch",
+    "oklab",
+    "lch",
+    "lab",
+    "hwb",
+    "named-color",
+    "css-color-4",
+    "color-format",
+    "typescript"
   ],
-  "author": "Priyanshu Rav",
+  "author": {
+    "name": "Priyanshu Rav",
+    "url": "https://github.com/priyanshurav"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/priyanshurav/is-valid-css-color/issues"
   },
   "homepage": "https://github.com/priyanshurav/is-valid-css-color#readme",
   "devDependencies": {
-    "@types/node": "^14.14.22",
-    "@typescript-eslint/eslint-plugin": "^4.14.0",
-    "@typescript-eslint/parser": "^4.14.0",
-    "eslint": "^7.18.0",
-    "jest": "^26.6.3",
-    "prettier": "^2.2.1",
-    "ts-jest": "^26.4.4",
-    "typescript": "^4.1.3"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.9.2",
+    "c8": "^11.0.0",
+    "eslint": "^10.4.1",
+    "eslint-plugin-regexp": "^3.1.0",
+    "globals": "^17.6.0",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.1"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.5.0",
+      "onFail": "download"
+    }
   }
 }
