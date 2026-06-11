@@ -170,5 +170,5 @@ const validCSSColorNames = new Set([
  */
 export const isValidColorName = (colorName: string): boolean => {
   if (typeof colorName !== 'string') return false;
-  return validCSSColorNames.has(colorName.toLowerCase().trim());
+  return validCSSColorNames.has(colorName.trim().toLowerCase());
 };
