@@ -1,4 +1,4 @@
-const HEX_COLOR_REGEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+const hexRegex = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/i;
 
 /**
  * Tests whether a string is a valid CSS hex color.
@@ -20,5 +20,5 @@ const HEX_COLOR_REGEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/
  */
 export const isValidHex = (hex: string): boolean => {
   if (typeof hex !== 'string') return false;
-  return HEX_COLOR_REGEX.test(hex.trim());
+  return hexRegex.test(hex.trim());
 };

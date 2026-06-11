@@ -1,19 +1,15 @@
-import { NUM } from './patterns.js';
+import { NUM, HUE, VALUE } from './patterns.js';
 
-// Legacy (comma-separated) syntax predates `none`; it is not allowed there.
 const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
 const legacyPct = `(?:${NUM}%)`;
-const legacyAlpha = `(?:${NUM}%?)`;
+const legacyAlpha = `${NUM}%?`;
 
-// Modern (space-separated) syntax supports `none` in any channel position.
-const hue = `(?:${NUM}(?:deg|grad|rad|turn)?|none)`;
 const pct = `(?:${NUM}%|none)`;
-const alpha = `(?:${NUM}%?|none)`;
 
 const legacy = `${legacyHue}\\s*,\\s*${legacyPct}\\s*,\\s*${legacyPct}(?:\\s*,\\s*${legacyAlpha})?`;
-const modern = `${hue}\\s+${pct}\\s+${pct}(?:\\s*\\/\\s*${alpha})?`;
+const modern = `${HUE}\\s+${pct}\\s+${pct}(?:\\s*\\/\\s*${VALUE})?`;
 
-const hslRegex = new RegExp(`^(?:hsl|hsla)\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i');
+const hslRegex = new RegExp(`^hsla?\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `hsl()` or `hsla()` color.

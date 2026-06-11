@@ -1,21 +1,17 @@
 import { NUM } from './patterns.js';
 
-// Legacy (comma-separated) syntax predates `none`; it is not allowed there.
-const ln = NUM;
-const lp = `${NUM}%`;
-const la = `${NUM}%?`;
+const legacyNumBase = `${NUM}\\s*,\\s*${NUM}\\s*,\\s*${NUM}`;
+const legacyPctBase = `${NUM}%\\s*,\\s*${NUM}%\\s*,\\s*${NUM}%`;
+const legacyAlpha = `(?:\\s*,\\s*${NUM}%?)?`;
 
-// Modern (space-separated) syntax supports `none` in any channel position.
-const n = `(?:${NUM}|none)`;
-const p = `(?:${NUM}%|none)`;
-const a = `(?:${NUM}%?|none)`;
+const legacy = `(?:${legacyNumBase}|${legacyPctBase})${legacyAlpha}`;
 
-const legacyNum = `${ln}\\s*,\\s*${ln}\\s*,\\s*${ln}(?:\\s*,\\s*${la})?`;
-const legacyPct = `${lp}\\s*,\\s*${lp}\\s*,\\s*${lp}(?:\\s*,\\s*${la})?`;
-const modernNum = `${n}\\s+${n}\\s+${n}(?:\\s*\\/\\s*${a})?`;
-const modernPct = `${p}\\s+${p}\\s+${p}(?:\\s*\\/\\s*${a})?`;
+const modernChannel = `(?:${NUM}%?|none)`;
+const modernAlpha = `(?:\\s*\\/\\s*${modernChannel})?`;
 
-const innerColors = `(?:${legacyNum}|${legacyPct}|${modernNum}|${modernPct})`;
+const modern = `${modernChannel}\\s+${modernChannel}\\s+${modernChannel}${modernAlpha}`;
+
+const innerColors = `(?:${legacy}|${modern})`;
 const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
 
 /**
