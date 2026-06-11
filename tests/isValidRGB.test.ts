@@ -21,6 +21,13 @@ describe('isValidRGB()', () => {
       assert.equal(isValidRGB('rgba(100%, 50%, 0%, 0.5)'), true);
       assert.equal(isValidRGB('rgba(100%, 50%, 0%, 50%)'), true);
     });
+
+    it('validates rgb() with alpha values', () => {
+      assert.equal(isValidRGB('rgb(255, 0, 0, 0.5)'), true);
+      assert.equal(isValidRGB('rgb(255, 0, 0, 50%)'), true);
+      assert.equal(isValidRGB('rgb(255, 0, 0, 150%)'), true);
+      assert.equal(isValidRGB('rgb(0, 0, 0, -20%)'), true);
+    });
   });
 
   describe('CSS Color Level 4: Space-separated Syntax', () => {
@@ -41,6 +48,11 @@ describe('isValidRGB()', () => {
       assert.equal(isValidRGB('rgba(100% 50% 0% / 50%)'), true);
     });
 
+    it('validates mixing numbers and percentages (Modern syntax allows mixing)', () => {
+      assert.equal(isValidRGB('rgb(0 100% 0)'), true);
+      assert.equal(isValidRGB('rgba(255 50% 128 / 0.5)'), true);
+    });
+
     it('validates the "none" keyword', () => {
       assert.equal(isValidRGB('rgb(none none none)'), true);
       assert.equal(isValidRGB('rgb(none 0 0)'), true);
@@ -57,14 +69,23 @@ describe('isValidRGB()', () => {
   });
 
   describe('Formatting and Edge Cases', () => {
-    it('handles decimal and scientific notation', () => {
+    it('validates decimal and scientific notation', () => {
       assert.equal(isValidRGB('rgb(255.5, 0, 0)'), true);
       assert.equal(isValidRGB('rgb(1e2, 2e1, 3e0)'), true);
       assert.equal(isValidRGB('rgb(1E2, 2E1, 3E0)'), true);
+
+      assert.equal(isValidRGB('rgb(+1e2, -2e1, 3e0)'), true);
+      assert.equal(isValidRGB('rgb(+1e2 +2e1 +3e0 / -1.5e0)'), true);
     });
 
-    it('handles out-of-bounds numbers', () => {
+    it('validates out-of-bounds values', () => {
       assert.equal(isValidRGB('rgb(300, -10, 0)'), true);
+      assert.equal(isValidRGB('rgb(300, -10, 500)'), true);
+      assert.equal(isValidRGB('rgb(300% -10% 500%)'), true);
+      assert.equal(isValidRGB('rgb(0 0 0 / 150%)'), true);
+      assert.equal(isValidRGB('rgb(0 0 0 / -20%)'), true);
+      assert.equal(isValidRGB('rgb(0 0 0 / 1.5)'), true);
+      assert.equal(isValidRGB('rgb(0 0 0 / -0.5)'), true);
     });
 
     it('tolerates extreme whitespace', () => {
@@ -99,18 +120,22 @@ describe('isValidRGB()', () => {
       assert.equal(isValidRGB('rgb(255, 255 255)'), false);
       assert.equal(isValidRGB('rgb(255, 255, 255 / 1)'), false);
       assert.equal(isValidRGB('rgb(255 255 255 , 1)'), false);
+      assert.equal(isValidRGB('rgb(none, none none)'), false);
     });
 
-    it('rejects mixing numbers and percentages', () => {
+    it('rejects mixing numbers and percentages in legacy syntax', () => {
       assert.equal(isValidRGB('rgb(100%, 255, 0)'), false);
       assert.equal(isValidRGB('rgb(0, 100%, 0)'), false);
-      assert.equal(isValidRGB('rgb(0 100% 0)'), false);
     });
 
     it('rejects malformed syntax and missing parentheses', () => {
       assert.equal(isValidRGB('rgb(255, 0, 0'), false);
       assert.equal(isValidRGB('(255, 0, 0)'), false);
       assert.equal(isValidRGB('rgb(255, 0, 0;)'), false);
+      assert.equal(isValidRGB('rgb(255 255 255 /)'), false);
+      assert.equal(isValidRGB('rgb (255, 0, 0)'), false);
+      assert.equal(isValidRGB('rgba (255, 0, 0, 0.5)'), false);
+      assert.equal(isValidRGB('rgb (255 0 0)'), false);
     });
 
     it('rejects incorrect function names', () => {
@@ -143,6 +168,7 @@ describe('isValidRGB()', () => {
       assert.equal(isValidRGB('rgba(255, 255, 255, none)'), false);
     });
   });
+
   describe('Type Validation (Rejections)', () => {
     it('rejects null and undefined', () => {
       assert.equal(isValidRGB(null as unknown as string), false);

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { isValidColorName } from '../src/isValidColorName.js';
 
 describe('isValidColorName()', () => {
-  describe('Basic and Extended Named Colors', () => {
+  describe('CSS Color Level 4: Named Colors', () => {
     it('validates the 16 basic CSS colors', () => {
       assert.equal(isValidColorName('black'), true);
       assert.equal(isValidColorName('silver'), true);
