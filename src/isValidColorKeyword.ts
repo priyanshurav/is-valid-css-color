@@ -1,9 +1,16 @@
-const validCSSColorNames = new Set([
+const validCSSColorKeywords = new Set([
+  'accentcolor',
+  'accentcolortext',
+  'activeborder',
+  'activecaption',
+  'activetext',
   'aliceblue',
   'antiquewhite',
+  'appworkspace',
   'aqua',
   'aquamarine',
   'azure',
+  'background',
   'beige',
   'bisque',
   'black',
@@ -12,7 +19,15 @@ const validCSSColorNames = new Set([
   'blueviolet',
   'brown',
   'burlywood',
+  'buttonborder',
+  'buttonface',
+  'buttonhighlight',
+  'buttonshadow',
+  'buttontext',
   'cadetblue',
+  'canvas',
+  'canvastext',
+  'captiontext',
   'chartreuse',
   'chocolate',
   'coral',
@@ -45,6 +60,8 @@ const validCSSColorNames = new Set([
   'dimgray',
   'dimgrey',
   'dodgerblue',
+  'field',
+  'fieldtext',
   'firebrick',
   'floralwhite',
   'forestgreen',
@@ -54,13 +71,21 @@ const validCSSColorNames = new Set([
   'gold',
   'goldenrod',
   'gray',
+  'graytext',
   'green',
   'greenyellow',
   'grey',
+  'highlight',
+  'highlighttext',
   'honeydew',
   'hotpink',
+  'inactiveborder',
+  'inactivecaption',
+  'inactivecaptiontext',
   'indianred',
   'indigo',
+  'infobackground',
+  'infotext',
   'ivory',
   'khaki',
   'lavender',
@@ -85,7 +110,10 @@ const validCSSColorNames = new Set([
   'lime',
   'limegreen',
   'linen',
+  'linktext',
   'magenta',
+  'mark',
+  'marktext',
   'maroon',
   'mediumaquamarine',
   'mediumblue',
@@ -96,6 +124,8 @@ const validCSSColorNames = new Set([
   'mediumspringgreen',
   'mediumturquoise',
   'mediumvioletred',
+  'menu',
+  'menutext',
   'midnightblue',
   'mintcream',
   'mistyrose',
@@ -126,6 +156,7 @@ const validCSSColorNames = new Set([
   'saddlebrown',
   'salmon',
   'sandybrown',
+  'scrollbar',
   'seagreen',
   'seashell',
   'sienna',
@@ -140,35 +171,47 @@ const validCSSColorNames = new Set([
   'tan',
   'teal',
   'thistle',
+  'threeddarkshadow',
+  'threedface',
+  'threedhighlight',
+  'threedlightshadow',
+  'threedshadow',
   'tomato',
   'transparent',
   'turquoise',
   'violet',
+  'visitedtext',
   'wheat',
   'white',
   'whitesmoke',
+  'window',
+  'windowframe',
+  'windowtext',
   'yellow',
   'yellowgreen',
 ]);
 
 /**
- * Tests whether a string is a valid CSS named color.
+ * Tests whether a string is a valid CSS color keyword.
  *
  * The check is case-insensitive and ignores leading/trailing whitespace.
- * Recognized values include all named colors defined in the CSS Color Level 4
- * specification, as well as `transparent` and `currentColor`.
+ * Recognized values include all named colors, `transparent`, `currentColor`,
+ * the 17 system colors, and the 23 deprecated system colors defined in the
+ * CSS Color Level 4 specification.
  *
- * @param colorName - The string to validate.
- * @returns `true` if `colorName` is a recognized CSS named color, `false` otherwise.
+ * @param colorKeyword - The string to validate.
+ * @returns `true` if `colorKeyword` is a recognized CSS color keyword, `false` otherwise.
  *
  * @example
- * isValidColorName('red');          // true
- * isValidColorName('RebeccaPurple'); // true
- * isValidColorName('transparent');  // true
- * isValidColorName('#ff0000');      // false — hex values are not named colors
- * isValidColorName('rouge');        // false — not a CSS color name
+ * isValidColorKeyword('red');            // true — named color
+ * isValidColorKeyword('RebeccaPurple');  // true — named color
+ * isValidColorKeyword('transparent');    // true — special keyword
+ * isValidColorKeyword('canvas');         // true — system color
+ * isValidColorKeyword('ButtonFace');     // true — deprecated system color
+ * isValidColorKeyword('#ff0000');        // false — hex values are not keywords
+ * isValidColorKeyword('rouge');          // false — not a CSS color keyword
  */
-export const isValidColorName = (colorName: string): boolean => {
-  if (typeof colorName !== 'string') return false;
-  return validCSSColorNames.has(colorName.trim().toLowerCase());
+export const isValidColorKeyword = (colorKeyword: string): boolean => {
+  if (typeof colorKeyword !== 'string') return false;
+  return validCSSColorKeywords.has(colorKeyword.trim().toLowerCase());
 };
