@@ -4,10 +4,8 @@ const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
 const legacyPct = `(?:${NUM}%)`;
 const legacyAlpha = `${NUM}%?`;
 
-const pct = `(?:${NUM}%|none)`;
-
 const legacy = `${legacyHue}\\s*,\\s*${legacyPct}\\s*,\\s*${legacyPct}(?:\\s*,\\s*${legacyAlpha})?`;
-const modern = `${HUE}\\s+${pct}\\s+${pct}(?:\\s*\\/\\s*${VALUE})?`;
+const modern = `${HUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?`;
 
 const hslRegex = new RegExp(`^hsla?\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i');
 
@@ -31,17 +29,17 @@ const hslRegex = new RegExp(`^hsla?\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i')
  *
  * @example
  * // Legacy syntax
- * isValidHSL('hsl(270, 60%, 50%)');          // true
- * isValidHSL('hsla(270, 60%, 50%, 0.5)');    // true
- * isValidHSL('hsl(270, 60%, none)');         // false — `none` not allowed in legacy
+ * isValidHsl('hsl(270, 60%, 50%)');          // true
+ * isValidHsl('hsla(270, 60%, 50%, 0.5)');    // true
+ * isValidHsl('hsl(270, 60%, none)');         // false — `none` not allowed in legacy
  *
  * // Modern syntax
- * isValidHSL('hsl(270 60% 50%)');            // true
- * isValidHSL('hsl(270 60% 50% / 50%)');      // true
- * isValidHSL('hsl(none 60% 50% / 0.5)');     // true — `none` allowed in modern
- * isValidHSL('hsl(270deg 60% 50%)');         // true — explicit angle unit
+ * isValidHsl('hsl(270 60% 50%)');            // true
+ * isValidHsl('hsl(270 60% 50% / 50%)');      // true
+ * isValidHsl('hsl(none 60% 50% / 0.5)');     // true — `none` allowed in modern
+ * isValidHsl('hsl(270deg 60% 50%)');         // true — explicit angle unit
  */
-export const isValidHSL = (hsl: string): boolean => {
+export const isValidHsl = (hsl: string): boolean => {
   if (typeof hsl !== 'string') return false;
   return hslRegex.test(hsl.trim());
 };

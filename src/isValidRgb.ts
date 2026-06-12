@@ -33,18 +33,18 @@ const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
  *
  * @example
  * // Legacy syntax
- * isValidRGB('rgb(255, 0, 128)');            // true — numbers
- * isValidRGB('rgb(100%, 0%, 50%)');          // true — percentages
- * isValidRGB('rgba(255, 0, 128, 0.5)');      // true — with alpha
- * isValidRGB('rgb(255, 0%, 128)');           // false — mixed numbers and percentages
- * isValidRGB('rgb(255, 0, none)');           // false — `none` not allowed in legacy
+ * isValidRgb('rgb(255, 0, 128)');            // true — numbers
+ * isValidRgb('rgb(100%, 0%, 50%)');          // true — percentages
+ * isValidRgb('rgba(255, 0, 128, 0.5)');      // true — with alpha
+ * isValidRgb('rgb(255, 0%, 128)');           // false — mixed numbers and percentages
+ * isValidRgb('rgb(255, 0, none)');           // false — `none` not allowed in legacy
  *
  * // Modern syntax
- * isValidRGB('rgb(255 0 128)');              // true
- * isValidRGB('rgb(255 0 128 / 50%)');        // true — with alpha
- * isValidRGB('rgb(none 0 128 / 0.5)');       // true — `none` allowed in modern
+ * isValidRgb('rgb(255 0 128)');              // true
+ * isValidRgb('rgb(255 0 128 / 50%)');        // true — with alpha
+ * isValidRgb('rgb(none 0 128 / 0.5)');       // true — `none` allowed in modern
  */
-export const isValidRGB = (rgb: string): boolean => {
+export const isValidRgb = (rgb: string): boolean => {
   if (typeof rgb !== 'string') return false;
   return rgbRegex.test(rgb.trim());
 };
