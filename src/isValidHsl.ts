@@ -29,15 +29,16 @@ const hslRegex = new RegExp(`^hsla?\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i')
  *
  * @example
  * // Legacy syntax
- * isValidHsl('hsl(270, 60%, 50%)');          // true
- * isValidHsl('hsla(270, 60%, 50%, 0.5)');    // true
+ * isValidHsl('hsl(270, 60%, 50%)');          // true — without alpha
+ * isValidHsl('hsla(270, 60%, 50%, 0.5)');    // true — with alpha
  * isValidHsl('hsl(270, 60%, none)');         // false — `none` not allowed in legacy
  *
  * // Modern syntax
- * isValidHsl('hsl(270 60% 50%)');            // true
- * isValidHsl('hsl(270 60% 50% / 50%)');      // true
+ * isValidHsl('hsl(270 60% 50%)');            // true — without alpha
+ * isValidHsl('hsl(270 60% 50% / 50%)');      // true — percentage alpha
  * isValidHsl('hsl(none 60% 50% / 0.5)');     // true — `none` allowed in modern
  * isValidHsl('hsl(270deg 60% 50%)');         // true — explicit angle unit
+ * isValidHsl('hsl(270 60 50)');             // true — plain numbers allowed in modern
  */
 export const isValidHsl = (hsl: string): boolean => {
   if (typeof hsl !== 'string') return false;

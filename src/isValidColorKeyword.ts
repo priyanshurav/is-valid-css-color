@@ -194,13 +194,13 @@ const validCSSColorKeywords = new Set([
 /**
  * Tests whether a string is a valid CSS color keyword.
  *
- * The check is case-insensitive and ignores leading/trailing whitespace.
  * Recognized values include all named colors, `transparent`, `currentColor`,
  * the 17 system colors, and the 23 deprecated system colors defined in the
- * CSS Color Level 4 specification.
+ * CSS Color Level 4 specification. The check is case-insensitive and ignores
+ * leading/trailing whitespace.
  *
  * @param colorKeyword - The string to validate.
- * @returns `true` if `colorKeyword` is a recognized CSS color keyword, `false` otherwise.
+ * @returns `true` if `colorKeyword` is a valid CSS color keyword, `false` otherwise.
  *
  * @example
  * isValidColorKeyword('red');            // true — named color

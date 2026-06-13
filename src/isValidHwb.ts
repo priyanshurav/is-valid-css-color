@@ -18,8 +18,8 @@ const hwbRegex = new RegExp(`^hwb\\(\\s*${HUE}\\s+${VALUE}\\s+${VALUE}\\s*(?:\\/
  * @returns `true` if `hwb` is a valid CSS `hwb()` color, `false` otherwise.
  *
  * @example
- * isValidHwb('hwb(270 0% 0%)');           // true
- * isValidHwb('hwb(270 0% 0% / 0.5)');     // true
+ * isValidHwb('hwb(270 0% 0%)');           // true — basic form
+ * isValidHwb('hwb(270 0% 0% / 0.5)');     // true — with alpha
  * isValidHwb('hwb(270deg 30% 10%)');      // true — explicit angle unit
  * isValidHwb('hwb(none 30% 10% / 50%)');  // true — `none` in any channel
  * isValidHwb('hwb(270, 0%, 0%)');         // false — commas not valid in hwb()

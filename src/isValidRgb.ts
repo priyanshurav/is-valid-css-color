@@ -40,7 +40,7 @@ const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
  * isValidRgb('rgb(255, 0, none)');           // false — `none` not allowed in legacy
  *
  * // Modern syntax
- * isValidRgb('rgb(255 0 128)');              // true
+ * isValidRgb('rgb(255 0 128)');              // true — numbers
  * isValidRgb('rgb(255 0 128 / 50%)');        // true — with alpha
  * isValidRgb('rgb(none 0 128 / 0.5)');       // true — `none` allowed in modern
  */
