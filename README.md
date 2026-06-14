@@ -22,12 +22,12 @@ Requires Node.js ≥ 18. This package is ESM-only (since v3.0.0) — it cannot b
 ## Usage
 
 ```ts
-import { isValidColor } from 'is-valid-css-color';
+import { isValidCssColor } from 'is-valid-css-color';
 
-isValidColor('rebeccapurple'); // true
-isValidColor('#ff0000ff'); // true
-isValidColor('rgb(255 0 0 / 50%)'); // true
-isValidColor('not-a-color'); // false
+isValidCssColor('rebeccapurple'); // true
+isValidCssColor('#ff0000ff'); // true
+isValidCssColor('rgb(255 0 0 / 50%)'); // true
+isValidCssColor('not-a-color'); // false
 ```
 
 ## Features
@@ -62,18 +62,18 @@ isValidColor('not-a-color'); // false
 **Legacy** (comma-separated): no `none`, alpha as a bare number or percentage.
 
 ```ts
-isValidColor('rgb(255, 0, 0)');
-isValidColor('rgba(255, 0, 0, 0.5)');
-isValidColor('hsl(0, 100%, 50%)');
-isValidColor('hsla(0, 100%, 50%, 0.5)');
+isValidCssColor('rgb(255, 0, 0)');
+isValidCssColor('rgba(255, 0, 0, 0.5)');
+isValidCssColor('hsl(0, 100%, 50%)');
+isValidCssColor('hsla(0, 100%, 50%, 0.5)');
 ```
 
 **Modern** (space-separated): `none` allowed in any channel, alpha after `/`.
 
 ```ts
-isValidColor('rgb(255 0 0)');
-isValidColor('rgb(255 0 0 / 50%)');
-isValidColor('hsl(none 100% 50% / 0.5)');
+isValidCssColor('rgb(255 0 0)');
+isValidCssColor('rgb(255 0 0 / 50%)');
+isValidCssColor('hsl(none 100% 50% / 0.5)');
 ```
 
 ### `color()` color spaces
@@ -81,15 +81,15 @@ isValidColor('hsl(none 100% 50% / 0.5)');
 Supported: `srgb`, `srgb-linear`, `display-p3`, `a98-rgb`, `prophoto-rgb`, `rec2020`, `xyz`, `xyz-d50`, `xyz-d65`.
 
 ```ts
-isValidColor('color(srgb 1 0 0)');
-isValidColor('color(prophoto-rgb 0.9 0.1 0.1 / 80%)');
+isValidCssColor('color(srgb 1 0 0)');
+isValidCssColor('color(prophoto-rgb 0.9 0.1 0.1 / 80%)');
 ```
 
 **Note**: This library validates static/literal color strings. It does not parse CSS math functions (e.g., calc(), max()) or CSS variables (var()).
 
 ## API
 
-### `isValidColor(color: string): boolean`
+### `isValidCssColor(color: string): boolean`
 
 Returns `true` if the string is a valid CSS color in any supported format.
 

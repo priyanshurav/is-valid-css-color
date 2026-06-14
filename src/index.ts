@@ -30,21 +30,21 @@ import { isValidColorNotation } from './isValidColorNotation.js';
  * @returns `true` if `color` is a valid CSS color in any supported format, `false` otherwise.
  *
  * @example
- * isValidColor('red');                          // true — named color
- * isValidColor('#f00');                         // true — hex
- * isValidColor('rgb(255 0 0)');                 // true — rgb
- * isValidColor('hsl(0 100% 50%)');              // true — hsl
- * isValidColor('oklch(0.63 0.26 29)');          // true — oklch
- * isValidColor('color(display-p3 1 0 0)');      // true — color()
- * isValidColor('notacolor');                    // false — not a recognized color format
+ * isValidCssColor('red');                          // true — named color
+ * isValidCssColor('#f00');                         // true — hex
+ * isValidCssColor('rgb(255 0 0)');                 // true — rgb
+ * isValidCssColor('hsl(0 100% 50%)');              // true — hsl
+ * isValidCssColor('oklch(0.63 0.26 29)');          // true — oklch
+ * isValidCssColor('color(display-p3 1 0 0)');      // true — color()
+ * isValidCssColor('notacolor');                    // false — not a recognized color format
  */
-const isValidColor = (color: string): boolean => {
+const isValidCssColor = (color: string): boolean => {
   if (typeof color !== 'string') return false;
 
   const trimmed = color.trim();
   if (trimmed.length === 0) return false;
 
-  // if the color does not contain a '(' then it is almost certainly either a color keyword or hex
+  // no '(' means the input must be a color keyword or hex
   if (!trimmed.includes('(')) return isValidColorKeyword(trimmed) || isValidHex(trimmed);
 
   switch (trimmed[0]) {
@@ -69,7 +69,7 @@ const isValidColor = (color: string): boolean => {
 };
 
 export {
-  isValidColor,
+  isValidCssColor,
   isValidRgb,
   isValidHsl,
   isValidHwb,
