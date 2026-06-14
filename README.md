@@ -11,6 +11,10 @@
 
 ```sh
 npm install is-valid-css-color
+# or
+pnpm add is-valid-css-color
+# or
+yarn add is-valid-css-color
 ```
 
 Requires Node.js ≥ 18. This package is ESM-only (since v3.0.0) — it cannot be `require()`d from CommonJS.
