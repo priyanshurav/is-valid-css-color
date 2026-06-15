@@ -17,7 +17,7 @@ pnpm add is-valid-css-color
 yarn add is-valid-css-color
 ```
 
-Requires Node.js ≥ 18. This package is ESM-only (since v3.0.0) — it cannot be `require()`d from CommonJS.
+Requires Node.js ≥ 18. This package is ESM-only (since [v3.0.0](https://github.com/priyanshurav/is-valid-css-color/releases/tag/v3.0.0)) — it cannot be `require()`d from CommonJS.
 
 ## Usage
 
