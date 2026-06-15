@@ -43,11 +43,14 @@ describe('isValidHex()', () => {
       assert.equal(isValidHex('#aB3dEf88'), true);
     });
 
-    it('tolerates surrounding whitespace', () => {
+    it('tolerates valid outer whitespace and newlines', () => {
       assert.equal(isValidHex(' #fff'), true);
       assert.equal(isValidHex('#fff '), true);
       assert.equal(isValidHex('\n#ffffff'), true);
       assert.equal(isValidHex('#ffffff\n'), true);
+      assert.equal(isValidHex('  #ff0000  '), true);
+      assert.equal(isValidHex('\n\t#ff0000\r\n'), true);
+      assert.equal(isValidHex(' \n #f00 \t '), true);
     });
   });
 
@@ -83,8 +86,11 @@ describe('isValidHex()', () => {
       assert.equal(isValidHex(' '), false);
     });
 
-    it('rejects internal whitespace', () => {
+    it('rejects invalid internal whitespace and newlines', () => {
       assert.equal(isValidHex('#ff ff'), false);
+      assert.equal(isValidHex('#ff\n0000'), false);
+      assert.equal(isValidHex('# ff0000'), false);
+      assert.equal(isValidHex('#ff\t0000'), false);
     });
 
     it('rejects misplaced or multiple hash symbols', () => {
@@ -99,6 +105,7 @@ describe('isValidHex()', () => {
       assert.equal(isValidHex('extra #fff'), false);
     });
   });
+
   describe('Type Validation (Rejections)', () => {
     it('rejects null and undefined', () => {
       assert.equal(isValidHex(null as unknown as string), false);

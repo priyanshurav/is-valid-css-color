@@ -70,7 +70,7 @@ describe('isValidHwb()', () => {
   describe('Formatting and Edge Cases', () => {
     it('tolerates extreme whitespace', () => {
       assert.equal(isValidHwb('hwb(  120   10%   20%  )'), true);
-      assert.equal(isValidHwb('hwb(120\t10%\t20%)'), true);
+      assert.equal(isValidHwb('hwb(120\t10%\n20%)'), true);
       assert.equal(isValidHwb('hwb(120 10% 20%/0.5)'), true);
       assert.equal(isValidHwb('hwb(  120  10%  20%  /  0.5  )'), true);
       assert.equal(isValidHwb('  hwb(120 10% 20%)  '), true);

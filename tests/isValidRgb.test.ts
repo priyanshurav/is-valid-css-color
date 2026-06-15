@@ -93,6 +93,7 @@ describe('isValidRgb()', () => {
       assert.equal(isValidRgb('rgb(  255   255   255  /  0.5  )'), true);
       assert.equal(isValidRgb('  rgb(255, 0, 0)  '), true);
       assert.equal(isValidRgb('  rgb(255 0 0 / 0.5)  '), true);
+      assert.equal(isValidRgb('rgb(\t255\n255\r255\t/\t0.5)'), true);
     });
 
     it('is case-insensitive', () => {
