@@ -40,13 +40,6 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(120 10% 20% / -0.5)'), true);
     });
 
-    it('validates plain numbers (no %) for whiteness and blackness', () => {
-      assert.equal(isValidHwb('hwb(120 10 20)'), true);
-      assert.equal(isValidHwb('hwb(120 10% 20)'), true);
-      assert.equal(isValidHwb('hwb(120 10 20%)'), true);
-      assert.equal(isValidHwb('hwb(120 10 20 / 0.5)'), true);
-    });
-
     it('validates the "none" keyword', () => {
       assert.equal(isValidHwb('hwb(none 10% 20%)'), true);
       assert.equal(isValidHwb('hwb(120 none 20%)'), true);
@@ -119,6 +112,13 @@ describe('isValidHwb()', () => {
     it('rejects invalid units', () => {
       assert.equal(isValidHwb('hwb(120px 10% 20%)'), false);
       assert.equal(isValidHwb('hwb(120% 10% 20%)'), false);
+    });
+
+    it('rejects plain numbers (no %) for whiteness and blackness', () => {
+      assert.equal(isValidHwb('hwb(120 10 20)'), false);
+      assert.equal(isValidHwb('hwb(120 10% 20)'), false);
+      assert.equal(isValidHwb('hwb(120 10 20%)'), false);
+      assert.equal(isValidHwb('hwb(120 10 20 / 0.5)'), false);
     });
 
     it('rejects invalid alpha syntax', () => {
