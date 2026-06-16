@@ -159,6 +159,8 @@ const validCSSColorKeywords = new Set([
   'scrollbar',
   'seagreen',
   'seashell',
+  'selecteditem',
+  'selecteditemtext',
   'sienna',
   'silver',
   'skyblue',
