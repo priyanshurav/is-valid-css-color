@@ -18,6 +18,9 @@ const colorNotationRegex = new RegExp(
  * The optional alpha is separated by `/`. The check is case-insensitive
  * and ignores leading/trailing whitespace.
  *
+ * **Only absolute color syntax is supported.** Relative color syntax
+ * (`color(from <origin> ...)`) is not recognised and will return `false`.
+ *
  * @param colorNotation - The string to validate.
  * @returns `true` if `colorNotation` is a valid CSS `color()` function, `false` otherwise.
  *
@@ -27,6 +30,7 @@ const colorNotationRegex = new RegExp(
  * isValidColorNotation('color(srgb none 0.3 0.1 / 0.5)');      // true — `none` in a channel
  * isValidColorNotation('color(hsl 0.5 0.3 0.1)');              // false — hsl is not a predefined color space
  * isValidColorNotation('rgb(255 0 0)');                        // false — wrong function
+ * isValidColorNotation('color(from red srgb r g b)');          // false — relative syntax not supported
  */
 export const isValidColorNotation = (colorNotation: string): boolean => {
   if (typeof colorNotation !== 'string') return false;
