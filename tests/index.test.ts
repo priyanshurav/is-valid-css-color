@@ -57,6 +57,38 @@ describe('isValidCssColor()', () => {
     });
   });
 
+  describe('Function name handling', () => {
+    it('treats CSS function names as case-insensitive', () => {
+      assert.equal(isValidCssColor('RGB(255, 0, 0)'), true);
+      assert.equal(isValidCssColor('COLOR(srgb 1 0 0)'), true);
+      assert.equal(isValidCssColor('HSL(120, 100%, 50%)'), true);
+      assert.equal(isValidCssColor('LAB(50 40 30)'), true);
+      assert.equal(isValidCssColor('OKLCH(0.5 0.2 120)'), true);
+    });
+
+    it('rejects strings that look like CSS functions but use unrecognized names', () => {
+      assert.equal(isValidCssColor('foo(1,2,3)'), false);
+      assert.equal(isValidCssColor('gradient(1,2,3)'), false);
+      assert.equal(isValidCssColor('9(1,2,3)'), false);
+      assert.equal(isValidCssColor('hello(1,2,3)'), false);
+      assert.equal(isValidCssColor('leopard(1,2,3)'), false);
+      assert.equal(isValidCssColor('organic(1,2,3)'), false);
+    });
+  });
+
+  describe('Whitespace handling', () => {
+    it('trims surrounding whitespace before validating', () => {
+      assert.equal(isValidCssColor('  red  '), true);
+      assert.equal(isValidCssColor('\tred\n'), true);
+      assert.equal(isValidCssColor('  rgb(255, 0, 0)  '), true);
+    });
+
+    it('rejects whitespace-only input', () => {
+      assert.equal(isValidCssColor('   '), false);
+      assert.equal(isValidCssColor('\t\n'), false);
+    });
+  });
+
   describe('Invalid Inputs (Rejections)', () => {
     it('rejects strings no validator accepts', () => {
       assert.equal(isValidCssColor(''), false);
