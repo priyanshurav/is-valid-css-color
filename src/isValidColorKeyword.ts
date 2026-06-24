@@ -197,7 +197,7 @@ const validCSSColorKeywords = new Set([
  * Tests whether a string is a valid CSS color keyword.
  *
  * Recognized values include all named colors, `transparent`, `currentColor`,
- * the 17 system colors, and the 23 deprecated system colors defined in the
+ * the system colors, and the deprecated system colors defined in the
  * CSS Color Level 4 specification. The check is case-insensitive and ignores
  * leading/trailing whitespace.
  *
