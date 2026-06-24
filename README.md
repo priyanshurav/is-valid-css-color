@@ -7,6 +7,12 @@
 
 > A fast, lightweight validator for modern CSS color strings.
 
+- **Broad format coverage:** hex, color keywords, `rgb()`, `hsl()`, `hwb()`, `lab()`, `lch()`, `oklab()`, `oklch()`, and `color()`
+- **Legacy + modern syntax:** `rgb()` and `hsl()` accept both comma-separated legacy and space-separated modern forms, including `none` channels and `/`-delimited alpha
+- **Per-format exports:** each validator is individually exported and tree-shakeable, so you only import what you need
+- **Safe by default:** non-string input returns `false` without throwing
+- **Zero dependencies**
+
 ## Install
 
 ```sh
@@ -17,7 +23,7 @@ pnpm add is-valid-css-color
 yarn add is-valid-css-color
 ```
 
-Requires Node.js ≥ 18. This package is ESM-only (since [v3.0.0](https://github.com/priyanshurav/is-valid-css-color/releases/tag/v3.0.0)) — it cannot be `require()`d from CommonJS.
+This package is ESM-only (since [v3.0.0](https://github.com/priyanshurav/is-valid-css-color/releases/tag/v3.0.0)). It cannot be `require()`d from CommonJS.
 
 ## Usage
 
@@ -29,63 +35,6 @@ isValidCssColor('#ff0000ff'); // true
 isValidCssColor('rgb(255 0 0 / 50%)'); // true
 isValidCssColor('not-a-color'); // false
 ```
-
-## Features
-
-- **Broad format coverage** — hex, named colors, `rgb()`, `hsl()`, `hwb()`, `lab()`, `lch()`, `oklab()`, `oklch()`, and `color()` with nine color spaces
-- **Blazing fast** — won't slow you down even in tight loops
-- **Legacy + modern syntax** — `rgb()` and `hsl()` accept both comma-separated legacy and space-separated modern forms, including `none` channels and `/`-delimited alpha
-- **Per-format exports** — each validator is individually exported so you only import what you need
-- **Safe by default** — non-string input returns `false` without throwing
-- **Zero dependencies** — nothing to audit, nothing to update
-- **Lightweight** — ESM-only, tree-shakeable
-
-## Supported formats
-
-| Format             | Example                                      |
-| ------------------ | -------------------------------------------- |
-| Named colors       | `red`, `rebeccapurple`, `transparent`        |
-| Hex                | `#f00`, `#f00f`, `#ff0000`, `#ff0000ff`      |
-| `rgb()` / `rgba()` | `rgb(255, 0, 0)`, `rgb(255 0 0 / 50%)`       |
-| `hsl()` / `hsla()` | `hsl(0, 100%, 50%)`, `hsl(0 100% 50% / 0.5)` |
-| `hwb()`            | `hwb(270 0% 0%)`                             |
-| `lab()`            | `lab(50 -20 30)`                             |
-| `lch()`            | `lch(50 30 270deg)`                          |
-| `oklab()`          | `oklab(0.5 -0.1 0.1)`                        |
-| `oklch()`          | `oklch(0.63 0.26 29)`                        |
-| `color()`          | `color(display-p3 1 0 0)`                    |
-
-### Legacy vs modern syntax
-
-`rgb()` and `hsl()` support both syntaxes. All other functions are modern-only.
-
-**Legacy** (comma-separated): no `none`, alpha as a bare number or percentage.
-
-```ts
-isValidCssColor('rgb(255, 0, 0)');
-isValidCssColor('rgba(255, 0, 0, 0.5)');
-isValidCssColor('hsl(0, 100%, 50%)');
-isValidCssColor('hsla(0, 100%, 50%, 0.5)');
-```
-
-**Modern** (space-separated): `none` allowed in any channel, alpha after `/`.
-
-```ts
-isValidCssColor('rgb(255 0 0)');
-isValidCssColor('rgb(255 0 0 / 50%)');
-isValidCssColor('hsl(none 100% 50% / 0.5)');
-```
-
-### `color()` color spaces
-
-Supported: `srgb`, `srgb-linear`, `display-p3`, `a98-rgb`, `prophoto-rgb`, `rec2020`, `xyz`, `xyz-d50`, `xyz-d65`.
-
-```ts
-isValidCssColor('color(srgb 1 0 0)');
-isValidCssColor('color(prophoto-rgb 0.9 0.1 0.1 / 80%)');
-```
-
-**Note**: This library validates static, literal color strings only. Dynamic CSS constructs — `calc()`, `var()`, `color-mix()`, relative color syntax and custom color spaces — are not supported.
 
 ## API
 
@@ -113,6 +62,53 @@ import {
 ```
 
 All validators accept a `string` and return a `boolean`. Non-string input returns `false` without throwing.
+
+## Supported formats
+
+| Format             | Validator              | Example                                      |
+| ------------------ | ---------------------- | -------------------------------------------- |
+| Color keywords     | `isValidColorKeyword`  | `red`, `rebeccapurple`, `transparent`        |
+| Hex                | `isValidHex`           | `#f00`, `#f00f`, `#ff0000`, `#ff0000ff`      |
+| `rgb()` / `rgba()` | `isValidRgb`           | `rgb(255, 0, 0)`, `rgb(255 0 0 / 50%)`       |
+| `hsl()` / `hsla()` | `isValidHsl`           | `hsl(0, 100%, 50%)`, `hsl(0 100% 50% / 0.5)` |
+| `hwb()`            | `isValidHwb`           | `hwb(270 0% 0%)`                             |
+| `lab()`            | `isValidLab`           | `lab(50 -20 30)`                             |
+| `lch()`            | `isValidLch`           | `lch(50 30 270deg)`                          |
+| `oklab()`          | `isValidOklab`         | `oklab(0.5 -0.1 0.1)`                        |
+| `oklch()`          | `isValidOklch`         | `oklch(0.63 0.26 29)`                        |
+| `color()`          | `isValidColorNotation` | `color(display-p3 1 0 0)`                    |
+
+### Legacy vs modern syntax
+
+`rgb()` and `hsl()` support both syntaxes. All other functions are modern-only.
+
+**Legacy** (comma-separated): no `none`, alpha as a bare number or percentage.
+
+```ts
+isValidCssColor('rgb(255, 0, 0)');
+isValidCssColor('rgba(255, 0, 0, 0.5)');
+isValidCssColor('hsl(0, 100%, 50%)');
+isValidCssColor('hsla(0, 100%, 50%, 0.5)');
+```
+
+**Modern** (space-separated): `none` allowed in any channel, alpha after `/`.
+
+```ts
+isValidCssColor('rgb(255 0 0)');
+isValidCssColor('rgb(255 0 0 / 50%)');
+isValidCssColor('hsl(none 100% 50% / 0.5)');
+```
+
+### `color()` color spaces
+
+Supported: `srgb`, `srgb-linear`, `display-p3`, `display-p3-linear`, `a98-rgb`, `prophoto-rgb`, `rec2020`, `xyz`, `xyz-d50`, `xyz-d65`.
+
+```ts
+isValidCssColor('color(srgb 1 0 0)');
+isValidCssColor('color(prophoto-rgb 0.9 0.1 0.1 / 80%)');
+```
+
+**Note**: This library validates static, literal color strings only. Dynamic CSS constructs (`calc()`, `var()`, `color-mix()`, relative color syntax, and custom color spaces) are not supported.
 
 ## License
 
