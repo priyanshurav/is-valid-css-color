@@ -4,7 +4,7 @@ import { isValidColorKeyword } from '../src/isValidColorKeyword.js';
 
 describe('isValidColorKeyword()', () => {
   describe('CSS Color Level 4: Named Colors', () => {
-    it('validates the 16 basic CSS colors', () => {
+    it('validates basic CSS colors', () => {
       assert.equal(isValidColorKeyword('black'), true);
       assert.equal(isValidColorKeyword('silver'), true);
       assert.equal(isValidColorKeyword('gray'), true);
