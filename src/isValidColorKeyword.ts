@@ -1,4 +1,4 @@
-const validCSSColorKeywords = new Set([
+const validCssColorKeywords = new Set([
   'accentcolor',
   'accentcolortext',
   'activeborder',
@@ -215,5 +215,5 @@ const validCSSColorKeywords = new Set([
  */
 export const isValidColorKeyword = (colorKeyword: string): boolean => {
   if (typeof colorKeyword !== 'string') return false;
-  return validCSSColorKeywords.has(colorKeyword.trim().toLowerCase());
+  return validCssColorKeywords.has(colorKeyword.trim().toLowerCase());
 };
