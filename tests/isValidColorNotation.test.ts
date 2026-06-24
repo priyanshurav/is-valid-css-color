@@ -7,6 +7,7 @@ describe('isValidColorNotation()', () => {
     it('validates all standard color spaces', () => {
       assert.equal(isValidColorNotation('color(srgb 1 0 0)'), true);
       assert.equal(isValidColorNotation('color(srgb-linear 1 0 0)'), true);
+      assert.equal(isValidColorNotation('color(display-p3-linear 1 0 0)'), true);
       assert.equal(isValidColorNotation('color(display-p3 1 0 0)'), true);
       assert.equal(isValidColorNotation('color(a98-rgb 1 0 0)'), true);
       assert.equal(isValidColorNotation('color(prophoto-rgb 1 0 0)'), true);
