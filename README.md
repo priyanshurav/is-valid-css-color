@@ -11,6 +11,7 @@
 - **Legacy + modern syntax:** `rgb()` and `hsl()` accept both comma-separated legacy and space-separated modern forms, including `none` channels and `/`-delimited alpha
 - **Per-format exports:** each validator is individually exported and tree-shakeable, so you only import what you need
 - **Safe by default:** non-string input returns `false` without throwing
+- **ReDoS-safe:** all regular expressions are designed to avoid catastrophic backtracking
 - **Zero dependencies**
 
 ## Install
