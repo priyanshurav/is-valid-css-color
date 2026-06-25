@@ -19,10 +19,10 @@ const colorNotationRegex = new RegExp(
  * and ignores leading/trailing whitespace.
  *
  * **Only absolute color syntax is supported.** Relative color syntax
- * (`color(from <origin> ...)`) is not recognised and will return `false`.
+ * (`color(from <origin> ...)`) is not recognized and will return `false`.
  *
  * @param colorNotation - The string to validate.
- * @returns `true` if `colorNotation` is a valid CSS `color()` function, `false` otherwise.
+ * @returns `true` if `colorNotation` is a valid CSS `color()` notation, `false` otherwise.
  *
  * @example
  * isValidColorNotation('color(srgb 0.5 0.3 0.1)');               // true
