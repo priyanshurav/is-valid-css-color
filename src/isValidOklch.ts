@@ -22,11 +22,11 @@ const oklchRegex = new RegExp(`^oklch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?
  * @returns `true` if `oklch` is a valid CSS `oklch()` color, `false` otherwise.
  *
  * @example
- * isValidOklch('oklch(0.5 0.15 270)');           // true — numbers
- * isValidOklch('oklch(50% 30% 270deg)');         // true — percentages and angle unit
- * isValidOklch('oklch(0.5 0.15 270 / 0.5)');    // true — with alpha
- * isValidOklch('oklch(none 0.15 270 / 50%)');   // true — `none` in any channel
- * isValidOklch('oklch(0.5, 0.15, 270)');        // false — commas not valid in oklch()
+ * isValidOklch('oklch(0.5 0.15 270)');           // true
+ * isValidOklch('oklch(50% 30% 270deg)');         // true
+ * isValidOklch('oklch(0.5 0.15 270 / 0.5)');    // true
+ * isValidOklch('oklch(none 0.15 270 / 50%)');   // true
+ * isValidOklch('oklch(0.5, 0.15, 270)');        // false
  */
 export const isValidOklch = (oklch: string): boolean => {
   if (typeof oklch !== 'string') return false;

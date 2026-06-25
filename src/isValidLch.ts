@@ -20,11 +20,11 @@ const lchRegex = new RegExp(`^lch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?:\\/
  * @returns `true` if `lch` is a valid CSS `lch()` color, `false` otherwise.
  *
  * @example
- * isValidLch('lch(50 30 270)');           // true — numbers
- * isValidLch('lch(50% 30% 270deg)');      // true — percentages and angle unit
- * isValidLch('lch(50 30 270 / 0.5)');     // true — with alpha
- * isValidLch('lch(none 30 270 / 50%)');   // true — `none` in any channel
- * isValidLch('lch(50, 30, 270)');         // false — commas not valid in lch()
+ * isValidLch('lch(50 30 270)');           // true
+ * isValidLch('lch(50% 30% 270deg)');      // true
+ * isValidLch('lch(50 30 270 / 0.5)');     // true
+ * isValidLch('lch(none 30 270 / 50%)');   // true
+ * isValidLch('lch(50, 30, 270)');         // false
  */
 export const isValidLch = (lch: string): boolean => {
   if (typeof lch !== 'string') return false;

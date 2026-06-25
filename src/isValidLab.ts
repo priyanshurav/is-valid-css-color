@@ -18,11 +18,11 @@ const labRegex = new RegExp(`^lab\\(\\s*${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\
  * @returns `true` if `lab` is a valid CSS `lab()` color, `false` otherwise.
  *
  * @example
- * isValidLab('lab(50 -20 30)');           // true — numbers
- * isValidLab('lab(50% -20% 30%)');        // true — percentages allowed
- * isValidLab('lab(50 -20 30 / 0.5)');     // true — with alpha
- * isValidLab('lab(none -20 30 / 50%)');   // true — `none` in any channel
- * isValidLab('lab(50, -20, 30)');         // false — commas not valid in lab()
+ * isValidLab('lab(50 -20 30)');           // true
+ * isValidLab('lab(50% -20% 30%)');        // true
+ * isValidLab('lab(50 -20 30 / 0.5)');     // true
+ * isValidLab('lab(none -20 30 / 50%)');   // true
+ * isValidLab('lab(50, -20, 30)');         // false
  */
 export const isValidLab = (lab: string): boolean => {
   if (typeof lab !== 'string') return false;

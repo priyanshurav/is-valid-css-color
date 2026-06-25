@@ -23,11 +23,11 @@ const oklabRegex = new RegExp(
  * @returns `true` if `oklab` is a valid CSS `oklab()` color, `false` otherwise.
  *
  * @example
- * isValidOklab('oklab(0.5 -0.1 0.1)');          // true — numbers
- * isValidOklab('oklab(50% -20% 30%)');           // true — percentages allowed
- * isValidOklab('oklab(0.5 -0.1 0.1 / 0.5)');    // true — with alpha
- * isValidOklab('oklab(none -0.1 0.1 / 50%)');   // true — `none` in any channel
- * isValidOklab('oklab(0.5, -0.1, 0.1)');        // false — commas not valid in oklab()
+ * isValidOklab('oklab(0.5 -0.1 0.1)');          // true
+ * isValidOklab('oklab(50% -20% 30%)');           // true
+ * isValidOklab('oklab(0.5 -0.1 0.1 / 0.5)');    // true
+ * isValidOklab('oklab(none -0.1 0.1 / 50%)');   // true
+ * isValidOklab('oklab(0.5, -0.1, 0.1)');        // false
  */
 export const isValidOklab = (oklab: string): boolean => {
   if (typeof oklab !== 'string') return false;

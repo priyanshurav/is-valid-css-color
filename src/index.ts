@@ -30,13 +30,13 @@ import { isValidColorNotation } from './isValidColorNotation.js';
  * @returns `true` if `color` is a valid CSS color in any supported format, `false` otherwise.
  *
  * @example
- * isValidCssColor('red');                          // true — named color
- * isValidCssColor('#f00');                         // true — hex
- * isValidCssColor('rgb(255 0 0)');                 // true — rgb
- * isValidCssColor('hsl(0 100% 50%)');              // true — hsl
- * isValidCssColor('oklch(0.63 0.26 29)');          // true — oklch
- * isValidCssColor('color(display-p3 1 0 0)');      // true — color()
- * isValidCssColor('notacolor');                    // false — not a recognized color format
+ * isValidCssColor('red');                          // true
+ * isValidCssColor('#f00');                         // true
+ * isValidCssColor('rgb(255 0 0)');                 // true
+ * isValidCssColor('hsl(0 100% 50%)');              // true
+ * isValidCssColor('oklch(0.63 0.26 29)');          // true
+ * isValidCssColor('color(display-p3 1 0 0)');      // true
+ * isValidCssColor('notacolor');                    // false
  */
 const isValidCssColor = (color: string): boolean => {
   if (typeof color !== 'string') return false;

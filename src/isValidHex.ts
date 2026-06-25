@@ -11,12 +11,12 @@ const hexRegex = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/i;
  * @returns `true` if `hex` is a valid CSS hex color, `false` otherwise.
  *
  * @example
- * isValidHex('#f00');       // true — shorthand RGB
- * isValidHex('#f00f');      // true — shorthand RGBA
- * isValidHex('#ff0000');    // true — full RGB
- * isValidHex('#ff0000ff');  // true — full RGBA
- * isValidHex('ff0000');     // false — missing leading #
- * isValidHex('#ff000');     // false — odd-length (5 digits)
+ * isValidHex('#f00');       // true
+ * isValidHex('#f00f');      // true
+ * isValidHex('#ff0000');    // true
+ * isValidHex('#ff0000ff');  // true
+ * isValidHex('ff0000');     // false
+ * isValidHex('#ff000');     // false
  */
 export const isValidHex = (hex: string): boolean => {
   if (typeof hex !== 'string') return false;

@@ -205,13 +205,13 @@ const validCssColorKeywords = new Set([
  * @returns `true` if `colorKeyword` is a valid CSS color keyword, `false` otherwise.
  *
  * @example
- * isValidColorKeyword('red');            // true — named color
- * isValidColorKeyword('RebeccaPurple');  // true — named color
- * isValidColorKeyword('transparent');    // true — special keyword
- * isValidColorKeyword('canvas');         // true — system color
- * isValidColorKeyword('ButtonFace');     // true — deprecated system color
- * isValidColorKeyword('#ff0000');        // false — hex values are not keywords
- * isValidColorKeyword('rouge');          // false — not a CSS color keyword
+ * isValidColorKeyword('red');            // true
+ * isValidColorKeyword('RebeccaPurple');  // true
+ * isValidColorKeyword('transparent');    // true
+ * isValidColorKeyword('canvas');         // true
+ * isValidColorKeyword('ButtonFace');     // true
+ * isValidColorKeyword('#ff0000');        // false
+ * isValidColorKeyword('rouge');          // false
  */
 export const isValidColorKeyword = (colorKeyword: string): boolean => {
   if (typeof colorKeyword !== 'string') return false;
