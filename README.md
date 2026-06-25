@@ -108,7 +108,7 @@ isValidCssColor('color(srgb 1 0 0)');
 isValidCssColor('color(prophoto-rgb 0.9 0.1 0.1 / 80%)');
 ```
 
-**Note**: This library validates static, literal color strings only. Dynamic CSS constructs (`calc()`, `var()`, `color-mix()`, relative color syntax, and custom color spaces) are not supported.
+**Note**: This library validates static, literal color strings only. Dynamic CSS constructs (`calc()`, `var()`, `color-mix()`, relative color syntax, and custom color spaces) are not supported. CSS comments inside a color string are also not ignored and will cause validation to fail.
 
 ## License
 
