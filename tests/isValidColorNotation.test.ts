@@ -74,6 +74,10 @@ describe('isValidColorNotation()', () => {
     it('validates out-of-bounds values', () => {
       assert.equal(isValidColorNotation('color(srgb -1000 500 -500)'), true);
       assert.equal(isValidColorNotation('color(srgb 500% -500% 1000%)'), true);
+      assert.equal(isValidColorNotation('color(display-p3 -200% 300% -400%)'), true);
+      assert.equal(isValidColorNotation('color(rec2020 2000 -2000 0)'), true);
+      assert.equal(isValidColorNotation('color(xyz -50 100 999999)'), true);
+      assert.equal(isValidColorNotation('color(srgb 100 100 100 / 500%)'), true);
     });
   });
 
