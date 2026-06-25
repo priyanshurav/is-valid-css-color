@@ -67,20 +67,20 @@
   "homepage": "https://github.com/priyanshurav/is-valid-css-color#readme",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@types/node": "^25.9.2",
+    "@types/node": "^26.0.0",
     "c8": "^11.0.0",
-    "eslint": "^10.4.1",
+    "eslint": "^10.5.0",
     "eslint-plugin-regexp": "^3.1.0",
-    "globals": "^17.6.0",
+    "globals": "^17.7.0",
     "tsup": "^8.5.1",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.60.1"
+    "typescript-eslint": "^8.62.0"
   },
   "devEngines": {
     "packageManager": {
       "name": "pnpm",
-      "version": "^11.5.0",
+      "version": "^11.9.0",
       "onFail": "download"
     }
   }
