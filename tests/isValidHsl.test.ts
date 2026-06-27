@@ -37,6 +37,7 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl(120, 100%, 50%, 50%)'), true);
       assert.equal(isValidHsl('hsl(120, 100%, 50%, 150%)'), true);
       assert.equal(isValidHsl('hsl(120, 100%, 50%, -20%)'), true);
+      assert.equal(isValidHsl('hsl(120, 100%, 50%, 1.0)'), true);
     });
   });
 
@@ -50,6 +51,7 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl(120 100% 50% / 0.5)'), true);
       assert.equal(isValidHsl('hsl(120 100% 50% / 50%)'), true);
       assert.equal(isValidHsl('hsla(120 100% 50% / 0.5)'), true);
+      assert.equal(isValidHsl('hsl(120 100% 50% / 1.0)'), true);
     });
 
     it('validates plain numbers (no %) for saturation and lightness', () => {
@@ -112,6 +114,8 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl(-120, 150%, -20%)'), true);
       assert.equal(isValidHsl('hsl(999deg, 500%, -500%)'), true);
       assert.equal(isValidHsl('hsl(-10turn, 300%, 200%)'), true);
+      assert.equal(isValidHsl('hsl(720, 50%, 50%)'), true);
+      assert.equal(isValidHsl('hsl(720 50% 50%)'), true);
 
       assert.equal(isValidHsl('hsla(120, 100%, 50%, 1.5)'), true);
       assert.equal(isValidHsl('hsla(120, 100%, 50%, -0.5)'), true);

@@ -45,6 +45,7 @@ describe('isValidColorNotation()', () => {
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / -0.5)'), true);
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / 1e-3)'), true);
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / 1E-3)'), true);
+      assert.equal(isValidColorNotation('color(srgb 1 0 0 / 1.0)'), true);
     });
   });
 

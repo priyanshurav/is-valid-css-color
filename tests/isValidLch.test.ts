@@ -26,6 +26,7 @@ describe('isValidLch()', () => {
       assert.equal(isValidLch('lch(50% 40 320 / -20%)'), true);
       assert.equal(isValidLch('lch(50% 40 320 / 1.5)'), true);
       assert.equal(isValidLch('lch(50% 40 320 / -0.5)'), true);
+      assert.equal(isValidLch('lch(50% 40 320 / 1.0)'), true);
     });
 
     it('validates decimal and signed values', () => {
@@ -83,6 +84,7 @@ describe('isValidLch()', () => {
     it('validates out-of-bounds values', () => {
       assert.equal(isValidLch('lch(-500% 1000 -1000)'), true);
       assert.equal(isValidLch('lch(500% -1000 10000deg)'), true);
+      assert.equal(isValidLch('lch(50% 40 720)'), true);
       assert.equal(isValidLch('lch(50% 40 320 / -0.5)'), true);
       assert.equal(isValidLch('lch(50% 40 320 / 150%)'), true);
     });

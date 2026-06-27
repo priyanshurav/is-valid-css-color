@@ -41,6 +41,7 @@ describe('isValidRgb()', () => {
       assert.equal(isValidRgb('rgb(255 255 255 / 1)'), true);
       assert.equal(isValidRgb('rgba(255 255 255 / 0.5)'), true);
       assert.equal(isValidRgb('rgb(0 0 0 / .5)'), true);
+      assert.equal(isValidRgb('rgb(0 128 255 / 1.0)'), true);
     });
 
     it('validates space-separated percentage values', () => {

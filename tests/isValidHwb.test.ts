@@ -41,6 +41,7 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(120 10% 20% / 0)'), true);
       assert.equal(isValidHwb('hwb(120 10% 20% / 50%)'), true);
       assert.equal(isValidHwb('hwb(120 10% 20% / 100%)'), true);
+      assert.equal(isValidHwb('hwb(120 10% 20% / 1.0)'), true);
     });
 
     it('validates out-of-range alpha values', () => {
@@ -95,6 +96,7 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(120 -10% 150%)'), true);
       assert.equal(isValidHwb('hwb(999deg 500% -500%)'), true);
       assert.equal(isValidHwb('hwb(-10turn 300% 200%)'), true);
+      assert.equal(isValidHwb('hwb(720 10% 20%)'), true);
       assert.equal(isValidHwb('hwb(120 10% 20% / -0.5)'), true);
       assert.equal(isValidHwb('hwb(120 10% 20% / 150%)'), true);
     });

@@ -34,6 +34,7 @@ describe('isValidOklch()', () => {
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / -20%)'), true);
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / 1.5)'), true);
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / -0.5)'), true);
+      assert.equal(isValidOklch('oklch(0.5 0.2 120 / 1.0)'), true);
     });
 
     it('validates the "none" keyword', () => {
@@ -86,6 +87,7 @@ describe('isValidOklch()', () => {
     it('validates out-of-bounds values', () => {
       assert.equal(isValidOklch('oklch(-500% 1000 -10000deg)'), true);
       assert.equal(isValidOklch('oklch(500% -1000 10000turn)'), true);
+      assert.equal(isValidOklch('oklch(0.5 0.2 720)'), true);
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / -0.5)'), true);
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / 150%)'), true);
     });

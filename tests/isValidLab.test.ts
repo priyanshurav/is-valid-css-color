@@ -39,6 +39,7 @@ describe('isValidLab()', () => {
       assert.equal(isValidLab('lab(50 40 30 / -20%)'), true);
       assert.equal(isValidLab('lab(50 40 30 / 1.5)'), true);
       assert.equal(isValidLab('lab(50 40 30 / -0.5)'), true);
+      assert.equal(isValidLab('lab(50 40 30 / 1.0)'), true);
     });
 
     it('validates the "none" keyword', () => {

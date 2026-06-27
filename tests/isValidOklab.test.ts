@@ -35,6 +35,7 @@ describe('isValidOklab()', () => {
       assert.equal(isValidOklab('oklab(0.59 0.1 0.1 / -20%)'), true);
       assert.equal(isValidOklab('oklab(0.59 0.1 0.1 / 1.5)'), true);
       assert.equal(isValidOklab('oklab(0.59 0.1 0.1 / -0.5)'), true);
+      assert.equal(isValidOklab('oklab(0.59 0.1 0.1 / 1.0)'), true);
     });
 
     it('validates decimal, signed, and scientific notation formats', () => {
