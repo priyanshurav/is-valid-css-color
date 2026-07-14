@@ -1,6 +1,6 @@
 {
   "name": "is-valid-css-color",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "A fast, lightweight validator for modern CSS color strings.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
