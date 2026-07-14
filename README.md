@@ -9,6 +9,7 @@
 
 - **Broad format coverage:** hex, color keywords, `rgb()`, `hsl()`, `hwb()`, `lab()`, `lch()`, `oklab()`, `oklch()`, and `color()`
 - **Legacy + modern syntax:** `rgb()` and `hsl()` accept both comma-separated legacy and space-separated modern forms, including `none` channels and `/`-delimited alpha
+- **Dual package:** ships both ESM and CommonJS builds, use `import` or `require()`
 - **Per-format exports:** each validator is individually exported and tree-shakeable, so you only import what you need
 - **Safe by default:** non-string input returns `false` without throwing
 - **ReDoS-safe:** all regular expressions are designed to avoid catastrophic backtracking
@@ -26,8 +27,21 @@ yarn add is-valid-css-color
 
 ## Usage
 
+### ESM
+
 ```ts
 import { isValidCssColor } from 'is-valid-css-color';
+
+isValidCssColor('rebeccapurple'); // true
+isValidCssColor('#ff0000ff'); // true
+isValidCssColor('rgb(255 0 0 / 50%)'); // true
+isValidCssColor('not-a-color'); // false
+```
+
+### CommonJS
+
+```js
+const { isValidCssColor } = require('is-valid-css-color');
 
 isValidCssColor('rebeccapurple'); // true
 isValidCssColor('#ff0000ff'); // true
@@ -43,7 +57,7 @@ Returns `true` if the string is a valid CSS color in any supported format.
 
 ### Per-format validators
 
-Each format is also exported individually:
+Each format is also exported individually, and works identically under both ESM and CommonJS:
 
 ```ts
 import {
@@ -58,6 +72,21 @@ import {
   isValidColorKeyword,
   isValidColorNotation,
 } from 'is-valid-css-color';
+```
+
+```js
+const {
+  isValidHex,
+  isValidRgb,
+  isValidHsl,
+  isValidHwb,
+  isValidLab,
+  isValidLch,
+  isValidOklab,
+  isValidOklch,
+  isValidColorKeyword,
+  isValidColorNotation,
+} = require('is-valid-css-color');
 ```
 
 All validators accept a `string` and return a `boolean`. Non-string input returns `false` without throwing.
