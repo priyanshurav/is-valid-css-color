@@ -1,6 +1,10 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
+import { createRequire } from 'node:module';
+import * as esm from '../src/index.js';
 import { isValidCssColor } from '../src/index.js';
+
+const require = createRequire(import.meta.url);
 
 describe('isValidCssColor()', () => {
   describe('Delegates to sub-validators', () => {
@@ -113,5 +117,49 @@ describe('isValidCssColor()', () => {
       assert.equal(isValidCssColor({} as unknown as string), false);
       assert.equal(isValidCssColor([] as unknown as string), false);
     });
+  });
+});
+
+describe('CommonJS interop', () => {
+  const cjs = require('../dist/index.cjs');
+
+  it('exposes isValidCssColor as a named export under require()', () => {
+    assert.equal(typeof cjs.isValidCssColor, 'function');
+    assert.equal(cjs.isValidCssColor('rebeccapurple'), true);
+    assert.equal(cjs.isValidCssColor('#ff0000ff'), true);
+    assert.equal(cjs.isValidCssColor('rgb(255 0 0 / 50%)'), true);
+    assert.equal(cjs.isValidCssColor('not-a-color'), false);
+  });
+
+  it('exposes every named export from the ESM build under require()', () => {
+    const expectedNames = Object.keys(esm).filter(
+      (name) => typeof (esm as Record<string, unknown>)[name] === 'function'
+    );
+
+    assert.ok(expectedNames.length > 0, 'expected the ESM module to export at least one function');
+
+    for (const name of expectedNames) {
+      assert.equal(typeof cjs[name], 'function', `expected cjs.${name} to be a function`);
+    }
+  });
+
+  it('agrees with the ESM build on representative inputs', () => {
+    const samples = [
+      'red',
+      '#fff',
+      'rgb(255, 0, 0)',
+      'hsl(120 100% 50% / 0.5)',
+      'oklch(0.5 0.2 120)',
+      'color(display-p3 0.5 0.5 0.5 / 0.8)',
+      'notacolor',
+    ];
+
+    for (const sample of samples) {
+      assert.equal(
+        cjs.isValidCssColor(sample),
+        isValidCssColor(sample),
+        `mismatch between ESM and CJS builds for input: ${sample}`
+      );
+    }
   });
 });
