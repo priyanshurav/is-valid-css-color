@@ -1,6 +1,6 @@
 import { VALUE } from './patterns.js';
 
-const oklabRegex = new RegExp(
+export const oklabRegex = new RegExp(
   `^oklab\\(\\s*${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?\\s*\\)$`,
   'i'
 );

@@ -2,12 +2,12 @@ import { NUM, HUE, VALUE } from './patterns.js';
 
 const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
 const legacyPct = `(?:${NUM}%)`;
-const legacyAlpha = `${NUM}%?`;
+const legacyAlpha = `(?:${NUM}%?)`;
 
 const legacy = `${legacyHue}\\s*,\\s*${legacyPct}\\s*,\\s*${legacyPct}(?:\\s*,\\s*${legacyAlpha})?`;
 const modern = `${HUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?`;
 
-const hslRegex = new RegExp(`^hsla?\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i');
+export const hslRegex = new RegExp(`^hsla?\\(\\s*(?:${legacy}|${modern})\\s*\\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `hsl()` or `hsla()` color.

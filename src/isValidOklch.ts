@@ -1,6 +1,9 @@
 import { VALUE, HUE } from './patterns.js';
 
-const oklchRegex = new RegExp(`^oklch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`, 'i');
+export const oklchRegex = new RegExp(
+  `^oklch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`,
+  'i'
+);
 
 /**
  * Tests whether a string is a valid CSS `oklch()` color.

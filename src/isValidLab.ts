@@ -1,6 +1,9 @@
 import { VALUE } from './patterns.js';
 
-const labRegex = new RegExp(`^lab\\(\\s*${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?\\s*\\)$`, 'i');
+export const labRegex = new RegExp(
+  `^lab\\(\\s*${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?\\s*\\)$`,
+  'i'
+);
 
 /**
  * Tests whether a string is a valid CSS `lab()` color.

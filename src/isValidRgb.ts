@@ -12,7 +12,8 @@ const modernAlpha = `(?:\\s*\\/\\s*${modernChannel})?`;
 const modern = `${modernChannel}\\s+${modernChannel}\\s+${modernChannel}${modernAlpha}`;
 
 const innerColors = `(?:${legacy}|${modern})`;
-const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
+
+export const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `rgb()` or `rgba()` color.

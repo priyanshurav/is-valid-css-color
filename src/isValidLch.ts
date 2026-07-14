@@ -1,6 +1,9 @@
 import { VALUE, HUE } from './patterns.js';
 
-const lchRegex = new RegExp(`^lch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`, 'i');
+export const lchRegex = new RegExp(
+  `^lch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`,
+  'i'
+);
 
 /**
  * Tests whether a string is a valid CSS `lch()` color.

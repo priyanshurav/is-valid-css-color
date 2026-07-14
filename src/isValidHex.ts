@@ -1,4 +1,4 @@
-const hexRegex = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/i;
+export const hexRegex = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/i;
 
 /**
  * Tests whether a string is a valid CSS hex color.

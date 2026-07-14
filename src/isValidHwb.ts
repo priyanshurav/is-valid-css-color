@@ -1,6 +1,9 @@
 import { HUE, VALUE } from './patterns.js';
 
-const hwbRegex = new RegExp(`^hwb\\(\\s*${HUE}\\s+${VALUE}\\s+${VALUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`, 'i');
+export const hwbRegex = new RegExp(
+  `^hwb\\(\\s*${HUE}\\s+${VALUE}\\s+${VALUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`,
+  'i'
+);
 
 /**
  * Tests whether a string is a valid CSS `hwb()` color.
