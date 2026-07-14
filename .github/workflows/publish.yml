@@ -41,7 +41,7 @@ jobs:
         run: pnpm run build
 
       - name: Run tests
-        run: pnpm test
+        run: pnpm test:full
 
       - name: Publish to npm
         run: pnpm publish --provenance --no-git-checks
