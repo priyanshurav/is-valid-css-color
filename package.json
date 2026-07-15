@@ -11,9 +11,14 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "scripts": {
@@ -22,7 +27,7 @@
     "pretest": "pnpm run build",
     "test": "node --import tsx --test",
     "test:watch": "node --import tsx --test --watch",
-    "test:full": "cross-env RUN_REDOS_CHECKS=true node --import tsx --test",
+    "test:full": "cross-env RUN_REDOS_CHECKS=true pnpm test",
     "test:coverage": "c8 node --import tsx --test",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
