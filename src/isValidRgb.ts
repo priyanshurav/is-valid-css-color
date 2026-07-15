@@ -11,9 +11,8 @@ const modernAlpha = `(?:\\s*\\/\\s*${modernChannel})?`;
 
 const modern = `${modernChannel}\\s+${modernChannel}\\s+${modernChannel}${modernAlpha}`;
 
-const innerColors = `(?:${legacy}|${modern})`;
-
-export const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
+export const legacyRgbRegex = new RegExp(`^rgba?\\(\\s*(?:${legacy})\\s*\\)$`, 'i');
+export const modernRgbRegex = new RegExp(`^rgba?\\(\\s*(?:${modern})\\s*\\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `rgb()` or `rgba()` color.
@@ -47,5 +46,6 @@ export const rgbRegex = new RegExp(`^rgba?\\(\\s*${innerColors}\\s*\\)$`, 'i');
  */
 export const isValidRgb = (rgb: string): boolean => {
   if (typeof rgb !== 'string') return false;
-  return rgbRegex.test(rgb.trim());
+  rgb = rgb.trim();
+  return legacyRgbRegex.test(rgb) || modernRgbRegex.test(rgb);
 };
