@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { check } from 'recheck';
-import { rgbRegex } from '../src/isValidRgb.js';
-import { hslRegex } from '../src/isValidHsl.js';
+import { legacyRgbRegex, modernRgbRegex } from '../src/isValidRgb.js';
+import { legacyHslRegex, modernHslRegex } from '../src/isValidHsl.js';
 import { hexRegex } from '../src/isValidHex.js';
 import { hwbRegex } from '../src/isValidHwb.js';
 import { labRegex } from '../src/isValidLab.js';
@@ -12,8 +12,10 @@ import { oklchRegex } from '../src/isValidOklch.js';
 import { colorNotationRegex } from '../src/isValidColorNotation.js';
 
 const regexes: Record<string, RegExp> = {
-  rgb: rgbRegex,
-  hsl: hslRegex,
+  legacyRgb: legacyRgbRegex,
+  modernRgb: modernRgbRegex,
+  legacyHsl: legacyHslRegex,
+  modernHsl: modernHslRegex,
   hex: hexRegex,
   hwb: hwbRegex,
   lab: labRegex,
@@ -26,7 +28,7 @@ const regexes: Record<string, RegExp> = {
 describe('ReDoS safety', { skip: process.env['RUN_REDOS_CHECKS'] !== 'true' }, () => {
   for (const [name, regex] of Object.entries(regexes)) {
     it(`${name}Regex has no catastrophic backtracking`, async () => {
-      const result = await check(regex.source, regex.flags, { timeout: 30000 });
+      const result = await check(regex.source, regex.flags);
       assert.equal(result.status, 'safe', `${name}Regex flagged as ${result.status}: ${JSON.stringify(result)}`);
     });
   }
