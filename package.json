@@ -32,9 +32,6 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/priyanshurav/is-valid-css-color.git"
@@ -92,6 +89,11 @@
       "name": "pnpm",
       "version": "11.9.0",
       "onFail": "error"
+    },
+    "runtime": {
+      "name": "node",
+      "version": ">=20.0.0",
+      "onFail": "warn"
     }
   }
 }
