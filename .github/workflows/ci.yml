@@ -49,12 +49,19 @@ jobs:
           filters: |
             src:
               - 'src/**/*.ts'
-              - 'tests/redos.test.ts'
+              - 'tests/redos.manual.ts'
 
-      - name: Run test suite WITH ReDoS
+      - name: Run test suite with coverage
+        run: pnpm test:coverage
+
+      - name: Run ReDoS test suite
         if: steps.changes.outputs.src == 'true'
-        run: pnpm test:full
+        run: pnpm test:redos
 
-      - name: Run test suite WITHOUT ReDoS
-        if: steps.changes.outputs.src != 'true'
-        run: pnpm test
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
