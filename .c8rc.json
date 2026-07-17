@@ -4,5 +4,5 @@
   "include": ["src/**/*.ts"],
   "exclude": ["tests/**", "**/*.d.ts", "node_modules/**"],
   "extension": [".ts", ".js"],
-  "reporter": ["text", "html"]
+  "reporter": ["text", "lcov"]
 }
