@@ -13,7 +13,7 @@
 - **Dual package:** ships both ESM and CommonJS builds, use `import` or `require()`
 - **Per-format exports:** each validator is individually exported and tree-shakeable, so you only import what you need
 - **Safe by default:** non-string input returns `false` without throwing
-- **ReDoS-safe:** all regular expressions are designed to avoid catastrophic backtracking
+- **ReDoS-safe:** verified against catastrophic backtracking using [recheck](https://github.com/makenowjust-labs/recheck)
 - **Zero dependencies**
 
 ## Install
@@ -24,6 +24,8 @@ npm install is-valid-css-color
 pnpm add is-valid-css-color
 # or
 yarn add is-valid-css-color
+# or
+bun add is-valid-css-color
 ```
 
 ## Usage
