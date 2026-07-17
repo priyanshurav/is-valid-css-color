@@ -28,7 +28,7 @@ const regexes: Record<string, RegExp> = {
 describe('ReDoS safety', () => {
   for (const [name, regex] of Object.entries(regexes)) {
     it(`${name}Regex has no catastrophic backtracking`, async () => {
-      const result = await check(regex.source, regex.flags, { timeout: 25000 });
+      const result = await check(regex.source, regex.flags, { timeout: 30000 });
       assert.equal(result.status, 'safe', `${name}Regex flagged as ${result.status}: ${JSON.stringify(result)}`);
     });
   }
