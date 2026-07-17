@@ -25,10 +25,10 @@ const regexes: Record<string, RegExp> = {
   color: colorNotationRegex,
 };
 
-describe('ReDoS safety', { skip: process.env['RUN_REDOS_CHECKS'] !== 'true' }, () => {
+describe('ReDoS safety', () => {
   for (const [name, regex] of Object.entries(regexes)) {
     it(`${name}Regex has no catastrophic backtracking`, async () => {
-      const result = await check(regex.source, regex.flags);
+      const result = await check(regex.source, regex.flags, { timeout: 25000 });
       assert.equal(result.status, 'safe', `${name}Regex flagged as ${result.status}: ${JSON.stringify(result)}`);
     });
   }
