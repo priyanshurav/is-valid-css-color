@@ -1,6 +1,7 @@
 # is-valid-css-color
 
 [![CI](https://github.com/priyanshurav/is-valid-css-color/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/priyanshurav/is-valid-css-color/actions)
+[![codecov](https://codecov.io/gh/priyanshurav/is-valid-css-color/graph/badge.svg)](https://codecov.io/gh/priyanshurav/is-valid-css-color)
 [![npm version](https://img.shields.io/npm/v/is-valid-css-color.svg)](https://www.npmjs.com/package/is-valid-css-color)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/is-valid-css-color)](https://bundlephobia.com/result?p=is-valid-css-color)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](/LICENSE)
