@@ -5,7 +5,7 @@
     "module": "nodenext",
     "target": "es2022",
     "lib": ["ES2022"],
-    "types": [],
+    "types": ["node"],
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitReturns": true,
