@@ -44,8 +44,8 @@ const isValidCssColor = (color: string): boolean => {
   const trimmed = color.trim();
   if (trimmed.length === 0) return false;
 
-  // no '(' means the input must be a color keyword or hex
-  if (!trimmed.includes('(')) return isValidColorKeyword(trimmed) || isValidHex(trimmed);
+  if (trimmed[0] === '#') return isValidHex(trimmed);
+  if (!trimmed.includes('(')) return isValidColorKeyword(trimmed);
 
   switch (trimmed[0]) {
     case 'r':
