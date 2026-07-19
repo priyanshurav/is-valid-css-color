@@ -1,7 +1,7 @@
 import { HUE, VALUE } from './patterns.js';
 
 export const hwbRegex = new RegExp(
-  `^hwb\\(\\s*${HUE}\\s+${VALUE}\\s+${VALUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`,
+  String.raw`^hwb\(\s*${HUE}\s+${VALUE}\s+${VALUE}\s*(?:\/\s*${VALUE}\s*)?\)$`,
   'i'
 );
 

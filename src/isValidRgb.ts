@@ -1,18 +1,18 @@
 import { NUM } from './patterns.js';
 
-const legacyNumBase = `${NUM}\\s*,\\s*${NUM}\\s*,\\s*${NUM}`;
-const legacyPctBase = `${NUM}%\\s*,\\s*${NUM}%\\s*,\\s*${NUM}%`;
-const legacyAlpha = `(?:\\s*,\\s*${NUM}%?)?`;
+const legacyNumBase = String.raw`${NUM}\s*,\s*${NUM}\s*,\s*${NUM}`;
+const legacyPctBase = String.raw`${NUM}%\s*,\s*${NUM}%\s*,\s*${NUM}%`;
+const legacyAlpha = String.raw`(?:\s*,\s*${NUM}%?)?`;
 
 const legacy = `(?:${legacyNumBase}|${legacyPctBase})${legacyAlpha}`;
 
 const modernChannel = `(?:${NUM}%?|none)`;
-const modernAlpha = `(?:\\s*\\/\\s*${modernChannel})?`;
+const modernAlpha = String.raw`(?:\s*\/\s*${modernChannel})?`;
 
-const modern = `${modernChannel}\\s+${modernChannel}\\s+${modernChannel}${modernAlpha}`;
+const modern = String.raw`${modernChannel}\s+${modernChannel}\s+${modernChannel}${modernAlpha}`;
 
-export const legacyRgbRegex = new RegExp(`^rgba?\\(\\s*(?:${legacy})\\s*\\)$`, 'i');
-export const modernRgbRegex = new RegExp(`^rgba?\\(\\s*(?:${modern})\\s*\\)$`, 'i');
+export const legacyRgbRegex = new RegExp(String.raw`^rgba?\(\s*(?:${legacy})\s*\)$`, 'i');
+export const modernRgbRegex = new RegExp(String.raw`^rgba?\(\s*(?:${modern})\s*\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `rgb()` or `rgba()` color.

@@ -168,7 +168,7 @@ describe('isValidHsl()', () => {
 
     it('rejects empty or whitespace-only strings', () => {
       assert.equal(isValidHsl(''), false);
-      assert.equal(isValidHsl('   '), false);
+      assert.equal(isValidHsl(' '.repeat(3)), false);
       assert.equal(isValidHsl('hsl()'), false);
     });
 

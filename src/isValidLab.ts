@@ -1,7 +1,7 @@
 import { VALUE } from './patterns.js';
 
 export const labRegex = new RegExp(
-  `^lab\\(\\s*${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?\\s*\\)$`,
+  String.raw`^lab\(\s*${VALUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?\s*\)$`,
   'i'
 );
 

@@ -1,7 +1,7 @@
 import { VALUE, HUE } from './patterns.js';
 
 export const oklchRegex = new RegExp(
-  `^oklch\\(\\s*${VALUE}\\s+${VALUE}\\s+${HUE}\\s*(?:\\/\\s*${VALUE}\\s*)?\\)$`,
+  String.raw`^oklch\(\s*${VALUE}\s+${VALUE}\s+${HUE}\s*(?:\/\s*${VALUE}\s*)?\)$`,
   'i'
 );
 

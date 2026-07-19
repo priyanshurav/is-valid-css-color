@@ -114,7 +114,7 @@ describe('isValidColorNotation()', () => {
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / 0.5 / 0.2)'), false);
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / / 0.5)'), false);
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / /)'), false);
-      assert.equal(isValidColorNotation('color(srgb 1 0 0 \\ 0.5)'), false);
+      assert.equal(isValidColorNotation(String.raw`color(srgb 1 0 0 \ 0.5)`), false);
     });
 
     it('rejects invalid values and units', () => {

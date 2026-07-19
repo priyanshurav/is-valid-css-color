@@ -1,7 +1,7 @@
 import { VALUE } from './patterns.js';
 
 export const oklabRegex = new RegExp(
-  `^oklab\\(\\s*${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?\\s*\\)$`,
+  String.raw`^oklab\(\s*${VALUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?\s*\)$`,
   'i'
 );
 

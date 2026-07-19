@@ -4,11 +4,11 @@ const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
 const legacyPct = `(?:${NUM}%)`;
 const legacyAlpha = `(?:${NUM}%?)`;
 
-const legacy = `${legacyHue}\\s*,\\s*${legacyPct}\\s*,\\s*${legacyPct}(?:\\s*,\\s*${legacyAlpha})?`;
-const modern = `${HUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?`;
+const legacy = String.raw`${legacyHue}\s*,\s*${legacyPct}\s*,\s*${legacyPct}(?:\s*,\s*${legacyAlpha})?`;
+const modern = String.raw`${HUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?`;
 
-export const legacyHslRegex = new RegExp(`^hsla?\\(\\s*${legacy}\\s*\\)$`, 'i');
-export const modernHslRegex = new RegExp(`^hsla?\\(\\s*${modern}\\s*\\)$`, 'i');
+export const legacyHslRegex = new RegExp(String.raw`^hsla?\(\s*${legacy}\s*\)$`, 'i');
+export const modernHslRegex = new RegExp(String.raw`^hsla?\(\s*${modern}\s*\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `hsl()` or `hsla()` color.

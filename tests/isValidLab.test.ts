@@ -155,7 +155,7 @@ describe('isValidLab()', () => {
 
     it('rejects empty or whitespace-only strings', () => {
       assert.equal(isValidLab(''), false);
-      assert.equal(isValidLab('   '), false);
+      assert.equal(isValidLab(' '.repeat(3)), false);
       assert.equal(isValidLab('lab'), false);
     });
 

@@ -88,7 +88,7 @@ describe('isValidCssColor()', () => {
     });
 
     it('rejects whitespace-only input', () => {
-      assert.equal(isValidCssColor('   '), false);
+      assert.equal(isValidCssColor(' '.repeat(3)), false);
       assert.equal(isValidCssColor('\t\n'), false);
     });
   });

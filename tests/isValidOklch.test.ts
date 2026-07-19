@@ -130,7 +130,7 @@ describe('isValidOklch()', () => {
       assert.equal(isValidOklch('oklch0.5 0.2 120)'), false);
       assert.equal(isValidOklch('rgba(0,0,0,1)'), false);
       assert.equal(isValidOklch(''), false);
-      assert.equal(isValidOklch('   '), false);
+      assert.equal(isValidOklch(' '.repeat(3)), false);
       assert.equal(isValidOklch('oklch (0.5 0.2 120)'), false);
     });
 

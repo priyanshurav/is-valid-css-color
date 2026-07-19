@@ -49,22 +49,28 @@ const isValidCssColor = (color: string): boolean => {
 
   switch (trimmed[0]) {
     case 'r':
-    case 'R':
+    case 'R': {
       return isValidRgb(trimmed);
+    }
     case 'c':
-    case 'C':
+    case 'C': {
       return isValidColorNotation(trimmed);
+    }
     case 'h':
-    case 'H':
+    case 'H': {
       return isValidHwb(trimmed) || isValidHsl(trimmed);
+    }
     case 'l':
-    case 'L':
+    case 'L': {
       return isValidLab(trimmed) || isValidLch(trimmed);
+    }
     case 'o':
-    case 'O':
+    case 'O': {
       return isValidOklab(trimmed) || isValidOklch(trimmed);
-    default:
+    }
+    default: {
       return false;
+    }
   }
 };
 

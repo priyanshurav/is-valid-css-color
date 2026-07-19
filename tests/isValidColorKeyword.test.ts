@@ -105,7 +105,7 @@ describe('isValidColorKeyword()', () => {
 
     it('rejects empty or whitespace-only strings', () => {
       assert.equal(isValidColorKeyword(''), false);
-      assert.equal(isValidColorKeyword('   '), false);
+      assert.equal(isValidColorKeyword(' '.repeat(3)), false);
       assert.equal(isValidColorKeyword('\t'), false);
     });
   });

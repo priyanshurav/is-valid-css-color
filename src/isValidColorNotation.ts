@@ -3,7 +3,7 @@ import { VALUE } from './patterns.js';
 const colorSpaces = '(?:srgb(?:-linear)?|display-p3(?:-linear)?|a98-rgb|prophoto-rgb|rec2020|xyz(?:-d(?:50|65))?)';
 
 export const colorNotationRegex = new RegExp(
-  `^color\\(\\s*${colorSpaces}\\s+${VALUE}\\s+${VALUE}\\s+${VALUE}(?:\\s*\\/\\s*${VALUE})?\\s*\\)$`,
+  String.raw`^color\(\s*${colorSpaces}\s+${VALUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?\s*\)$`,
   'i'
 );
 
