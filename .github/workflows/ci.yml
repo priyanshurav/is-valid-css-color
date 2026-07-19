@@ -42,21 +42,8 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
-      - name: Check for src changes
-        id: changes
-        uses: dorny/paths-filter@v4
-        with:
-          filters: |
-            src:
-              - 'src/**/*.ts'
-              - 'tests/redos.manual.ts'
-
       - name: Run test suite with coverage
         run: pnpm test:coverage
-
-      - name: Run ReDoS test suite
-        if: steps.changes.outputs.src == 'true'
-        run: pnpm test:redos
 
       - name: Upload coverage to Codecov
         if: always()

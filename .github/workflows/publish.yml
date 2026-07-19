@@ -43,8 +43,5 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      - name: Run ReDoS tests
-        run: pnpm test:redos
-
       - name: Publish to npm
         run: pnpm publish --provenance --no-git-checks

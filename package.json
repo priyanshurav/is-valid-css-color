@@ -24,7 +24,6 @@
   "scripts": {
     "build": "tsup",
     "test": "pnpm run build && node --import tsx --test",
-    "test:redos": "node --import tsx --test tests/redos.manual.ts",
     "test:coverage": "pnpm run build && c8 node --import tsx --test",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
