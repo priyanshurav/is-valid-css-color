@@ -15,7 +15,7 @@ import { isValidColorNotation } from './isValidColorNotation.js';
  * This is the top-level validator. It delegates to format-specific functions
  * and returns `true` if the input matches any of the following:
  *
- * - Named color (`red`, `rebeccapurple`, `transparent`, …)
+ * - Color keywords (`red`, `rebeccapurple`, `transparent`, …)
  * - Hex (`#RGB`, `#RGBA`, `#RRGGBB`, `#RRGGBBAA`)
  * - `rgb()` / `rgba()`
  * - `hsl()` / `hsla()`
