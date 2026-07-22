@@ -22,7 +22,7 @@ const regexes: Record<string, RegExp> = {
   lch: lchRegex,
   oklab: oklabRegex,
   oklch: oklchRegex,
-  color: colorNotationRegex,
+  colorNotation: colorNotationRegex,
 };
 
 describe('ReDoS safety', () => {
