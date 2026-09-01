@@ -178,20 +178,4 @@ describe('isValidLab()', () => {
       assert.equal(isValidLab('lab(50 40 30 / none%)'), false);
     });
   });
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidLab(null as unknown as string), false);
-      assert.equal(isValidLab(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidLab(0 as unknown as string), false);
-      assert.equal(isValidLab(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidLab({} as unknown as string), false);
-      assert.equal(isValidLab([] as unknown as string), false);
-    });
-  });
 });

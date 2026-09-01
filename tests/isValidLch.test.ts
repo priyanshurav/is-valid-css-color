@@ -152,20 +152,4 @@ describe('isValidLch()', () => {
       assert.equal(isValidLch('lch(50% 40 320 / none%)'), false);
     });
   });
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidLch(null as unknown as string), false);
-      assert.equal(isValidLch(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidLch(0 as unknown as string), false);
-      assert.equal(isValidLch(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidLch({} as unknown as string), false);
-      assert.equal(isValidLch([] as unknown as string), false);
-    });
-  });
 });

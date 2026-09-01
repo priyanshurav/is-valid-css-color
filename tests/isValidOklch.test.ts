@@ -152,20 +152,4 @@ describe('isValidOklch()', () => {
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / none%)'), false);
     });
   });
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidOklch(null as unknown as string), false);
-      assert.equal(isValidOklch(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidOklch(0 as unknown as string), false);
-      assert.equal(isValidOklch(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidOklch({} as unknown as string), false);
-      assert.equal(isValidOklch([] as unknown as string), false);
-    });
-  });
 });

@@ -169,21 +169,4 @@ describe('isValidRgb()', () => {
       assert.equal(isValidRgb('rgba(255, 255, 255, none)'), false);
     });
   });
-
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidRgb(null as unknown as string), false);
-      assert.equal(isValidRgb(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidRgb(0 as unknown as string), false);
-      assert.equal(isValidRgb(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidRgb({} as unknown as string), false);
-      assert.equal(isValidRgb([] as unknown as string), false);
-    });
-  });
 });

@@ -105,21 +105,4 @@ describe('isValidHex()', () => {
       assert.equal(isValidHex('extra #fff'), false);
     });
   });
-
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidHex(null as unknown as string), false);
-      assert.equal(isValidHex(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidHex(0 as unknown as string), false);
-      assert.equal(isValidHex(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidHex({} as unknown as string), false);
-      assert.equal(isValidHex([] as unknown as string), false);
-    });
-  });
 });

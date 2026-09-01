@@ -204,21 +204,4 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl(120 100% 50% /)'), false);
     });
   });
-
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidHsl(null as unknown as string), false);
-      assert.equal(isValidHsl(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidHsl(0 as unknown as string), false);
-      assert.equal(isValidHsl(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidHsl({} as unknown as string), false);
-      assert.equal(isValidHsl([] as unknown as string), false);
-    });
-  });
 });

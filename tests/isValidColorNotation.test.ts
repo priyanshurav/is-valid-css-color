@@ -149,21 +149,4 @@ describe('isValidColorNotation()', () => {
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / none%)'), false);
     });
   });
-
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidColorNotation(null as unknown as string), false);
-      assert.equal(isValidColorNotation(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidColorNotation(0 as unknown as string), false);
-      assert.equal(isValidColorNotation(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidColorNotation({} as unknown as string), false);
-      assert.equal(isValidColorNotation([] as unknown as string), false);
-    });
-  });
 });

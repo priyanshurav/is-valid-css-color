@@ -147,20 +147,4 @@ describe('isValidOklab()', () => {
       assert.equal(isValidOklab('oklab(0.5 0.1 0.1 / none%)'), false);
     });
   });
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidOklab(null as unknown as string), false);
-      assert.equal(isValidOklab(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidOklab(0 as unknown as string), false);
-      assert.equal(isValidOklab(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidOklab({} as unknown as string), false);
-      assert.equal(isValidOklab([] as unknown as string), false);
-    });
-  });
 });

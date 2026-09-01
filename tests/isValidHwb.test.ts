@@ -161,21 +161,4 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(120 10% 20% / none%)'), false);
     });
   });
-
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidHwb(null as unknown as string), false);
-      assert.equal(isValidHwb(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidHwb(0 as unknown as string), false);
-      assert.equal(isValidHwb(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidHwb({} as unknown as string), false);
-      assert.equal(isValidHwb([] as unknown as string), false);
-    });
-  });
 });

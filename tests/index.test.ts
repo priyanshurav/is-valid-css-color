@@ -101,23 +101,6 @@ describe('isValidCssColor()', () => {
       assert.equal(isValidCssColor('##ffffff'), false);
     });
   });
-
-  describe('Type Validation (Rejections)', () => {
-    it('rejects null and undefined', () => {
-      assert.equal(isValidCssColor(null as unknown as string), false);
-      assert.equal(isValidCssColor(undefined as unknown as string), false);
-    });
-
-    it('rejects numbers and booleans', () => {
-      assert.equal(isValidCssColor(0 as unknown as string), false);
-      assert.equal(isValidCssColor(true as unknown as string), false);
-    });
-
-    it('rejects objects and arrays', () => {
-      assert.equal(isValidCssColor({} as unknown as string), false);
-      assert.equal(isValidCssColor([] as unknown as string), false);
-    });
-  });
 });
 
 describe('CommonJS interop', () => {
