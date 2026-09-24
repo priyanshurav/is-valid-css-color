@@ -25,6 +25,7 @@
     "build": "tsup",
     "test": "pnpm run build && node --import tsx --test",
     "test:coverage": "pnpm run build && c8 node --import tsx --test",
+    "test:noredos": "cross-env SKIP_REDOS=true pnpm test",
     "typecheck": "tsc --noEmit",
     "lint": "eslint ."
   },
@@ -70,6 +71,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^26.4.0",
     "c8": "^11.0.0",
+    "cross-env": "^10.1.0",
     "eslint": "^10.9.1",
     "eslint-import-resolver-typescript": "^4.4.5",
     "eslint-plugin-import-x": "^4.17.1",

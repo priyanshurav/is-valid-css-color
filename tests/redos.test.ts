@@ -25,7 +25,7 @@ const regexes: Record<string, RegExp> = {
   colorNotation: colorNotationRegex,
 };
 
-describe('ReDoS safety', () => {
+describe('ReDoS safety', { skip: process.env['SKIP_REDOS'] === 'true' }, () => {
   for (const [name, regex] of Object.entries(regexes)) {
     it(`${name}Regex has no catastrophic backtracking`, async () => {
       const result = await check(regex.source, regex.flags, { timeout: 30_000 });
