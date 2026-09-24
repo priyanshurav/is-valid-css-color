@@ -92,6 +92,19 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl(+1e2 +2e1% +3e0% / -1.5e0)'), true);
     });
 
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidHsl('hsl(.5e2, 20%, 50%)'), true);
+      assert.equal(isValidHsl('hsl(-.5e-2, 20%, 50%)'), true);
+      assert.equal(isValidHsl('hsl(.5e2 .2e1% .5e1%)'), true);
+      assert.equal(isValidHsl('hsl(120 100% 50% / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidHsl('hsl(-0, -0%, -0%)'), true);
+      assert.equal(isValidHsl('hsl(-0deg, -0%, -0%)'), true);
+      assert.equal(isValidHsl('hsl(-0 -0% -0% / -0)'), true);
+    });
+
     it('tolerates heavy/irregular whitespace', () => {
       assert.equal(isValidHsl('hsl(  120  ,  100%  ,  50%  )'), true);
       assert.equal(isValidHsl('hsl(\t120,\n100%,\r50%)'), true);
@@ -195,6 +208,13 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl(120 none% 50%)'), false);
       assert.equal(isValidHsl('hsl(120 100% none%)'), false);
       assert.equal(isValidHsl('hsl(120 100% 50% / none%)'), false);
+    });
+
+    it('rejects the "none" keyword with a trailing angle unit', () => {
+      assert.equal(isValidHsl('hsl(nonedeg 100% 50%)'), false);
+      assert.equal(isValidHsl('hsl(nonerad 100% 50%)'), false);
+      assert.equal(isValidHsl('hsl(nonegrad 100% 50%)'), false);
+      assert.equal(isValidHsl('hsl(noneturn 100% 50%)'), false);
     });
 
     it('rejects malformed syntax and missing parentheses', () => {

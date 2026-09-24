@@ -28,6 +28,18 @@ describe('isValidColorNotation()', () => {
       assert.equal(isValidColorNotation('color(srgb +1e-3 +2e2 -3e-1)'), true);
     });
 
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidColorNotation('color(srgb .5e2 .2e1 .3e1)'), true);
+      assert.equal(isValidColorNotation('color(srgb -.5e-2 0 0)'), true);
+      assert.equal(isValidColorNotation('color(srgb 1 0 0 / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidColorNotation('color(srgb -0 -0 -0)'), true);
+      assert.equal(isValidColorNotation('color(srgb -0% -0% -0%)'), true);
+      assert.equal(isValidColorNotation('color(srgb -0 -0 -0 / -0)'), true);
+    });
+
     it('validates the none keyword', () => {
       assert.equal(isValidColorNotation('color(srgb none none none)'), true);
       assert.equal(isValidColorNotation('color(srgb 1 none 20%)'), true);

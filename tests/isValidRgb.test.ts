@@ -78,6 +78,18 @@ describe('isValidRgb()', () => {
       assert.equal(isValidRgb('rgb(+1e2 +2e1 +3e0 / -1.5e0)'), true);
     });
 
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidRgb('rgb(.5e2, .2e1, .3e1)'), true);
+      assert.equal(isValidRgb('rgb(-.5e-2 100 100)'), true);
+      assert.equal(isValidRgb('rgb(0 0 0 / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidRgb('rgb(-0, -0, -0)'), true);
+      assert.equal(isValidRgb('rgb(-0% -0% -0%)'), true);
+      assert.equal(isValidRgb('rgb(-0 -0 -0 / -0)'), true);
+    });
+
     it('validates out-of-bounds values', () => {
       assert.equal(isValidRgb('rgb(300, -10, 0)'), true);
       assert.equal(isValidRgb('rgb(300, -10, 500)'), true);

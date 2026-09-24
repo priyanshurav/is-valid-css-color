@@ -55,6 +55,18 @@ describe('isValidOklch()', () => {
       assert.equal(isValidOklch('oklch(+5e-1 +2e-1 +1.2e2)'), true);
       assert.equal(isValidOklch('oklch(+5e-1 +2e-1 +1.2e2 / -5e-1)'), true);
     });
+
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidOklch('oklch(.5e0 .2e0 .12e3)'), true);
+      assert.equal(isValidOklch('oklch(-.5e-1 .2e-1 120)'), true);
+      assert.equal(isValidOklch('oklch(0.5 0.2 120 / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidOklch('oklch(-0 -0% -0)'), true);
+      assert.equal(isValidOklch('oklch(-0 -0% -0deg)'), true);
+      assert.equal(isValidOklch('oklch(-0 -0% -0 / -0)'), true);
+    });
   });
 
   describe('Formatting and Edge Cases', () => {
@@ -150,6 +162,11 @@ describe('isValidOklch()', () => {
       assert.equal(isValidOklch('oklch(0.5 none% 120)'), false);
       assert.equal(isValidOklch('oklch(0.5 0.2 none%)'), false);
       assert.equal(isValidOklch('oklch(0.5 0.2 120 / none%)'), false);
+    });
+
+    it('rejects the "none" keyword with a trailing angle unit', () => {
+      assert.equal(isValidOklch('oklch(0.5 0.2 nonedeg)'), false);
+      assert.equal(isValidOklch('oklch(0.5 0.2 nonerad)'), false);
     });
   });
 });

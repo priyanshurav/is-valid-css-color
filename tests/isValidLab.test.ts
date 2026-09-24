@@ -58,6 +58,18 @@ describe('isValidLab()', () => {
       assert.equal(isValidLab('lab(+5e1 +4e1 +3e1)'), true);
       assert.equal(isValidLab('lab(+5e1 +4e1 +3e1 / -5e-1)'), true);
     });
+
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidLab('lab(.5e2 .4e2 .3e2)'), true);
+      assert.equal(isValidLab('lab(-.5e-2 40 30)'), true);
+      assert.equal(isValidLab('lab(50 40 30 / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidLab('lab(-0 -0 -0)'), true);
+      assert.equal(isValidLab('lab(-0% -0% -0%)'), true);
+      assert.equal(isValidLab('lab(-0 -0 -0 / -0)'), true);
+    });
   });
 
   describe('Formatting and Edge Cases', () => {

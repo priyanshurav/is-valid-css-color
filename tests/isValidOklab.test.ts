@@ -49,6 +49,18 @@ describe('isValidOklab()', () => {
       assert.equal(isValidOklab('oklab(+5e-1 +1e-1 -1e-1 / -5e-1)'), true);
     });
 
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidOklab('oklab(.5e0 .1e0 .1e0)'), true);
+      assert.equal(isValidOklab('oklab(-.5e-1 .1e-1 -.1e-1)'), true);
+      assert.equal(isValidOklab('oklab(0.5 0.1 0.1 / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidOklab('oklab(-0 -0 -0)'), true);
+      assert.equal(isValidOklab('oklab(-0% -0% -0%)'), true);
+      assert.equal(isValidOklab('oklab(-0 -0 -0 / -0)'), true);
+    });
+
     it('validates the "none" keyword', () => {
       assert.equal(isValidOklab('oklab(none none none)'), true);
       assert.equal(isValidOklab('oklab(0.5 none 0.1)'), true);

@@ -69,6 +69,18 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(+1e2 +1e1% +2e1%)'), true);
       assert.equal(isValidHwb('hwb(+1e2 +1e1% +2e1% / -1.5e0)'), true);
     });
+
+    it('validates exponential numbers without an explicit integer mantissa', () => {
+      assert.equal(isValidHwb('hwb(.5e2 .1e1% .2e1%)'), true);
+      assert.equal(isValidHwb('hwb(-.5e-2 10% 20%)'), true);
+      assert.equal(isValidHwb('hwb(120 10% 20% / .5e0)'), true);
+    });
+
+    it('validates negative zero', () => {
+      assert.equal(isValidHwb('hwb(-0 -0% -0%)'), true);
+      assert.equal(isValidHwb('hwb(-0deg -0% -0%)'), true);
+      assert.equal(isValidHwb('hwb(-0 -0% -0% / -0)'), true);
+    });
   });
 
   describe('Formatting and Edge Cases', () => {
@@ -159,6 +171,11 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(120 none% 20%)'), false);
       assert.equal(isValidHwb('hwb(120 10% none%)'), false);
       assert.equal(isValidHwb('hwb(120 10% 20% / none%)'), false);
+    });
+
+    it('rejects the "none" keyword with a trailing angle unit', () => {
+      assert.equal(isValidHwb('hwb(nonedeg 10% 20%)'), false);
+      assert.equal(isValidHwb('hwb(nonerad 10% 20%)'), false);
     });
   });
 });
