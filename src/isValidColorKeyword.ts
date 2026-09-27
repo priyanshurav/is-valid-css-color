@@ -1,3 +1,5 @@
+import { toAsciiLowercase, trim } from './utils.js';
+
 const validCssColorKeywords = new Set([
   'accentcolor',
   'accentcolortext',
@@ -215,5 +217,5 @@ const validCssColorKeywords = new Set([
  */
 export const isValidColorKeyword = (colorKeyword: string): boolean => {
   if (typeof colorKeyword !== 'string') return false;
-  return validCssColorKeywords.has(colorKeyword.trim().toLowerCase());
+  return validCssColorKeywords.has(toAsciiLowercase(trim(colorKeyword)));
 };

@@ -8,6 +8,7 @@ import { isValidOklab } from './isValidOklab.js';
 import { isValidOklch } from './isValidOklch.js';
 import { isValidColorKeyword } from './isValidColorKeyword.js';
 import { isValidColorNotation } from './isValidColorNotation.js';
+import { trim } from './utils.js';
 
 /**
  * Tests whether a string is a valid CSS color value.
@@ -41,7 +42,7 @@ import { isValidColorNotation } from './isValidColorNotation.js';
 const isValidCssColor = (color: string): boolean => {
   if (typeof color !== 'string') return false;
 
-  const trimmed = color.trim();
+  const trimmed = trim(color);
   if (trimmed.length === 0) return false;
 
   if (trimmed[0] === '#') return isValidHex(trimmed);

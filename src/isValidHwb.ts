@@ -1,7 +1,8 @@
-import { HUE, VALUE } from './patterns.js';
+import { HUE, VALUE, WS } from './patterns.js';
+import { trim } from './utils.js';
 
 export const hwbRegex = new RegExp(
-  String.raw`^hwb\(\s*${HUE}\s+${VALUE}\s+${VALUE}\s*(?:\/\s*${VALUE}\s*)?\)$`,
+  String.raw`^hwb\(${WS}*${HUE}${WS}+${VALUE}${WS}+${VALUE}${WS}*(?:\/${WS}*${VALUE}${WS}*)?\)$`,
   'i'
 );
 
@@ -31,5 +32,5 @@ export const hwbRegex = new RegExp(
  */
 export const isValidHwb = (hwb: string): boolean => {
   if (typeof hwb !== 'string') return false;
-  return hwbRegex.test(hwb.trim());
+  return hwbRegex.test(trim(hwb));
 };

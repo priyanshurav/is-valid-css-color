@@ -1,14 +1,15 @@
-import { NUM, HUE, VALUE } from './patterns.js';
+import { NUM, HUE, VALUE, WS } from './patterns.js';
+import { trim } from './utils.js';
 
 const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
 const legacyPct = `(?:${NUM}%)`;
 const legacyAlpha = `(?:${NUM}%?)`;
 
-const legacy = String.raw`${legacyHue}\s*,\s*${legacyPct}\s*,\s*${legacyPct}(?:\s*,\s*${legacyAlpha})?`;
-const modern = String.raw`${HUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?`;
+const legacy = `${legacyHue}${WS}*,${WS}*${legacyPct}${WS}*,${WS}*${legacyPct}(?:${WS}*,${WS}*${legacyAlpha})?`;
+const modern = String.raw`${HUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?`;
 
-export const legacyHslRegex = new RegExp(String.raw`^hsla?\(\s*${legacy}\s*\)$`, 'i');
-export const modernHslRegex = new RegExp(String.raw`^hsla?\(\s*${modern}\s*\)$`, 'i');
+export const legacyHslRegex = new RegExp(String.raw`^hsla?\(${WS}*${legacy}${WS}*\)$`, 'i');
+export const modernHslRegex = new RegExp(String.raw`^hsla?\(${WS}*${modern}${WS}*\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `hsl()` or `hsla()` color.
@@ -43,6 +44,6 @@ export const modernHslRegex = new RegExp(String.raw`^hsla?\(\s*${modern}\s*\)$`,
  */
 export const isValidHsl = (hsl: string): boolean => {
   if (typeof hsl !== 'string') return false;
-  hsl = hsl.trim();
+  hsl = trim(hsl);
   return legacyHslRegex.test(hsl) || modernHslRegex.test(hsl);
 };

@@ -1,7 +1,8 @@
-import { VALUE, HUE } from './patterns.js';
+import { VALUE, HUE, WS } from './patterns.js';
+import { trim } from './utils.js';
 
 export const lchRegex = new RegExp(
-  String.raw`^lch\(\s*${VALUE}\s+${VALUE}\s+${HUE}\s*(?:\/\s*${VALUE}\s*)?\)$`,
+  String.raw`^lch\(${WS}*${VALUE}${WS}+${VALUE}${WS}+${HUE}${WS}*(?:\/${WS}*${VALUE}${WS}*)?\)$`,
   'i'
 );
 
@@ -31,5 +32,5 @@ export const lchRegex = new RegExp(
  */
 export const isValidLch = (lch: string): boolean => {
   if (typeof lch !== 'string') return false;
-  return lchRegex.test(lch.trim());
+  return lchRegex.test(trim(lch));
 };

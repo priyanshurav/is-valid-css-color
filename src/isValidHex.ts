@@ -1,3 +1,5 @@
+import { trim } from './utils.js';
+
 export const hexRegex = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/i;
 
 /**
@@ -20,5 +22,5 @@ export const hexRegex = /^#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/i;
  */
 export const isValidHex = (hex: string): boolean => {
   if (typeof hex !== 'string') return false;
-  return hexRegex.test(hex.trim());
+  return hexRegex.test(trim(hex));
 };

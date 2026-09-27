@@ -1,7 +1,8 @@
-import { VALUE } from './patterns.js';
+import { trim } from './utils.js';
+import { VALUE, WS } from './patterns.js';
 
 export const oklabRegex = new RegExp(
-  String.raw`^oklab\(\s*${VALUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?\s*\)$`,
+  String.raw`^oklab\(${WS}*${VALUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
   'i'
 );
 
@@ -31,5 +32,5 @@ export const oklabRegex = new RegExp(
  */
 export const isValidOklab = (oklab: string): boolean => {
   if (typeof oklab !== 'string') return false;
-  return oklabRegex.test(oklab.trim());
+  return oklabRegex.test(trim(oklab));
 };

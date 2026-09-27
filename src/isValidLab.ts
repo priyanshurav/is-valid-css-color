@@ -1,7 +1,8 @@
-import { VALUE } from './patterns.js';
+import { trim } from './utils.js';
+import { VALUE, WS } from './patterns.js';
 
 export const labRegex = new RegExp(
-  String.raw`^lab\(\s*${VALUE}\s+${VALUE}\s+${VALUE}(?:\s*\/\s*${VALUE})?\s*\)$`,
+  String.raw`^lab\(${WS}*${VALUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
   'i'
 );
 
@@ -29,5 +30,5 @@ export const labRegex = new RegExp(
  */
 export const isValidLab = (lab: string): boolean => {
   if (typeof lab !== 'string') return false;
-  return labRegex.test(lab.trim());
+  return labRegex.test(trim(lab));
 };

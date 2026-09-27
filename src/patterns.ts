@@ -1,3 +1,4 @@
 export const NUM = String.raw`[+-]?(?:\d+(?:\.\d+)?|\.\d+)(?:[eE][+-]?\d+)?`;
 export const VALUE = `(?:${NUM}%?|none)`;
 export const HUE = `(?:${NUM}(?:deg|grad|rad|turn)?|none)`;
+export const WS = '[ \n\r\t\f]'; // valid CSS whitespace characters

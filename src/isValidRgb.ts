@@ -1,18 +1,19 @@
-import { NUM } from './patterns.js';
+import { NUM, WS } from './patterns.js';
+import { trim } from './utils.js';
 
-const legacyNumBase = String.raw`${NUM}\s*,\s*${NUM}\s*,\s*${NUM}`;
-const legacyPctBase = String.raw`${NUM}%\s*,\s*${NUM}%\s*,\s*${NUM}%`;
-const legacyAlpha = String.raw`(?:\s*,\s*${NUM}%?)?`;
+const legacyNumBase = `${NUM}${WS}*,${WS}*${NUM}${WS}*,${WS}*${NUM}`;
+const legacyPctBase = `${NUM}%${WS}*,${WS}*${NUM}%${WS}*,${WS}*${NUM}%`;
+const legacyAlpha = `(?:${WS}*,${WS}*${NUM}%?)?`;
 
 const legacy = `(?:${legacyNumBase}|${legacyPctBase})${legacyAlpha}`;
 
 const modernChannel = `(?:${NUM}%?|none)`;
-const modernAlpha = String.raw`(?:\s*\/\s*${modernChannel})?`;
+const modernAlpha = String.raw`(?:${WS}*\/${WS}*${modernChannel})?`;
 
-const modern = String.raw`${modernChannel}\s+${modernChannel}\s+${modernChannel}${modernAlpha}`;
+const modern = `${modernChannel}${WS}+${modernChannel}${WS}+${modernChannel}${modernAlpha}`;
 
-export const legacyRgbRegex = new RegExp(String.raw`^rgba?\(\s*(?:${legacy})\s*\)$`, 'i');
-export const modernRgbRegex = new RegExp(String.raw`^rgba?\(\s*(?:${modern})\s*\)$`, 'i');
+export const legacyRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${legacy})${WS}*\)$`, 'i');
+export const modernRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${modern})${WS}*\)$`, 'i');
 
 /**
  * Tests whether a string is a valid CSS `rgb()` or `rgba()` color.
@@ -46,6 +47,6 @@ export const modernRgbRegex = new RegExp(String.raw`^rgba?\(\s*(?:${modern})\s*\
  */
 export const isValidRgb = (rgb: string): boolean => {
   if (typeof rgb !== 'string') return false;
-  rgb = rgb.trim();
+  rgb = trim(rgb);
   return legacyRgbRegex.test(rgb) || modernRgbRegex.test(rgb);
 };

@@ -1,7 +1,8 @@
-import { VALUE, HUE } from './patterns.js';
+import { VALUE, HUE, WS } from './patterns.js';
+import { trim } from './utils.js';
 
 export const oklchRegex = new RegExp(
-  String.raw`^oklch\(\s*${VALUE}\s+${VALUE}\s+${HUE}\s*(?:\/\s*${VALUE}\s*)?\)$`,
+  String.raw`^oklch\(${WS}*${VALUE}${WS}+${VALUE}${WS}+${HUE}${WS}*(?:\/${WS}*${VALUE}${WS}*)?\)$`,
   'i'
 );
 
@@ -33,5 +34,5 @@ export const oklchRegex = new RegExp(
  */
 export const isValidOklch = (oklch: string): boolean => {
   if (typeof oklch !== 'string') return false;
-  return oklchRegex.test(oklch.trim());
+  return oklchRegex.test(trim(oklch));
 };
