@@ -51,6 +51,7 @@ describe('isValidHex()', () => {
       assert.equal(isValidHex('  #ff0000  '), true);
       assert.equal(isValidHex('\n\t#ff0000\r\n'), true);
       assert.equal(isValidHex(' \n #f00 \t '), true);
+      assert.equal(isValidHex('\f#ff0000\f'), true);
     });
   });
 
@@ -103,6 +104,19 @@ describe('isValidHex()', () => {
     it('rejects extra text surrounding valid hex', () => {
       assert.equal(isValidHex('#fff extra'), false);
       assert.equal(isValidHex('extra #fff'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidHex('\u{A0}#fff'), false);
+      assert.equal(isValidHex('#fff\u{A0}'), false);
+      assert.equal(isValidHex('\v#fff'), false);
+      assert.equal(isValidHex('#fff\v'), false);
+      assert.equal(isValidHex('\u{2028}#fff'), false);
+      assert.equal(isValidHex('\u{2029}#fff'), false);
+      assert.equal(isValidHex('\u{3000}#fff'), false);
+      assert.equal(isValidHex('\u{FEFF}#fff'), false);
+      assert.equal(isValidHex('#\u{A0}fff'), false);
+      assert.equal(isValidHex('#f\u{A0}ff'), false);
     });
   });
 });

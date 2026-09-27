@@ -19,6 +19,14 @@ describe('Type Validation (Rejections)', () => {
         assert.equal(validator({} as unknown as string), false);
         assert.equal(validator([] as unknown as string), false);
       });
+
+      it('rejects Symbol values', () => {
+        assert.equal(validator(Symbol('red') as unknown as string), false);
+      });
+
+      it('rejects String objects (typeof is "object", not "string")', () => {
+        assert.equal(validator(new String('red') as unknown as string), false);
+      });
     });
   }
 });

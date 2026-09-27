@@ -82,6 +82,14 @@ describe('isValidColorKeyword()', () => {
       assert.equal(isValidColorKeyword(' red '), true);
       assert.equal(isValidColorKeyword(' cornflowerblue '), true);
     });
+
+    it('tolerates all CSS whitespace characters', () => {
+      assert.equal(isValidColorKeyword('\tred'), true);
+      assert.equal(isValidColorKeyword('\nred'), true);
+      assert.equal(isValidColorKeyword('\rred'), true);
+      assert.equal(isValidColorKeyword('\fred'), true);
+      assert.equal(isValidColorKeyword('\t\n\r\f red \t\n\r\f'), true);
+    });
   });
 
   describe('Invalid Syntax (Rejections)', () => {
@@ -107,6 +115,42 @@ describe('isValidColorKeyword()', () => {
       assert.equal(isValidColorKeyword(''), false);
       assert.equal(isValidColorKeyword(' '.repeat(3)), false);
       assert.equal(isValidColorKeyword('\t'), false);
+    });
+
+    it('rejects a zero-width space inside a keyword', () => {
+      assert.equal(isValidColorKeyword('r\u200Bed'), false);
+      assert.equal(isValidColorKeyword('re\u200Bd'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidColorKeyword('\u{A0}red'), false);
+      assert.equal(isValidColorKeyword('red\u{A0}'), false);
+      assert.equal(isValidColorKeyword('\vred'), false);
+      assert.equal(isValidColorKeyword('red\v'), false);
+      assert.equal(isValidColorKeyword('\u{2028}red'), false);
+      assert.equal(isValidColorKeyword('\u{2029}red'), false);
+      assert.equal(isValidColorKeyword('\u{3000}red'), false);
+      assert.equal(isValidColorKeyword('\u{FEFF}red'), false);
+      assert.equal(isValidColorKeyword('re\u{A0}d'), false);
+      assert.equal(isValidColorKeyword('\u{A0}'.repeat(3)), false);
+    });
+
+    it('rejects Unicode look-alikes of valid keywords', () => {
+      assert.equal(isValidColorKeyword('blac\u212A'), false); // KELVIN SIGN instead of 'k' in "black"
+      assert.equal(isValidColorKeyword('Blac\u212A'), false);
+      assert.equal(isValidColorKeyword('pin\u212A'), false); // "pink"
+      assert.equal(isValidColorKeyword('\u212Ahaki'), false); // "khaki"
+      assert.equal(isValidColorKeyword('dar\u212Ared'), false); // "darkred"
+
+      assert.equal(isValidColorKeyword('\u017Falmon'), false); // LONG S instead of 's' in "salmon"
+      assert.equal(isValidColorKeyword('\u017Filver'), false); // "silver"
+      assert.equal(isValidColorKeyword('\u017Feagreen'), false); // "seagreen"
+
+      assert.equal(isValidColorKeyword('\u0130vory'), false); // dotted capital I instead of 'i' in "ivory"
+      assert.equal(isValidColorKeyword('\uFF52\uFF45\uFF44'), false); // fullwidth "red"
+      assert.equal(isValidColorKeyword('gr\u0430y'), false); // Cyrillic а instead of 'a' in "gray"
+      assert.equal(isValidColorKeyword('g\u043Eld'), false); // Cyrillic о instead of 'o' in "gold"
+      assert.equal(isValidColorKeyword('red\u0301'), false); // trailing combining accent
     });
   });
 });

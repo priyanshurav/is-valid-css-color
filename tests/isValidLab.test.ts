@@ -80,6 +80,7 @@ describe('isValidLab()', () => {
       assert.equal(isValidLab('lab( 50% 40% 30% / 10% )'), true);
       assert.equal(isValidLab('  lab(50 40 30)  '), true);
       assert.equal(isValidLab('lab(\t50\n40\r30\t)'), true);
+      assert.equal(isValidLab('lab(\f50\f40\f30\f/\f0.5\f)'), true);
     });
 
     it('is case-insensitive', () => {
@@ -160,6 +161,7 @@ describe('isValidLab()', () => {
       assert.equal(isValidLab('lab(true 40 30)'), false);
       assert.equal(isValidLab('lab(50 "40" 30)'), false);
       assert.equal(isValidLab('lab(50 40 NaN)'), false);
+      assert.equal(isValidLab('lab(50 40 Infinity)'), false);
       assert.equal(isValidLab('lab(null 40 30)'), false);
       assert.equal(isValidLab('lab(undefined 40 30)'), false);
       assert.equal(isValidLab('lab(abc def ghi)'), false);
@@ -188,6 +190,17 @@ describe('isValidLab()', () => {
       assert.equal(isValidLab('lab(50 none% 30)'), false);
       assert.equal(isValidLab('lab(50 40 none%)'), false);
       assert.equal(isValidLab('lab(50 40 30 / none%)'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidLab('lab(50\u{A0}40\u{A0}30)'), false);
+      assert.equal(isValidLab('lab(50\v40\v30)'), false);
+      assert.equal(isValidLab('lab(50\u{2028}40\u{2028}30)'), false);
+      assert.equal(isValidLab('lab(50\u{3000}40\u{3000}30)'), false);
+      assert.equal(isValidLab('\u{A0}lab(50 40 30)'), false);
+      assert.equal(isValidLab('lab(50 40 30)\u{A0}'), false);
+      assert.equal(isValidLab('lab(50 40 30\u{A0}/ 0.5)'), false);
+      assert.equal(isValidLab('lab(\u{FEFF}50 40 30)'), false);
     });
   });
 });

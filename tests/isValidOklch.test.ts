@@ -94,6 +94,7 @@ describe('isValidOklch()', () => {
       assert.equal(isValidOklch('oklch( 0.5 0.2 120/0.5 )'), true);
       assert.equal(isValidOklch('  oklch(0.5 0.2 120)  '), true);
       assert.equal(isValidOklch('  oklch(0.5 0.2 120 / 0.5)  '), true);
+      assert.equal(isValidOklch('oklch(\f0.5\f0.2\f120\f/\f0.5\f)'), true);
     });
 
     it('validates out-of-bounds values', () => {
@@ -167,6 +168,21 @@ describe('isValidOklch()', () => {
     it('rejects the "none" keyword with a trailing angle unit', () => {
       assert.equal(isValidOklch('oklch(0.5 0.2 nonedeg)'), false);
       assert.equal(isValidOklch('oklch(0.5 0.2 nonerad)'), false);
+    });
+
+    it('rejects a Unicode look-alike of "oklch"', () => {
+      assert.equal(isValidOklch('o\u212Alch(0.5 0.2 120)'), false); // KELVIN SIGN instead of 'k'
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidOklch('oklch(0.5\u{A0}0.2\u{A0}120)'), false);
+      assert.equal(isValidOklch('oklch(0.5\v0.2\v120)'), false);
+      assert.equal(isValidOklch('oklch(0.5\u{2028}0.2\u{2028}120)'), false);
+      assert.equal(isValidOklch('oklch(0.5\u{3000}0.2\u{3000}120)'), false);
+      assert.equal(isValidOklch('\u{A0}oklch(0.5 0.2 120)'), false);
+      assert.equal(isValidOklch('oklch(0.5 0.2 120)\u{A0}'), false);
+      assert.equal(isValidOklch('oklch(0.5 0.2 120\u{A0}/ 0.5)'), false);
+      assert.equal(isValidOklch('oklch(\u{FEFF}0.5 0.2 120)'), false);
     });
   });
 });

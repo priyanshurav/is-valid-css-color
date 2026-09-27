@@ -76,6 +76,7 @@ describe('isValidColorNotation()', () => {
       assert.equal(isValidColorNotation('color(srgb 1 0 0/ 0.5)'), true);
       assert.equal(isValidColorNotation(' color(srgb 1 0 0)'), true);
       assert.equal(isValidColorNotation('color(srgb 1 0 0) '), true);
+      assert.equal(isValidColorNotation('color(\fsrgb\f1\f0\f0\f/\f0.5\f)'), true);
     });
 
     it('validates positive sign prefix on channel values', () => {
@@ -159,6 +160,23 @@ describe('isValidColorNotation()', () => {
       assert.equal(isValidColorNotation('color(srgb 1 none% 0)'), false);
       assert.equal(isValidColorNotation('color(srgb 1 0 none%)'), false);
       assert.equal(isValidColorNotation('color(srgb 1 0 0 / none%)'), false);
+    });
+
+    it('rejects Unicode look-alikes of valid color space names', () => {
+      assert.equal(isValidColorNotation('color(\u017Frgb 1 0 0)'), false); // LONG S instead of 's' in "srgb"
+      assert.equal(isValidColorNotation('color(di\u017Fplay-p3 1 0 0)'), false); // "display-p3"
+      assert.equal(isValidColorNotation('color(d\u0131splay-p3 1 0 0)'), false); // dotless ı instead of 'i'
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidColorNotation('color(srgb\u{A0}1\u{A0}0\u{A0}0)'), false);
+      assert.equal(isValidColorNotation('color(srgb\v1\v0\v0)'), false);
+      assert.equal(isValidColorNotation('color(srgb\u{2028}1\u{2028}0\u{2028}0)'), false);
+      assert.equal(isValidColorNotation('color(srgb\u{3000}1\u{3000}0\u{3000}0)'), false);
+      assert.equal(isValidColorNotation('\u{A0}color(srgb 1 0 0)'), false);
+      assert.equal(isValidColorNotation('color(srgb 1 0 0)\u{A0}'), false);
+      assert.equal(isValidColorNotation('color(srgb 1 0 0\u{A0}/ 0.5)'), false);
+      assert.equal(isValidColorNotation('color(\u{FEFF}srgb 1 0 0)'), false);
     });
   });
 });

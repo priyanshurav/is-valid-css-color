@@ -83,6 +83,7 @@ describe('isValidOklab()', () => {
       assert.equal(isValidOklab('oklab(0.59\n0.1\n0.1\n/\n0.5)'), true);
       assert.equal(isValidOklab('  oklab(0.59 0.1 0.1)  '), true);
       assert.equal(isValidOklab('oklab(0.59   0.1   0.1   /   0.5)'), true);
+      assert.equal(isValidOklab('oklab(\f0.59\f0.1\f0.1\f/\f0.5\f)'), true);
     });
 
     it('validates out-of-bounds values', () => {
@@ -157,6 +158,21 @@ describe('isValidOklab()', () => {
       assert.equal(isValidOklab('oklab(0.5 none% 0.1)'), false);
       assert.equal(isValidOklab('oklab(0.5 0.1 none%)'), false);
       assert.equal(isValidOklab('oklab(0.5 0.1 0.1 / none%)'), false);
+    });
+
+    it('rejects a Unicode look-alike of "oklab"', () => {
+      assert.equal(isValidOklab('o\u212Alab(0.5 0.1 0.1)'), false); // KELVIN SIGN instead of 'k'
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidOklab('oklab(0.59\u{A0}0.1\u{A0}0.1)'), false);
+      assert.equal(isValidOklab('oklab(0.59\v0.1\v0.1)'), false);
+      assert.equal(isValidOklab('oklab(0.59\u{2028}0.1\u{2028}0.1)'), false);
+      assert.equal(isValidOklab('oklab(0.59\u{3000}0.1\u{3000}0.1)'), false);
+      assert.equal(isValidOklab('\u{A0}oklab(0.59 0.1 0.1)'), false);
+      assert.equal(isValidOklab('oklab(0.59 0.1 0.1)\u{A0}'), false);
+      assert.equal(isValidOklab('oklab(0.59 0.1 0.1\u{A0}/ 0.5)'), false);
+      assert.equal(isValidOklab('oklab(\u{FEFF}0.59 0.1 0.1)'), false);
     });
   });
 });

@@ -87,9 +87,26 @@ describe('isValidCssColor()', () => {
       assert.equal(isValidCssColor('  rgb(255, 0, 0)  '), true);
     });
 
+    it('trims all CSS whitespace characters (space, tab, LF, CR, form feed)', () => {
+      assert.equal(isValidCssColor('\fred\f'), true);
+      assert.equal(isValidCssColor('\r\nrgb(255, 0, 0)\r\n'), true);
+      assert.equal(isValidCssColor('\t\n\r\f red \t\n\r\f'), true);
+    });
+
     it('rejects whitespace-only input', () => {
       assert.equal(isValidCssColor(' '.repeat(3)), false);
       assert.equal(isValidCssColor('\t\n'), false);
+    });
+
+    it('does not trim non-CSS whitespace characters', () => {
+      assert.equal(isValidCssColor('\u{A0}red'), false);
+      assert.equal(isValidCssColor('red\u{A0}'), false);
+      assert.equal(isValidCssColor('\vred'), false);
+      assert.equal(isValidCssColor('\u{2028}red\u{2029}'), false);
+      assert.equal(isValidCssColor('\u{3000}red\u{3000}'), false);
+      assert.equal(isValidCssColor('\u{FEFF}red'), false);
+      assert.equal(isValidCssColor('\u{A0}rgb(255, 0, 0)\u{A0}'), false);
+      assert.equal(isValidCssColor('\u{A0}'.repeat(3)), false);
     });
   });
 
@@ -99,6 +116,25 @@ describe('isValidCssColor()', () => {
       assert.equal(isValidCssColor('notacolor'), false);
       assert.equal(isValidCssColor('rgb(255 0 0'), false);
       assert.equal(isValidCssColor('##ffffff'), false);
+    });
+
+    it('rejects CSS-wide keywords (they are not <color> values)', () => {
+      assert.equal(isValidCssColor('inherit'), false);
+      assert.equal(isValidCssColor('initial'), false);
+      assert.equal(isValidCssColor('unset'), false);
+      assert.equal(isValidCssColor('revert'), false);
+    });
+
+    it('rejects unimplemented modern CSS color functions', () => {
+      assert.equal(isValidCssColor('var(--my-color)'), false);
+      assert.equal(isValidCssColor('color-mix(in srgb, red 50%, blue 50%)'), false);
+      assert.equal(isValidCssColor('light-dark(white, black)'), false);
+      assert.equal(isValidCssColor('color(from red srgb r g b)'), false);
+    });
+
+    it('rejects Unicode look-alikes after whitespace trimming', () => {
+      assert.equal(isValidCssColor('  blac\u212A  '), false);
+      assert.equal(isValidCssColor(' h\u017Fl(120 100% 50%) '), false);
     });
   });
 });

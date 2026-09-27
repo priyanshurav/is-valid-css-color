@@ -107,6 +107,7 @@ describe('isValidRgb()', () => {
       assert.equal(isValidRgb('  rgb(255, 0, 0)  '), true);
       assert.equal(isValidRgb('  rgb(255 0 0 / 0.5)  '), true);
       assert.equal(isValidRgb('rgb(\t255\n255\r255\t/\t0.5)'), true);
+      assert.equal(isValidRgb('rgb(\f255\f255\f255\f/\f0.5\f)'), true);
     });
 
     it('is case-insensitive', () => {
@@ -171,6 +172,17 @@ describe('isValidRgb()', () => {
 
     it('rejects invalid number formats', () => {
       assert.equal(isValidRgb('rgb(255.5.5, 0, 0)'), false);
+      assert.equal(isValidRgb('rgb(1. 0 0)'), false);
+      assert.equal(isValidRgb('rgb(1e 0 0)'), false);
+      assert.equal(isValidRgb('rgb(+ 0 0)'), false);
+    });
+
+    it('rejects channels fused together with no separator', () => {
+      assert.equal(isValidRgb('rgb(2550128)'), false);
+    });
+
+    it('rejects a nested rgb() as a channel value', () => {
+      assert.equal(isValidRgb('rgb(rgb(0,0,0))'), false);
     });
 
     it('rejects "none" in legacy comma-separated syntax', () => {
@@ -179,6 +191,17 @@ describe('isValidRgb()', () => {
       assert.equal(isValidRgb('rgb(255, none, 0)'), false);
       assert.equal(isValidRgb('rgba(none, none, none, none)'), false);
       assert.equal(isValidRgb('rgba(255, 255, 255, none)'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidRgb('rgb(255\u{A0}255\u{A0}255)'), false);
+      assert.equal(isValidRgb('rgb(255\v255\v255)'), false);
+      assert.equal(isValidRgb('rgb(255\u{2028}255\u{2028}255)'), false);
+      assert.equal(isValidRgb('rgb(255\u{3000}255\u{3000}255)'), false);
+      assert.equal(isValidRgb('\u{A0}rgb(255 255 255)'), false);
+      assert.equal(isValidRgb('rgb(255 255 255)\u{A0}'), false);
+      assert.equal(isValidRgb('rgb(255 255 255\u{A0}/ 0.5)'), false);
+      assert.equal(isValidRgb('rgb(\u{FEFF}255 255 255)'), false);
     });
   });
 });

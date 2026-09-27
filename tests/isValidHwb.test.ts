@@ -91,6 +91,7 @@ describe('isValidHwb()', () => {
       assert.equal(isValidHwb('hwb(  120  10%  20%  /  0.5  )'), true);
       assert.equal(isValidHwb('  hwb(120 10% 20%)  '), true);
       assert.equal(isValidHwb('  hwb(120 10% 20% / 0.5)  '), true);
+      assert.equal(isValidHwb('hwb(\f120\f10%\f20%\f/\f0.5\f)'), true);
     });
 
     it('is case-insensitive', () => {
@@ -176,6 +177,17 @@ describe('isValidHwb()', () => {
     it('rejects the "none" keyword with a trailing angle unit', () => {
       assert.equal(isValidHwb('hwb(nonedeg 10% 20%)'), false);
       assert.equal(isValidHwb('hwb(nonerad 10% 20%)'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidHwb('hwb(120\u{A0}10%\u{A0}20%)'), false);
+      assert.equal(isValidHwb('hwb(120\v10%\v20%)'), false);
+      assert.equal(isValidHwb('hwb(120\u{2028}10%\u{2028}20%)'), false);
+      assert.equal(isValidHwb('hwb(120\u{3000}10%\u{3000}20%)'), false);
+      assert.equal(isValidHwb('\u{A0}hwb(120 10% 20%)'), false);
+      assert.equal(isValidHwb('hwb(120 10% 20%)\u{A0}'), false);
+      assert.equal(isValidHwb('hwb(120 10% 20%\u{A0}/ 0.5)'), false);
+      assert.equal(isValidHwb('hwb(\u{FEFF}120 10% 20%)'), false);
     });
   });
 });

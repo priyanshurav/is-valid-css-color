@@ -111,6 +111,7 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('hsl( 120   100%   50% /   0.5 )'), true);
       assert.equal(isValidHsl('  hsl(120, 100%, 50%)  '), true);
       assert.equal(isValidHsl('  hsl(120 100% 50% / 0.5)  '), true);
+      assert.equal(isValidHsl('hsl(\f120\f100%\f50%\f/\f0.5\f)'), true);
     });
 
     it('is case-insensitive', () => {
@@ -222,6 +223,22 @@ describe('isValidHsl()', () => {
       assert.equal(isValidHsl('(120, 0, 0)'), false);
       assert.equal(isValidHsl('hsl(0, 0, 0;)'), false);
       assert.equal(isValidHsl('hsl(120 100% 50% /)'), false);
+    });
+
+    it('rejects Unicode look-alikes of "hsl"/"hsla"', () => {
+      assert.equal(isValidHsl('h\u017Fl(120 100% 50%)'), false); // LONG S instead of 's'
+      assert.equal(isValidHsl('h\u017Fla(120, 100%, 50%, 1)'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidHsl('hsl(120\u{A0}100%\u{A0}50%)'), false);
+      assert.equal(isValidHsl('hsl(120\v100%\v50%)'), false);
+      assert.equal(isValidHsl('hsl(120\u{2028}100%\u{2028}50%)'), false);
+      assert.equal(isValidHsl('hsl(120\u{3000}100%\u{3000}50%)'), false);
+      assert.equal(isValidHsl('\u{A0}hsl(120 100% 50%)'), false);
+      assert.equal(isValidHsl('hsl(120 100% 50%)\u{A0}'), false);
+      assert.equal(isValidHsl('hsl(120 100% 50%\u{A0}/ 0.5)'), false);
+      assert.equal(isValidHsl('hsl(\u{FEFF}120 100% 50%)'), false);
     });
   });
 });

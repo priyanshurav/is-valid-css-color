@@ -84,6 +84,7 @@ describe('isValidLch()', () => {
       assert.equal(isValidLch('lch(50% 40 320 /  0.5  )'), true);
       assert.equal(isValidLch('  lch(50% 40 320)  '), true);
       assert.equal(isValidLch('  lch(50% 40 320 / 0.5)  '), true);
+      assert.equal(isValidLch('lch(\f50%\f40\f320\f/\f0.5\f)'), true);
     });
 
     it('is case-insensitive', () => {
@@ -167,6 +168,17 @@ describe('isValidLch()', () => {
     it('rejects the "none" keyword with a trailing angle unit', () => {
       assert.equal(isValidLch('lch(50% 40 nonedeg)'), false);
       assert.equal(isValidLch('lch(50% 40 nonerad)'), false);
+    });
+
+    it('rejects non-CSS whitespace characters', () => {
+      assert.equal(isValidLch('lch(50%\u{A0}40\u{A0}320)'), false);
+      assert.equal(isValidLch('lch(50%\v40\v320)'), false);
+      assert.equal(isValidLch('lch(50%\u{2028}40\u{2028}320)'), false);
+      assert.equal(isValidLch('lch(50%\u{3000}40\u{3000}320)'), false);
+      assert.equal(isValidLch('\u{A0}lch(50% 40 320)'), false);
+      assert.equal(isValidLch('lch(50% 40 320)\u{A0}'), false);
+      assert.equal(isValidLch('lch(50% 40 320\u{A0}/ 0.5)'), false);
+      assert.equal(isValidLch('lch(\u{FEFF}50% 40 320)'), false);
     });
   });
 });
