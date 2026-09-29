@@ -61,6 +61,25 @@ describe('isValidCssColor()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('delegates spec-valid syntax with no whitespace between tokens', () => {
+      assert.equal(isValidCssColor('rgb(1%2%3%)'), true);
+      assert.equal(isValidCssColor('hsl(120 100%50%)'), true);
+      assert.equal(isValidCssColor('hwb(120 10%20%)'), true);
+      assert.equal(isValidCssColor('lab(50%40%30%)'), true);
+      assert.equal(isValidCssColor('lch(50%40%320)'), true);
+      assert.equal(isValidCssColor('oklab(59%10%10%)'), true);
+      assert.equal(isValidCssColor('oklch(50%20%120)'), true);
+      assert.equal(isValidCssColor('color(srgb 1%2%3%)'), true);
+    });
+
+    it('still rejects glued tokens that merge or break the grammar', () => {
+      assert.equal(isValidCssColor('rgb(1none 2 3)'), false);
+      assert.equal(isValidCssColor('hsl(120deg2% 3%)'), false);
+      assert.equal(isValidCssColor('color(srgb1 2 3)'), false);
+    });
+  });
+
   describe('Function name handling', () => {
     it('treats CSS function names as case-insensitive', () => {
       assert.equal(isValidCssColor('RGB(255, 0, 0)'), true);

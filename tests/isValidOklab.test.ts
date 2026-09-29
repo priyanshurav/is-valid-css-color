@@ -94,6 +94,36 @@ describe('isValidOklab()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidOklab('oklab(59%10%10%)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidOklab('oklab(59%10%10%/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidOklab('oklab(59%0.1 0.1)'), true);
+      assert.equal(isValidOklab('oklab(59%-10%-10%)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidOklab('oklab(59%none 0.1)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidOklab('oklab(59none 0.1 0.1)'), false);
+      assert.equal(isValidOklab('oklab(59%10%%10%)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidOklab('oklab(59%10%10%10%)'), false);
+      assert.equal(isValidOklab('oklab(59%,10%,10%)'), false);
+      assert.equal(isValidOklab('oklab(59%10%10% 0.5)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects legacy comma-separated syntax', () => {
       assert.equal(isValidOklab('oklab(0.59, 0.1, 0.1)'), false);

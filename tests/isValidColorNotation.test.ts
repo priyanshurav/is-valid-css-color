@@ -95,6 +95,46 @@ describe('isValidColorNotation()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidColorNotation('color(srgb 1%2%3%)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidColorNotation('color(srgb 1%2%3%/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidColorNotation('color(srgb 1%2 3)'), true);
+      assert.equal(isValidColorNotation('color(srgb 1%-2%-3%)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidColorNotation('color(srgb 1%none 3%)'), true);
+    });
+
+    it('validates a color space name directly followed by a sign or decimal point', () => {
+      assert.equal(isValidColorNotation('color(srgb.5 .5 .5)'), true);
+      assert.equal(isValidColorNotation('color(srgb+1 2 3)'), true);
+      assert.equal(isValidColorNotation('color(srgb-linear.5 .5 .5)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidColorNotation('color(srgb1 2 3)'), false);
+      assert.equal(isValidColorNotation('color(srgb-1 2 3)'), false);
+      assert.equal(isValidColorNotation('color(srgb1%2%3%)'), false);
+      assert.equal(isValidColorNotation('color(xyz-d50-1 2 3)'), false);
+      assert.equal(isValidColorNotation('color(srgb 1%%2%3%)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidColorNotation('color(srgb 1%2%3%4%)'), false);
+      assert.equal(isValidColorNotation('color(srgb 1%2%3%//0.5)'), false);
+      assert.equal(isValidColorNotation('color(srgb,1%2%3%)'), false);
+      assert.equal(isValidColorNotation('color(srgb 1%,2%,3%)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects comma-separated arguments', () => {
       assert.equal(isValidColorNotation('color(srgb, 1, 0, 0)'), false);

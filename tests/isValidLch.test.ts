@@ -103,6 +103,39 @@ describe('isValidLch()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidLch('lch(50%40%320)'), true);
+      assert.equal(isValidLch('lch(50%40%320deg)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidLch('lch(50%40 320/0.5)'), true);
+      assert.equal(isValidLch('lch(50%40 320deg/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidLch('lch(50%40 320)'), true);
+      assert.equal(isValidLch('lch(50%-40%-320)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidLch('lch(50%none 320)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidLch('lch(50 40 320deg2)'), false);
+      assert.equal(isValidLch('lch(50%40 320deg0.5)'), false);
+      assert.equal(isValidLch('lch(50%40%%320)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidLch('lch(50%40%320%)'), false);
+      assert.equal(isValidLch('lch(50%40 320deg.5)'), false);
+      assert.equal(isValidLch('lch(50%40%320deg 0.5)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects comma-separated values', () => {
       assert.equal(isValidLch('lch(50%, 40, 320)'), false);

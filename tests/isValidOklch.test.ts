@@ -106,6 +106,39 @@ describe('isValidOklch()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidOklch('oklch(50%20%120)'), true);
+      assert.equal(isValidOklch('oklch(50%20%120deg)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidOklch('oklch(50%20%120/0.5)'), true);
+      assert.equal(isValidOklch('oklch(50%20 120deg/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidOklch('oklch(50%0.2 120)'), true);
+      assert.equal(isValidOklch('oklch(50%-20%-120)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidOklch('oklch(50%none 120)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidOklch('oklch(0.5 0.2 120deg2)'), false);
+      assert.equal(isValidOklch('oklch(50%20 120deg0.5)'), false);
+      assert.equal(isValidOklch('oklch(50%20%%120)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidOklch('oklch(50%20%120%)'), false);
+      assert.equal(isValidOklch('oklch(50%20%120deg.5)'), false);
+      assert.equal(isValidOklch('oklch(50%20%120 0.5)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects comma-separated values', () => {
       assert.equal(isValidOklch('oklch(0.5, 0.2, 120)'), false);

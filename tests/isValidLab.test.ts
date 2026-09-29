@@ -106,6 +106,36 @@ describe('isValidLab()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidLab('lab(50%40%30%)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidLab('lab(50%40%30%/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidLab('lab(50%40 30)'), true);
+      assert.equal(isValidLab('lab(50%-40%-30%)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidLab('lab(50%none 30)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidLab('lab(50none 40 30)'), false);
+      assert.equal(isValidLab('lab(50%40%%30%)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidLab('lab(50%40%30%20%)'), false);
+      assert.equal(isValidLab('lab(50%,40%,30%)'), false);
+      assert.equal(isValidLab('lab(50%40%30% 0.5)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects missing arguments', () => {
       assert.equal(isValidLab('lab(50 40)'), false);

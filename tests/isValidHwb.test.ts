@@ -115,6 +115,46 @@ describe('isValidHwb()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidHwb('hwb(120 10%20%)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidHwb('hwb(120 10%20%/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidHwb('hwb(120 10%20)'), true);
+      assert.equal(isValidHwb('hwb(120 10%-20%)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidHwb('hwb(120 10%none)'), true);
+    });
+
+    it('validates adjacent numbers separated only by a sign', () => {
+      assert.equal(isValidHwb('hwb(120+10%20%)'), true);
+    });
+
+    it('validates an angle unit directly followed by a sign or decimal point', () => {
+      assert.equal(isValidHwb('hwb(120deg+10%20%)'), true);
+      assert.equal(isValidHwb('hwb(120deg.5%20%)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidHwb('hwb(120deg10% 20%)'), false);
+      assert.equal(isValidHwb('hwb(120deg-10% 20%)'), false);
+      assert.equal(isValidHwb('hwb(120 10%%20%)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidHwb('hwb(1%2%3%)'), false);
+      assert.equal(isValidHwb('hwb(120,10%20%)'), false);
+      assert.equal(isValidHwb('hwb(120 10%20% 0.5)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects comma-separated values', () => {
       assert.equal(isValidHwb('hwb(120, 10%, 20%)'), false);

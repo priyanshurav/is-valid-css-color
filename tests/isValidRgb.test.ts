@@ -116,6 +116,56 @@ describe('isValidRgb()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidRgb('rgb(1%2%3%)'), true);
+      assert.equal(isValidRgb('rgba(1%2%3%)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidRgb('rgb(1%2%3%/0.5)'), true);
+      assert.equal(isValidRgb('rgb(1%2%3%/none)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidRgb('rgb(1%2 3)'), true);
+      assert.equal(isValidRgb('rgb(1%.5%3%)'), true);
+      assert.equal(isValidRgb('rgb(1%-2%3%)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidRgb('rgb(1%none 3%)'), true);
+    });
+
+    it('validates adjacent numbers separated only by a sign', () => {
+      assert.equal(isValidRgb('rgb(1+2+3)'), true);
+      assert.equal(isValidRgb('rgb(1-2%3)'), true);
+    });
+
+    it('validates adjacent decimal numbers with no separator', () => {
+      assert.equal(isValidRgb('rgb(1.5.5.5)'), true);
+    });
+
+    it('validates none directly followed by a sign or decimal point', () => {
+      assert.equal(isValidRgb('rgb(none+1+2)'), true);
+      assert.equal(isValidRgb('rgb(none.5.5)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidRgb('rgb(1none 2 3)'), false);
+      assert.equal(isValidRgb('rgb(none1 2 3)'), false);
+      assert.equal(isValidRgb('rgb(none-1 2 3)'), false);
+      assert.equal(isValidRgb('rgb(1%%2%3%)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidRgb('rgb(1%2%3%4%)'), false);
+      assert.equal(isValidRgb('rgb(1%2%3%//4%)'), false);
+      assert.equal(isValidRgb('rgb(1%2%3% 0.5)'), false);
+      assert.equal(isValidRgb('rgb(1%,2%3%)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects missing arguments', () => {
       assert.equal(isValidRgb('rgb'), false);

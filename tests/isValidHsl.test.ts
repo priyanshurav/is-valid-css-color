@@ -136,6 +136,47 @@ describe('isValidHsl()', () => {
     });
   });
 
+  describe('Whitespace-free separators (token boundaries)', () => {
+    it('validates channels separated only by a percent sign', () => {
+      assert.equal(isValidHsl('hsl(120 100%50%)'), true);
+    });
+
+    it('validates a slash-separated alpha directly after the last channel', () => {
+      assert.equal(isValidHsl('hsl(120 100%50%/0.5)'), true);
+    });
+
+    it('validates a percent sign directly followed by a number, sign or decimal point', () => {
+      assert.equal(isValidHsl('hsl(120 100%50)'), true);
+      assert.equal(isValidHsl('hsl(120 100%-50%)'), true);
+    });
+
+    it('validates a percent sign directly followed by none', () => {
+      assert.equal(isValidHsl('hsl(120 100%none)'), true);
+    });
+
+    it('validates adjacent numbers separated only by a sign', () => {
+      assert.equal(isValidHsl('hsl(120+100%50%)'), true);
+    });
+
+    it('validates an angle unit directly followed by a sign or decimal point', () => {
+      assert.equal(isValidHsl('hsl(120deg+100%50%)'), true);
+      assert.equal(isValidHsl('hsl(120deg.5%50%)'), true);
+    });
+
+    it('rejects glued tokens that merge into a single token', () => {
+      assert.equal(isValidHsl('hsl(120deg2% 3%)'), false);
+      assert.equal(isValidHsl('hsl(120deg-2% 3%)'), false);
+      assert.equal(isValidHsl('hsl(120deg100%50%)'), false);
+      assert.equal(isValidHsl('hsl(120 100%%50%)'), false);
+    });
+
+    it('rejects glued input that still violates the grammar', () => {
+      assert.equal(isValidHsl('hsl(1%2%3%)'), false);
+      assert.equal(isValidHsl('hsl(120,100%50%)'), false);
+      assert.equal(isValidHsl('hsl(120 100%50% 0.5)'), false);
+    });
+  });
+
   describe('Invalid Syntax (Rejections)', () => {
     it('rejects missing percentages on saturation and lightness in legacy syntax', () => {
       assert.equal(isValidHsl('hsl(120, 100, 50)'), false);
