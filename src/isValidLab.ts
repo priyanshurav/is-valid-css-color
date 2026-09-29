@@ -1,8 +1,8 @@
 import { trim } from './utils.js';
-import { VALUE, WS } from './patterns.js';
+import { VALUE, WS, VALUE_THEN_SEP } from './patterns.js';
 
 export const labRegex = new RegExp(
-  String.raw`^lab\(${WS}*${VALUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
+  String.raw`^lab\(${WS}*${VALUE_THEN_SEP}${VALUE_THEN_SEP}${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
   'i'
 );
 

@@ -1,4 +1,4 @@
-import { NUM, HUE, VALUE, WS } from './patterns.js';
+import { NUM, VALUE, WS, VALUE_THEN_SEP, HUE_THEN_SEP } from './patterns.js';
 import { trim } from './utils.js';
 
 const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
@@ -6,7 +6,7 @@ const legacyPct = `(?:${NUM}%)`;
 const legacyAlpha = `(?:${WS}*,${WS}*${NUM}%?)?`;
 
 const legacy = `${legacyHue}${WS}*,${WS}*${legacyPct}${WS}*,${WS}*${legacyPct}${legacyAlpha}`;
-const modern = String.raw`${HUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?`;
+const modern = String.raw`${HUE_THEN_SEP}${VALUE_THEN_SEP}${VALUE}(?:${WS}*\/${WS}*${VALUE})?`;
 
 export const legacyHslRegex = new RegExp(String.raw`^hsla?\(${WS}*${legacy}${WS}*\)$`, 'i');
 export const modernHslRegex = new RegExp(String.raw`^hsla?\(${WS}*${modern}${WS}*\)$`, 'i');

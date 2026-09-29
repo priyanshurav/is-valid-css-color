@@ -1,8 +1,8 @@
-import { HUE, VALUE, WS } from './patterns.js';
+import { VALUE, WS, VALUE_THEN_SEP, HUE_THEN_SEP } from './patterns.js';
 import { trim } from './utils.js';
 
 export const hwbRegex = new RegExp(
-  String.raw`^hwb\(${WS}*${HUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
+  String.raw`^hwb\(${WS}*${HUE_THEN_SEP}${VALUE_THEN_SEP}${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
   'i'
 );
 

@@ -1,4 +1,4 @@
-import { NUM, WS, VALUE } from './patterns.js';
+import { NUM, WS, VALUE, VALUE_THEN_SEP } from './patterns.js';
 import { trim } from './utils.js';
 
 const legacyNumBase = `${NUM}${WS}*,${WS}*${NUM}${WS}*,${WS}*${NUM}`;
@@ -9,7 +9,7 @@ const legacy = `(?:${legacyNumBase}|${legacyPctBase})${legacyAlpha}`;
 
 const modernAlpha = String.raw`(?:${WS}*\/${WS}*${VALUE})?`;
 
-const modern = `${VALUE}${WS}+${VALUE}${WS}+${VALUE}${modernAlpha}`;
+const modern = `${VALUE_THEN_SEP}${VALUE_THEN_SEP}${VALUE}${modernAlpha}`;
 
 export const legacyRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${legacy})${WS}*\)$`, 'i');
 export const modernRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${modern})${WS}*\)$`, 'i');

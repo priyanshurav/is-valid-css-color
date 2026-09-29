@@ -1,8 +1,8 @@
-import { VALUE, HUE, WS } from './patterns.js';
+import { VALUE, HUE, WS, VALUE_THEN_SEP } from './patterns.js';
 import { trim } from './utils.js';
 
 export const oklchRegex = new RegExp(
-  String.raw`^oklch\(${WS}*${VALUE}${WS}+${VALUE}${WS}+${HUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
+  String.raw`^oklch\(${WS}*${VALUE_THEN_SEP}${VALUE_THEN_SEP}${HUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
   'i'
 );
 

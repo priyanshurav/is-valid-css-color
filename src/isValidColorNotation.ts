@@ -1,10 +1,10 @@
-import { VALUE, WS } from './patterns.js';
+import { VALUE, WS, VALUE_THEN_SEP, IDENT_SEP } from './patterns.js';
 import { trim } from './utils.js';
 
 const colorSpaces = '(?:srgb(?:-linear)?|display-p3(?:-linear)?|a98-rgb|prophoto-rgb|rec2020|xyz(?:-d(?:50|65))?)';
 
 export const colorNotationRegex = new RegExp(
-  String.raw`^color\(${WS}*${colorSpaces}${WS}+${VALUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
+  String.raw`^color\(${WS}*${colorSpaces}${IDENT_SEP}${VALUE_THEN_SEP}${VALUE_THEN_SEP}${VALUE}(?:${WS}*\/${WS}*${VALUE})?${WS}*\)$`,
   'i'
 );
 
