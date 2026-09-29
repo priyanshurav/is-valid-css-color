@@ -22,6 +22,8 @@ export const trim = (str: string): string => {
     }
   }
 
+  if (start === 0 && end === str.length - 1) return str;
+
   return str.slice(start, end + 1);
 };
 
