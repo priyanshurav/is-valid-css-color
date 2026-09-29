@@ -1,4 +1,4 @@
-import { NUM, WS } from './patterns.js';
+import { NUM, WS, VALUE } from './patterns.js';
 import { trim } from './utils.js';
 
 const legacyNumBase = `${NUM}${WS}*,${WS}*${NUM}${WS}*,${WS}*${NUM}`;
@@ -7,10 +7,9 @@ const legacyAlpha = `(?:${WS}*,${WS}*${NUM}%?)?`;
 
 const legacy = `(?:${legacyNumBase}|${legacyPctBase})${legacyAlpha}`;
 
-const modernChannel = `(?:${NUM}%?|none)`;
-const modernAlpha = String.raw`(?:${WS}*\/${WS}*${modernChannel})?`;
+const modernAlpha = String.raw`(?:${WS}*\/${WS}*${VALUE})?`;
 
-const modern = `${modernChannel}${WS}+${modernChannel}${WS}+${modernChannel}${modernAlpha}`;
+const modern = `${VALUE}${WS}+${VALUE}${WS}+${VALUE}${modernAlpha}`;
 
 export const legacyRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${legacy})${WS}*\)$`, 'i');
 export const modernRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${modern})${WS}*\)$`, 'i');

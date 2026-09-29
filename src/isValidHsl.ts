@@ -3,9 +3,9 @@ import { trim } from './utils.js';
 
 const legacyHue = `(?:${NUM}(?:deg|grad|rad|turn)?)`;
 const legacyPct = `(?:${NUM}%)`;
-const legacyAlpha = `(?:${NUM}%?)`;
+const legacyAlpha = `(?:${WS}*,${WS}*${NUM}%?)?`;
 
-const legacy = `${legacyHue}${WS}*,${WS}*${legacyPct}${WS}*,${WS}*${legacyPct}(?:${WS}*,${WS}*${legacyAlpha})?`;
+const legacy = `${legacyHue}${WS}*,${WS}*${legacyPct}${WS}*,${WS}*${legacyPct}${legacyAlpha}`;
 const modern = String.raw`${HUE}${WS}+${VALUE}${WS}+${VALUE}(?:${WS}*\/${WS}*${VALUE})?`;
 
 export const legacyHslRegex = new RegExp(String.raw`^hsla?\(${WS}*${legacy}${WS}*\)$`, 'i');
