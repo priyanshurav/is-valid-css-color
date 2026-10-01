@@ -38,7 +38,10 @@ import { isValidCssColor } from 'is-valid-css-color';
 isValidCssColor('rebeccapurple'); // true
 isValidCssColor('#ff0000ff'); // true
 isValidCssColor('rgb(255 0 0 / 50%)'); // true
+isValidCssColor('hsl(none 100% 50% / none)'); // true
+isValidCssColor('color(display-p3 1 0 0 / 80%)'); // true
 isValidCssColor('not-a-color'); // false
+isValidCssColor(null); // false
 ```
 
 ### CommonJS
@@ -144,7 +147,7 @@ isValidCssColor('color(prophoto-rgb 0.9 0.1 0.1 / 80%)');
 This library is designed for high-performance validation of static, literal color strings only. It does not support:
 
 - Dynamic CSS constructs (`calc()`, `var()`)
-- Color manipulation functions (`color-mix()`, relative color syntax)
+- Color manipulation functions (`color-mix()`, `light-dark()`, relative color syntax)
 - Strings containing inline CSS comments (e.g., `rgb(255 /* red */ 0 0)`)
 - Custom color spaces
 
