@@ -10,7 +10,7 @@
 
 - **Broad format coverage:** hex, color keywords, `rgb()`, `hsl()`, `hwb()`, `lab()`, `lch()`, `oklab()`, `oklch()`, and `color()`
 - **Legacy + modern syntax:** `rgb()` and `hsl()` accept both comma-separated legacy and space-separated modern forms, including `none` channels and `/`-delimited alpha
-- **Dual package:** ships both ESM and CommonJS builds, use `import` or `require()`
+- **Dual package:** ships both ESM and CommonJS builds, so you can use `import` or `require()`
 - **Per-format exports:** each validator is individually exported and tree-shakeable, so you only import what you need
 - **Safe by default:** non-string input returns `false` without throwing
 - **ReDoS-safe:** verified against catastrophic backtracking using [recheck](https://github.com/makenowjust-labs/recheck)
@@ -38,8 +38,6 @@ import { isValidCssColor } from 'is-valid-css-color';
 isValidCssColor('rebeccapurple'); // true
 isValidCssColor('#ff0000ff'); // true
 isValidCssColor('rgb(255 0 0 / 50%)'); // true
-isValidCssColor('hsl(none 100% 50% / none)'); // true
-isValidCssColor('color(display-p3 1 0 0 / 80%)'); // true
 isValidCssColor('not-a-color'); // false
 isValidCssColor(null); // false
 ```
@@ -48,54 +46,23 @@ isValidCssColor(null); // false
 
 ```js
 const { isValidCssColor } = require('is-valid-css-color');
-
-isValidCssColor('rebeccapurple'); // true
-isValidCssColor('#ff0000ff'); // true
-isValidCssColor('rgb(255 0 0 / 50%)'); // true
-isValidCssColor('not-a-color'); // false
 ```
 
 ## API
 
 ### `isValidCssColor(color: string): boolean`
 
-Returns `true` if the string is a valid CSS color in any supported format.
+Returns `true` if the string is a valid CSS color in any supported format, and `false` otherwise, including for non-string input.
 
 ### Per-format validators
 
-Each format is also exported individually, and works identically under both ESM and CommonJS:
+Each format is also exported individually, under the same names in ESM and CommonJS. See the [table](#supported-formats) below for the full list.
 
 ```ts
-import {
-  isValidHex,
-  isValidRgb,
-  isValidHsl,
-  isValidHwb,
-  isValidLab,
-  isValidLch,
-  isValidOklab,
-  isValidOklch,
-  isValidColorKeyword,
-  isValidColorNotation,
-} from 'is-valid-css-color';
+import { isValidHex, isValidRgb } from 'is-valid-css-color';
 ```
 
-```js
-const {
-  isValidHex,
-  isValidRgb,
-  isValidHsl,
-  isValidHwb,
-  isValidLab,
-  isValidLch,
-  isValidOklab,
-  isValidOklch,
-  isValidColorKeyword,
-  isValidColorNotation,
-} = require('is-valid-css-color');
-```
-
-All validators accept a `string` and return a `boolean`. Non-string input returns `false` without throwing.
+All validators accept a `string` and return a `boolean`.
 
 ## Supported formats
 
