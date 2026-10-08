@@ -217,5 +217,7 @@ const validCssColorKeywords = new Set([
  */
 export const isValidColorKeyword = (colorKeyword: string): boolean => {
   if (typeof colorKeyword !== 'string') return false;
-  return validCssColorKeywords.has(toAsciiLowercase(trim(colorKeyword)));
+  colorKeyword = trim(colorKeyword);
+  if (colorKeyword.length > 20) return false;
+  return validCssColorKeywords.has(toAsciiLowercase(colorKeyword));
 };

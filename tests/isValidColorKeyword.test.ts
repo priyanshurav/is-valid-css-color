@@ -81,6 +81,7 @@ describe('isValidColorKeyword()', () => {
       assert.equal(isValidColorKeyword('red '), true);
       assert.equal(isValidColorKeyword(' red '), true);
       assert.equal(isValidColorKeyword(' cornflowerblue '), true);
+      assert.equal(isValidColorKeyword('    cornflowerblue    '), true);
     });
 
     it('tolerates all CSS whitespace characters', () => {
