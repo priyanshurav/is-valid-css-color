@@ -116,6 +116,7 @@ This library is designed for high-performance validation of static, literal colo
 - Dynamic CSS constructs (`calc()`, `var()`)
 - Color manipulation functions (`color-mix()`, `light-dark()`, relative color syntax)
 - Strings containing inline CSS comments (e.g., `rgb(255 /* red */ 0 0)`)
+- CSS escape sequences (e.g., `\72 gb(255 0 0)`)
 - Custom color spaces
 
 ## License
