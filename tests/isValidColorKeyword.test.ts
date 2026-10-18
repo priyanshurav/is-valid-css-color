@@ -91,6 +91,11 @@ describe('isValidColorKeyword()', () => {
       assert.equal(isValidColorKeyword('\fred'), true);
       assert.equal(isValidColorKeyword('\t\n\r\f red \t\n\r\f'), true);
     });
+
+    it('accepts the longest keyword with surrounding whitespace', () => {
+      assert.equal(isValidColorKeyword('  lightgoldenrodyellow  '), true);
+      assert.equal(isValidColorKeyword('\t\n\r\f lightgoldenrodyellow \t\n\r\f'), true);
+    });
   });
 
   describe('Invalid Syntax (Rejections)', () => {
@@ -121,6 +126,13 @@ describe('isValidColorKeyword()', () => {
     it('rejects a zero-width space inside a keyword', () => {
       assert.equal(isValidColorKeyword('r\u200Bed'), false);
       assert.equal(isValidColorKeyword('re\u200Bd'), false);
+    });
+
+    it('rejects strings longer than any valid keyword', () => {
+      assert.equal(isValidColorKeyword('lightgoldenrodyellowx'), false);
+      assert.equal(isValidColorKeyword('  lightgoldenrodyellowx  '), false);
+      assert.equal(isValidColorKeyword('a'.repeat(21)), false);
+      assert.equal(isValidColorKeyword('red'.repeat(100)), false);
     });
 
     it('rejects non-CSS whitespace characters', () => {
