@@ -59,7 +59,10 @@ Returns `true` if the string is a valid CSS color in any supported format, and `
 Each format is also exported individually, under the same names in ESM and CommonJS. See the [table](#supported-formats) below for the full list.
 
 ```ts
-import { isValidHex, isValidRgb } from 'is-valid-css-color';
+import { isValidHex, isValidOklch } from 'is-valid-css-color';
+
+console.log(isValidHex('#ff00aa')); // true
+console.log(isValidOklch('rgb(0, 0, 0)')); // false
 ```
 
 All validators accept a `string` and return a `boolean`.
