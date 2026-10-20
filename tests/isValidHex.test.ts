@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidHex } from '../src/isValidHex.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidHex()', () => {
   describe('CSS Color Level 3: Basic Hex Syntax', () => {
@@ -107,16 +108,24 @@ describe('isValidHex()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidHex('\u{A0}#fff'), false);
-      assert.equal(isValidHex('#fff\u{A0}'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        PARAGRAPH_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidHex(`${NO_BREAK_SPACE}#fff`), false);
+      assert.equal(isValidHex(`#fff${NO_BREAK_SPACE}`), false);
       assert.equal(isValidHex('\v#fff'), false);
       assert.equal(isValidHex('#fff\v'), false);
-      assert.equal(isValidHex('\u{2028}#fff'), false);
-      assert.equal(isValidHex('\u{2029}#fff'), false);
-      assert.equal(isValidHex('\u{3000}#fff'), false);
-      assert.equal(isValidHex('\u{FEFF}#fff'), false);
-      assert.equal(isValidHex('#\u{A0}fff'), false);
-      assert.equal(isValidHex('#f\u{A0}ff'), false);
+      assert.equal(isValidHex(`${LINE_SEPARATOR}#fff`), false);
+      assert.equal(isValidHex(`${PARAGRAPH_SEPARATOR}#fff`), false);
+      assert.equal(isValidHex(`${IDEOGRAPHIC_SPACE}#fff`), false);
+      assert.equal(isValidHex(`${BYTE_ORDER_MARK}#fff`), false);
+      assert.equal(isValidHex(`#${NO_BREAK_SPACE}fff`), false);
+      assert.equal(isValidHex(`#f${NO_BREAK_SPACE}ff`), false);
     });
   });
 });

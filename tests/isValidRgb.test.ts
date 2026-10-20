@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidRgb } from '../src/isValidRgb.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidRgb()', () => {
   describe('CSS Color Level 3: Legacy Comma-separated Syntax', () => {
@@ -244,14 +245,21 @@ describe('isValidRgb()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidRgb('rgb(255\u{A0}255\u{A0}255)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidRgb(`rgb(255${NO_BREAK_SPACE}255${NO_BREAK_SPACE}255)`), false);
       assert.equal(isValidRgb('rgb(255\v255\v255)'), false);
-      assert.equal(isValidRgb('rgb(255\u{2028}255\u{2028}255)'), false);
-      assert.equal(isValidRgb('rgb(255\u{3000}255\u{3000}255)'), false);
-      assert.equal(isValidRgb('\u{A0}rgb(255 255 255)'), false);
-      assert.equal(isValidRgb('rgb(255 255 255)\u{A0}'), false);
-      assert.equal(isValidRgb('rgb(255 255 255\u{A0}/ 0.5)'), false);
-      assert.equal(isValidRgb('rgb(\u{FEFF}255 255 255)'), false);
+      assert.equal(isValidRgb(`rgb(255${LINE_SEPARATOR}255${LINE_SEPARATOR}255)`), false);
+      assert.equal(isValidRgb(`rgb(255${IDEOGRAPHIC_SPACE}255${IDEOGRAPHIC_SPACE}255)`), false);
+      assert.equal(isValidRgb(`${NO_BREAK_SPACE}rgb(255 255 255)`), false);
+      assert.equal(isValidRgb(`rgb(255 255 255)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidRgb(`rgb(255 255 255${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidRgb(`rgb(${BYTE_ORDER_MARK}255 255 255)`), false);
     });
   });
 });

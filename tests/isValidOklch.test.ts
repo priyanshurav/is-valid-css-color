@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidOklch } from '../src/isValidOklch.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidOklch()', () => {
   describe('CSS Color Level 4: Space-separated OKLCH Syntax', () => {
@@ -204,18 +205,27 @@ describe('isValidOklch()', () => {
     });
 
     it('rejects a Unicode look-alike of "oklch"', () => {
-      assert.equal(isValidOklch('o\u212Alch(0.5 0.2 120)'), false); // KELVIN SIGN instead of 'k'
+      const { KELVIN_SIGN } = CHARS.LOOKALIKES;
+
+      assert.equal(isValidOklch(`o${KELVIN_SIGN}lch(0.5 0.2 120)`), false);
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidOklch('oklch(0.5\u{A0}0.2\u{A0}120)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidOklch(`oklch(0.5${NO_BREAK_SPACE}0.2${NO_BREAK_SPACE}120)`), false);
       assert.equal(isValidOklch('oklch(0.5\v0.2\v120)'), false);
-      assert.equal(isValidOklch('oklch(0.5\u{2028}0.2\u{2028}120)'), false);
-      assert.equal(isValidOklch('oklch(0.5\u{3000}0.2\u{3000}120)'), false);
-      assert.equal(isValidOklch('\u{A0}oklch(0.5 0.2 120)'), false);
-      assert.equal(isValidOklch('oklch(0.5 0.2 120)\u{A0}'), false);
-      assert.equal(isValidOklch('oklch(0.5 0.2 120\u{A0}/ 0.5)'), false);
-      assert.equal(isValidOklch('oklch(\u{FEFF}0.5 0.2 120)'), false);
+      assert.equal(isValidOklch(`oklch(0.5${LINE_SEPARATOR}0.2${LINE_SEPARATOR}120)`), false);
+      assert.equal(isValidOklch(`oklch(0.5${IDEOGRAPHIC_SPACE}0.2${IDEOGRAPHIC_SPACE}120)`), false);
+      assert.equal(isValidOklch(`${NO_BREAK_SPACE}oklch(0.5 0.2 120)`), false);
+      assert.equal(isValidOklch(`oklch(0.5 0.2 120)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidOklch(`oklch(0.5 0.2 120${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidOklch(`oklch(${BYTE_ORDER_MARK}0.5 0.2 120)`), false);
     });
   });
 });

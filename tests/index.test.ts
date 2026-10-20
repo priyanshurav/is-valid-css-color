@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import * as esm from '../src/index.js';
 import { isValidCssColor } from '../src/index.js';
+import { CHARS } from './fixtures/chars.js';
 
 const require = createRequire(import.meta.url);
 
@@ -118,14 +119,22 @@ describe('isValidCssColor()', () => {
     });
 
     it('does not trim non-CSS whitespace characters', () => {
-      assert.equal(isValidCssColor('\u{A0}red'), false);
-      assert.equal(isValidCssColor('red\u{A0}'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        PARAGRAPH_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidCssColor(`${NO_BREAK_SPACE}red`), false);
+      assert.equal(isValidCssColor(`red${NO_BREAK_SPACE}`), false);
       assert.equal(isValidCssColor('\vred'), false);
-      assert.equal(isValidCssColor('\u{2028}red\u{2029}'), false);
-      assert.equal(isValidCssColor('\u{3000}red\u{3000}'), false);
-      assert.equal(isValidCssColor('\u{FEFF}red'), false);
-      assert.equal(isValidCssColor('\u{A0}rgb(255, 0, 0)\u{A0}'), false);
-      assert.equal(isValidCssColor('\u{A0}'.repeat(3)), false);
+      assert.equal(isValidCssColor(`${LINE_SEPARATOR}red${PARAGRAPH_SEPARATOR}`), false);
+      assert.equal(isValidCssColor(`${IDEOGRAPHIC_SPACE}red${IDEOGRAPHIC_SPACE}`), false);
+      assert.equal(isValidCssColor(`${BYTE_ORDER_MARK}red`), false);
+      assert.equal(isValidCssColor(`${NO_BREAK_SPACE}rgb(255, 0, 0)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidCssColor(NO_BREAK_SPACE.repeat(3)), false);
     });
   });
 
@@ -152,8 +161,10 @@ describe('isValidCssColor()', () => {
     });
 
     it('rejects Unicode look-alikes after whitespace trimming', () => {
-      assert.equal(isValidCssColor('  blac\u212A  '), false);
-      assert.equal(isValidCssColor(' h\u017Fl(120 100% 50%) '), false);
+      const { KELVIN_SIGN, LONG_S } = CHARS.LOOKALIKES;
+
+      assert.equal(isValidCssColor(`  blac${KELVIN_SIGN}  `), false);
+      assert.equal(isValidCssColor(` h${LONG_S}l(120 100% 50%) `), false);
     });
   });
 });

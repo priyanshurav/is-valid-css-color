@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidHsl } from '../src/isValidHsl.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidHsl()', () => {
   describe('CSS Color Level 3: Legacy comma-separated syntax', () => {
@@ -267,19 +268,28 @@ describe('isValidHsl()', () => {
     });
 
     it('rejects Unicode look-alikes of "hsl"/"hsla"', () => {
-      assert.equal(isValidHsl('h\u017Fl(120 100% 50%)'), false); // LONG S instead of 's'
-      assert.equal(isValidHsl('h\u017Fla(120, 100%, 50%, 1)'), false);
+      const { LONG_S } = CHARS.LOOKALIKES;
+
+      assert.equal(isValidHsl(`h${LONG_S}l(120 100% 50%)`), false);
+      assert.equal(isValidHsl(`h${LONG_S}la(120, 100%, 50%, 1)`), false);
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidHsl('hsl(120\u{A0}100%\u{A0}50%)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidHsl(`hsl(120${NO_BREAK_SPACE}100%${NO_BREAK_SPACE}50%)`), false);
       assert.equal(isValidHsl('hsl(120\v100%\v50%)'), false);
-      assert.equal(isValidHsl('hsl(120\u{2028}100%\u{2028}50%)'), false);
-      assert.equal(isValidHsl('hsl(120\u{3000}100%\u{3000}50%)'), false);
-      assert.equal(isValidHsl('\u{A0}hsl(120 100% 50%)'), false);
-      assert.equal(isValidHsl('hsl(120 100% 50%)\u{A0}'), false);
-      assert.equal(isValidHsl('hsl(120 100% 50%\u{A0}/ 0.5)'), false);
-      assert.equal(isValidHsl('hsl(\u{FEFF}120 100% 50%)'), false);
+      assert.equal(isValidHsl(`hsl(120${LINE_SEPARATOR}100%${LINE_SEPARATOR}50%)`), false);
+      assert.equal(isValidHsl(`hsl(120${IDEOGRAPHIC_SPACE}100%${IDEOGRAPHIC_SPACE}50%)`), false);
+      assert.equal(isValidHsl(`${NO_BREAK_SPACE}hsl(120 100% 50%)`), false);
+      assert.equal(isValidHsl(`hsl(120 100% 50%)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidHsl(`hsl(120 100% 50%${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidHsl(`hsl(${BYTE_ORDER_MARK}120 100% 50%)`), false);
     });
   });
 });

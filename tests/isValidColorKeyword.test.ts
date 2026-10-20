@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidColorKeyword } from '../src/isValidColorKeyword.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidColorKeyword()', () => {
   describe('CSS Color Level 4: Named Colors', () => {
@@ -119,8 +120,9 @@ describe('isValidColorKeyword()', () => {
     });
 
     it('rejects a zero-width space inside a keyword', () => {
-      assert.equal(isValidColorKeyword('r\u200Bed'), false);
-      assert.equal(isValidColorKeyword('re\u200Bd'), false);
+      const { ZERO_WIDTH_SPACE } = CHARS.INVISIBLE;
+      assert.equal(isValidColorKeyword(`r${ZERO_WIDTH_SPACE}ed`), false);
+      assert.equal(isValidColorKeyword(`re${ZERO_WIDTH_SPACE}d`), false);
     });
 
     it('rejects strings longer than any valid keyword', () => {
@@ -131,34 +133,50 @@ describe('isValidColorKeyword()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidColorKeyword('\u{A0}red'), false);
-      assert.equal(isValidColorKeyword('red\u{A0}'), false);
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } =
+        CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidColorKeyword(`${NO_BREAK_SPACE}red`), false);
+      assert.equal(isValidColorKeyword(`red${NO_BREAK_SPACE}`), false);
       assert.equal(isValidColorKeyword('\vred'), false);
       assert.equal(isValidColorKeyword('red\v'), false);
-      assert.equal(isValidColorKeyword('\u{2028}red'), false);
-      assert.equal(isValidColorKeyword('\u{2029}red'), false);
-      assert.equal(isValidColorKeyword('\u{3000}red'), false);
-      assert.equal(isValidColorKeyword('\u{FEFF}red'), false);
-      assert.equal(isValidColorKeyword('re\u{A0}d'), false);
-      assert.equal(isValidColorKeyword('\u{A0}'.repeat(3)), false);
+      assert.equal(isValidColorKeyword(`${LINE_SEPARATOR}red`), false);
+      assert.equal(isValidColorKeyword(`${PARAGRAPH_SEPARATOR}red`), false);
+      assert.equal(isValidColorKeyword(`${IDEOGRAPHIC_SPACE}red`), false);
+      assert.equal(isValidColorKeyword(`${BYTE_ORDER_MARK}red`), false);
+      assert.equal(isValidColorKeyword(`re${NO_BREAK_SPACE}d`), false);
+      assert.equal(isValidColorKeyword(NO_BREAK_SPACE.repeat(3)), false);
     });
 
     it('rejects Unicode look-alikes of valid keywords', () => {
-      assert.equal(isValidColorKeyword('blac\u212A'), false); // KELVIN SIGN instead of 'k' in "black"
-      assert.equal(isValidColorKeyword('Blac\u212A'), false);
-      assert.equal(isValidColorKeyword('pin\u212A'), false); // "pink"
-      assert.equal(isValidColorKeyword('\u212Ahaki'), false); // "khaki"
-      assert.equal(isValidColorKeyword('dar\u212Ared'), false); // "darkred"
+      const {
+        KELVIN_SIGN,
+        LONG_S,
+        DOTTED_CAPITAL_I,
+        CYRILLIC_SMALL_A,
+        CYRILLIC_SMALL_O,
+        FULL_WIDTH_R,
+        FULL_WIDTH_E,
+        FULL_WIDTH_D,
+      } = CHARS.LOOKALIKES;
+      const { COMBINING_ACUTE } = CHARS.COMBINING_MARKS;
+      const fullWidthRed = `${FULL_WIDTH_R}${FULL_WIDTH_E}${FULL_WIDTH_D}` as const;
 
-      assert.equal(isValidColorKeyword('\u017Falmon'), false); // LONG S instead of 's' in "salmon"
-      assert.equal(isValidColorKeyword('\u017Filver'), false); // "silver"
-      assert.equal(isValidColorKeyword('\u017Feagreen'), false); // "seagreen"
+      assert.equal(isValidColorKeyword(`blac${KELVIN_SIGN}`), false);
+      assert.equal(isValidColorKeyword(`Blac${KELVIN_SIGN}`), false);
+      assert.equal(isValidColorKeyword(`pin${KELVIN_SIGN}`), false);
+      assert.equal(isValidColorKeyword(`${KELVIN_SIGN}haki`), false);
+      assert.equal(isValidColorKeyword(`dar${KELVIN_SIGN}red`), false);
 
-      assert.equal(isValidColorKeyword('\u0130vory'), false); // dotted capital I instead of 'i' in "ivory"
-      assert.equal(isValidColorKeyword('\uFF52\uFF45\uFF44'), false); // fullwidth "red"
-      assert.equal(isValidColorKeyword('gr\u0430y'), false); // Cyrillic а instead of 'a' in "gray"
-      assert.equal(isValidColorKeyword('g\u043Eld'), false); // Cyrillic о instead of 'o' in "gold"
-      assert.equal(isValidColorKeyword('red\u0301'), false); // trailing combining accent
+      assert.equal(isValidColorKeyword(`${LONG_S}almon`), false);
+      assert.equal(isValidColorKeyword(`${LONG_S}ilver`), false);
+      assert.equal(isValidColorKeyword(`${LONG_S}eagreen`), false);
+
+      assert.equal(isValidColorKeyword(`${DOTTED_CAPITAL_I}vory`), false);
+      assert.equal(isValidColorKeyword(fullWidthRed), false);
+      assert.equal(isValidColorKeyword(`gr${CYRILLIC_SMALL_A}y`), false);
+      assert.equal(isValidColorKeyword(`g${CYRILLIC_SMALL_O}ld`), false);
+      assert.equal(isValidColorKeyword(`red${COMBINING_ACUTE}`), false);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidLch } from '../src/isValidLch.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidLch()', () => {
   describe('CSS Color Level 4: Space-separated LCH Syntax', () => {
@@ -204,14 +205,21 @@ describe('isValidLch()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidLch('lch(50%\u{A0}40\u{A0}320)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidLch(`lch(50%${NO_BREAK_SPACE}40${NO_BREAK_SPACE}320)`), false);
       assert.equal(isValidLch('lch(50%\v40\v320)'), false);
-      assert.equal(isValidLch('lch(50%\u{2028}40\u{2028}320)'), false);
-      assert.equal(isValidLch('lch(50%\u{3000}40\u{3000}320)'), false);
-      assert.equal(isValidLch('\u{A0}lch(50% 40 320)'), false);
-      assert.equal(isValidLch('lch(50% 40 320)\u{A0}'), false);
-      assert.equal(isValidLch('lch(50% 40 320\u{A0}/ 0.5)'), false);
-      assert.equal(isValidLch('lch(\u{FEFF}50% 40 320)'), false);
+      assert.equal(isValidLch(`lch(50%${LINE_SEPARATOR}40${LINE_SEPARATOR}320)`), false);
+      assert.equal(isValidLch(`lch(50%${IDEOGRAPHIC_SPACE}40${IDEOGRAPHIC_SPACE}320)`), false);
+      assert.equal(isValidLch(`${NO_BREAK_SPACE}lch(50% 40 320)`), false);
+      assert.equal(isValidLch(`lch(50% 40 320)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidLch(`lch(50% 40 320${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidLch(`lch(${BYTE_ORDER_MARK}50% 40 320)`), false);
     });
   });
 });

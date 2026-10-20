@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidColorNotation } from '../src/isValidColorNotation.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidColorNotation()', () => {
   describe('CSS Color Level 4: Color Function Syntax', () => {
@@ -203,20 +204,29 @@ describe('isValidColorNotation()', () => {
     });
 
     it('rejects Unicode look-alikes of valid color space names', () => {
-      assert.equal(isValidColorNotation('color(\u017Frgb 1 0 0)'), false); // LONG S instead of 's' in "srgb"
-      assert.equal(isValidColorNotation('color(di\u017Fplay-p3 1 0 0)'), false); // "display-p3"
-      assert.equal(isValidColorNotation('color(d\u0131splay-p3 1 0 0)'), false); // dotless ı instead of 'i'
+      const { LONG_S, DOTLESS_I } = CHARS.LOOKALIKES;
+
+      assert.equal(isValidColorNotation(`color(${LONG_S}rgb 1 0 0)`), false);
+      assert.equal(isValidColorNotation(`color(di${LONG_S}play-p3 1 0 0)`), false);
+      assert.equal(isValidColorNotation(`color(d${DOTLESS_I}splay-p3 1 0 0)`), false);
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidColorNotation('color(srgb\u{A0}1\u{A0}0\u{A0}0)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidColorNotation(`color(srgb${NO_BREAK_SPACE}1${NO_BREAK_SPACE}0${NO_BREAK_SPACE}0)`), false);
       assert.equal(isValidColorNotation('color(srgb\v1\v0\v0)'), false);
-      assert.equal(isValidColorNotation('color(srgb\u{2028}1\u{2028}0\u{2028}0)'), false);
-      assert.equal(isValidColorNotation('color(srgb\u{3000}1\u{3000}0\u{3000}0)'), false);
-      assert.equal(isValidColorNotation('\u{A0}color(srgb 1 0 0)'), false);
-      assert.equal(isValidColorNotation('color(srgb 1 0 0)\u{A0}'), false);
-      assert.equal(isValidColorNotation('color(srgb 1 0 0\u{A0}/ 0.5)'), false);
-      assert.equal(isValidColorNotation('color(\u{FEFF}srgb 1 0 0)'), false);
+      assert.equal(isValidColorNotation(`color(srgb${LINE_SEPARATOR}1${LINE_SEPARATOR}0${LINE_SEPARATOR}0)`), false);
+      assert.equal(isValidColorNotation(`color(srgb${IDEOGRAPHIC_SPACE}1${IDEOGRAPHIC_SPACE}0${IDEOGRAPHIC_SPACE}0)`), false);
+      assert.equal(isValidColorNotation(`${NO_BREAK_SPACE}color(srgb 1 0 0)`), false);
+      assert.equal(isValidColorNotation(`color(srgb 1 0 0)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidColorNotation(`color(srgb 1 0 0${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidColorNotation(`color(${BYTE_ORDER_MARK}srgb 1 0 0)`), false);
     });
   });
 });

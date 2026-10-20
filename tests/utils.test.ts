@@ -1,24 +1,9 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { toAsciiLowercase, trim } from '../src/utils.js';
+import { CHARS } from './fixtures/chars.js';
 
-const targetWhitespaces = [
-  { name: 'Space (0x20)', char: '\u{20}' },
-  { name: 'Horizontal Tab (0x09)', char: '\u{9}' },
-  { name: 'Line Feed (0x0A)', char: '\u{A}' },
-  { name: 'Carriage Return (0x0D)', char: '\u{D}' },
-  { name: 'Form Feed (0x0C)', char: '\u{C}' },
-];
-
-const nonTargetWhitespaces = [
-  { name: 'Vertical Tab (0x0B)', char: '\u{B}' },
-  { name: 'Non-breaking Space (0xA0)', char: '\u{A0}' },
-  { name: 'Ogham Space Mark (0x1680)', char: '\u{1680}' },
-  { name: 'En Quad (0x2000)', char: '\u{2000}' },
-  { name: 'Line Separator (0x2028)', char: '\u{2028}' },
-  { name: 'Ideographic Space (0x3000)', char: '\u{3000}' },
-  { name: 'Byte Order Mark (0xFEFF)', char: '\u{FEFF}' },
-];
+const mixedWhitespace = Object.values(CHARS.STRIPPED_WHITESPACE).join('');
 
 describe('utils/trim()', () => {
   describe('Core functionality', () => {
@@ -36,7 +21,7 @@ describe('utils/trim()', () => {
   });
 
   describe('Target whitespace (should be trimmed)', () => {
-    for (const { name, char } of targetWhitespaces) {
+    for (const [name, char] of Object.entries(CHARS.STRIPPED_WHITESPACE)) {
       it(`trims ${name} leading, trailing, both sides, and as a whole string`, () => {
         assert.equal(trim(`${char}hello`), 'hello');
         assert.equal(trim(`hello${char}`), 'hello');
@@ -46,18 +31,16 @@ describe('utils/trim()', () => {
     }
 
     it('trims a complex mixture of all target whitespaces at both ends', () => {
-      const mixed = '\u{20}\u{9}\u{A}\u{D}\u{C}\u{C}\u{D}\u{A}\u{9}\u{20}';
-      assert.equal(trim(`${mixed}content${mixed}`), 'content');
+      assert.equal(trim(`${mixedWhitespace}content${mixedWhitespace}`), 'content');
     });
 
     it('reduces a string composed entirely of mixed target whitespace to empty', () => {
-      const mixed = '\u{20}\u{9}\u{A}\u{D}\u{C}\u{C}\u{D}\u{A}\u{9}\u{20}';
-      assert.equal(trim(mixed), '');
+      assert.equal(trim(mixedWhitespace), '');
     });
   });
 
   describe('Non-target whitespace (should NOT be trimmed)', () => {
-    for (const { name, char } of nonTargetWhitespaces) {
+    for (const [name, char] of Object.entries(CHARS.PRESERVED_WHITESPACE)) {
       it(`leaves ${name} untouched leading, trailing, and as a whole string`, () => {
         assert.equal(trim(`${char}hello`), `${char}hello`);
         assert.equal(trim(`hello${char}`), `hello${char}`);
@@ -66,35 +49,32 @@ describe('utils/trim()', () => {
     }
 
     it('trims target whitespace up to but not through adjacent non-target whitespace', () => {
-      const str = '\u{20}\u{B}hello\u{B}\u{20}';
-      assert.equal(trim(str), '\u{B}hello\u{B}');
+      assert.equal(trim(' \vhello\v '), '\vhello\v');
     });
   });
 
   describe('Edge cases', () => {
     it('handles a single character string of target whitespace', () => {
-      assert.equal(trim('\u{20}'), '');
+      assert.equal(trim(' '), '');
     });
 
     it('handles a single character string of non-target whitespace', () => {
-      assert.equal(trim('\u{A0}'), '\u{A0}');
+      const { NO_BREAK_SPACE } = CHARS.PRESERVED_WHITESPACE;
+      assert.equal(trim(NO_BREAK_SPACE), NO_BREAK_SPACE);
     });
 
     it('preserves emoji and surrogate pairs while trimming surrounding target whitespace', () => {
-      assert.equal(
-        trim('\u{20}\u{9}\u{1F600} caf\u{E9} \u{65E5}\u{672C}\u{8A9E}\u{A}'),
-        '\u{1F600} caf\u{E9} \u{65E5}\u{672C}\u{8A9E}'
-      );
+      assert.equal(trim(' \t😀 café 日本語\n'), '😀 café 日本語');
     });
 
     it('is idempotent: trimming an already-trimmed string is a no-op', () => {
-      const once = trim('\u{20}\u{9}hello\u{A}\u{D}');
+      const once = trim(' \thello\n\r');
       assert.equal(once, 'hello');
       assert.equal(trim(once), once);
     });
 
     it('handles extremely large strings with extensive padding', () => {
-      const pad = '\u{20}\u{9}\u{A}\u{D}\u{C}'.repeat(10_000);
+      const pad = mixedWhitespace.repeat(10_000);
       assert.equal(trim(`${pad}core${pad}`), 'core');
     });
   });
@@ -138,26 +118,27 @@ describe('utils/toAsciiLowercase()', () => {
   });
 
   describe('Confusable / Look-Alike Unicode Characters', () => {
-    it('ignores the Kelvin sign K (U+212A) - native toLowerCase makes this "k"', () => {
-      // 'K' is ASCII (U+004B), 'K' is Kelvin (U+212A)
-      assert.equal(toAsciiLowercase('KK'), 'kK');
+    const { KELVIN_SIGN, CYRILLIC_CAPITAL_A, ANGSTROM_SIGN, GREEK_CAPITAL_MU } = CHARS.LOOKALIKES;
+
+    it('ignores the Kelvin sign (U+212A), which native toLowerCase turns into "k"', () => {
+      assert.equal(toAsciiLowercase(`K${KELVIN_SIGN}`), `k${KELVIN_SIGN}`);
     });
 
-    it('ignores Cyrillic А (U+0410) - looks identical to ASCII A', () => {
-      // 'A' is ASCII (U+0041), 'А' is Cyrillic (U+0410)
-      assert.equal(toAsciiLowercase('AА'), 'aА');
+    it('ignores Cyrillic capital A (U+0410), which looks identical to ASCII A', () => {
+      assert.equal(toAsciiLowercase(`A${CYRILLIC_CAPITAL_A}`), `a${CYRILLIC_CAPITAL_A}`);
     });
 
-    it('ignores Fullwidth Ａ (U+FF21)', () => {
-      assert.equal(toAsciiLowercase('ＡＢＣ'), 'ＡＢＣ');
+    it('ignores Fullwidth Latin capital letters (U+FF21 to U+FF23)', () => {
+      const fullwidth = 'ＡＢＣ';
+      assert.equal(toAsciiLowercase(fullwidth), fullwidth);
     });
 
-    it('ignores the Angstrom sign Å (U+212B)', () => {
-      assert.equal(toAsciiLowercase('Å'), 'Å');
+    it('ignores the Angstrom sign (U+212B)', () => {
+      assert.equal(toAsciiLowercase(ANGSTROM_SIGN), ANGSTROM_SIGN);
     });
 
-    it('ignores Greek capital letters like Μ (U+039C)', () => {
-      assert.equal(toAsciiLowercase('Μ'), 'Μ');
+    it('ignores Greek capital Mu (U+039C)', () => {
+      assert.equal(toAsciiLowercase(GREEK_CAPITAL_MU), GREEK_CAPITAL_MU);
     });
   });
 
@@ -168,7 +149,7 @@ describe('utils/toAsciiLowercase()', () => {
     });
 
     it('safely passes non-emoji surrogate pairs (e.g. Deseret Alphabet)', () => {
-      // 𐐀 is U+10400 (Deseret Capital Letter I)
+      // 𐐀 is U+10400 (Deseret Capital Letter Long I)
       assert.equal(toAsciiLowercase('A𐐀B'), 'a𐐀b');
     });
 

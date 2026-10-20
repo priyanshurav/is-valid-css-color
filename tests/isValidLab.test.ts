@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidLab } from '../src/isValidLab.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidLab()', () => {
   describe('CSS Color Level 4: Space-separated LAB Syntax', () => {
@@ -223,14 +224,21 @@ describe('isValidLab()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidLab('lab(50\u{A0}40\u{A0}30)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidLab(`lab(50${NO_BREAK_SPACE}40${NO_BREAK_SPACE}30)`), false);
       assert.equal(isValidLab('lab(50\v40\v30)'), false);
-      assert.equal(isValidLab('lab(50\u{2028}40\u{2028}30)'), false);
-      assert.equal(isValidLab('lab(50\u{3000}40\u{3000}30)'), false);
-      assert.equal(isValidLab('\u{A0}lab(50 40 30)'), false);
-      assert.equal(isValidLab('lab(50 40 30)\u{A0}'), false);
-      assert.equal(isValidLab('lab(50 40 30\u{A0}/ 0.5)'), false);
-      assert.equal(isValidLab('lab(\u{FEFF}50 40 30)'), false);
+      assert.equal(isValidLab(`lab(50${LINE_SEPARATOR}40${LINE_SEPARATOR}30)`), false);
+      assert.equal(isValidLab(`lab(50${IDEOGRAPHIC_SPACE}40${IDEOGRAPHIC_SPACE}30)`), false);
+      assert.equal(isValidLab(`${NO_BREAK_SPACE}lab(50 40 30)`), false);
+      assert.equal(isValidLab(`lab(50 40 30)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidLab(`lab(50 40 30${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidLab(`lab(${BYTE_ORDER_MARK}50 40 30)`), false);
     });
   });
 });

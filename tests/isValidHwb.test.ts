@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidHwb } from '../src/isValidHwb.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidHwb()', () => {
   describe('CSS Color Level 4: Space-separated HWB Syntax', () => {
@@ -220,14 +221,21 @@ describe('isValidHwb()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidHwb('hwb(120\u{A0}10%\u{A0}20%)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidHwb(`hwb(120${NO_BREAK_SPACE}10%${NO_BREAK_SPACE}20%)`), false);
       assert.equal(isValidHwb('hwb(120\v10%\v20%)'), false);
-      assert.equal(isValidHwb('hwb(120\u{2028}10%\u{2028}20%)'), false);
-      assert.equal(isValidHwb('hwb(120\u{3000}10%\u{3000}20%)'), false);
-      assert.equal(isValidHwb('\u{A0}hwb(120 10% 20%)'), false);
-      assert.equal(isValidHwb('hwb(120 10% 20%)\u{A0}'), false);
-      assert.equal(isValidHwb('hwb(120 10% 20%\u{A0}/ 0.5)'), false);
-      assert.equal(isValidHwb('hwb(\u{FEFF}120 10% 20%)'), false);
+      assert.equal(isValidHwb(`hwb(120${LINE_SEPARATOR}10%${LINE_SEPARATOR}20%)`), false);
+      assert.equal(isValidHwb(`hwb(120${IDEOGRAPHIC_SPACE}10%${IDEOGRAPHIC_SPACE}20%)`), false);
+      assert.equal(isValidHwb(`${NO_BREAK_SPACE}hwb(120 10% 20%)`), false);
+      assert.equal(isValidHwb(`hwb(120 10% 20%)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidHwb(`hwb(120 10% 20%${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidHwb(`hwb(${BYTE_ORDER_MARK}120 10% 20%)`), false);
     });
   });
 });

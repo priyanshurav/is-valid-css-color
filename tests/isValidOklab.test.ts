@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { isValidOklab } from '../src/isValidOklab.js';
+import { CHARS } from './fixtures/chars.js';
 
 describe('isValidOklab()', () => {
   describe('CSS Color Level 4: Space-separated OKLAB Syntax', () => {
@@ -191,18 +192,27 @@ describe('isValidOklab()', () => {
     });
 
     it('rejects a Unicode look-alike of "oklab"', () => {
-      assert.equal(isValidOklab('o\u212Alab(0.5 0.1 0.1)'), false); // KELVIN SIGN instead of 'k'
+      const { KELVIN_SIGN } = CHARS.LOOKALIKES;
+
+      assert.equal(isValidOklab(`o${KELVIN_SIGN}lab(0.5 0.1 0.1)`), false);
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      assert.equal(isValidOklab('oklab(0.59\u{A0}0.1\u{A0}0.1)'), false);
+      const {
+        NO_BREAK_SPACE,
+        LINE_SEPARATOR,
+        IDEOGRAPHIC_SPACE,
+        BYTE_ORDER_MARK,
+      } = CHARS.PRESERVED_WHITESPACE;
+
+      assert.equal(isValidOklab(`oklab(0.59${NO_BREAK_SPACE}0.1${NO_BREAK_SPACE}0.1)`), false);
       assert.equal(isValidOklab('oklab(0.59\v0.1\v0.1)'), false);
-      assert.equal(isValidOklab('oklab(0.59\u{2028}0.1\u{2028}0.1)'), false);
-      assert.equal(isValidOklab('oklab(0.59\u{3000}0.1\u{3000}0.1)'), false);
-      assert.equal(isValidOklab('\u{A0}oklab(0.59 0.1 0.1)'), false);
-      assert.equal(isValidOklab('oklab(0.59 0.1 0.1)\u{A0}'), false);
-      assert.equal(isValidOklab('oklab(0.59 0.1 0.1\u{A0}/ 0.5)'), false);
-      assert.equal(isValidOklab('oklab(\u{FEFF}0.59 0.1 0.1)'), false);
+      assert.equal(isValidOklab(`oklab(0.59${LINE_SEPARATOR}0.1${LINE_SEPARATOR}0.1)`), false);
+      assert.equal(isValidOklab(`oklab(0.59${IDEOGRAPHIC_SPACE}0.1${IDEOGRAPHIC_SPACE}0.1)`), false);
+      assert.equal(isValidOklab(`${NO_BREAK_SPACE}oklab(0.59 0.1 0.1)`), false);
+      assert.equal(isValidOklab(`oklab(0.59 0.1 0.1)${NO_BREAK_SPACE}`), false);
+      assert.equal(isValidOklab(`oklab(0.59 0.1 0.1${NO_BREAK_SPACE}/ 0.5)`), false);
+      assert.equal(isValidOklab(`oklab(${BYTE_ORDER_MARK}0.59 0.1 0.1)`), false);
     });
   });
 });
