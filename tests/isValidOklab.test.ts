@@ -169,6 +169,7 @@ describe('isValidOklab()', () => {
       assert.equal(isValidOklab('oklab0.59 0.1 0.1)'), false);
       assert.equal(isValidOklab('oklab( 0.59 0.1 0.1 / 0.5 ) extra'), false);
       assert.equal(isValidOklab('extra oklab(0.59 0.1 0.1)'), false);
+      assert.equal(isValidOklab('oklab(0.59 0.1 0.1 / 1)b(7)'), false);
       assert.equal(isValidOklab('oklab (0.59 0.1 0.1)'), false);
     });
 
@@ -198,12 +199,7 @@ describe('isValidOklab()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidOklab(`oklab(0.59${NO_BREAK_SPACE}0.1${NO_BREAK_SPACE}0.1)`), false);
       assert.equal(isValidOklab('oklab(0.59\v0.1\v0.1)'), false);

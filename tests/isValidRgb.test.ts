@@ -219,6 +219,9 @@ describe('isValidRgb()', () => {
     it('rejects extra text surrounding valid rgb()', () => {
       assert.equal(isValidRgb('rgb(255, 0, 0) extra'), false);
       assert.equal(isValidRgb('extra rgb(255, 0, 0)'), false);
+      assert.equal(isValidRgb('rgb(255 255 255 / 1)b(7)'), false);
+      assert.equal(isValidRgb('rgb(255, 0, 0)b(7)'), false);
+      assert.equal(isValidRgb('rgba(255, 0, 0, 0.5)b(7)'), false);
     });
 
     it('rejects invalid number formats', () => {
@@ -245,12 +248,7 @@ describe('isValidRgb()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidRgb(`rgb(255${NO_BREAK_SPACE}255${NO_BREAK_SPACE}255)`), false);
       assert.equal(isValidRgb('rgb(255\v255\v255)'), false);

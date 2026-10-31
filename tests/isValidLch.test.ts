@@ -188,6 +188,7 @@ describe('isValidLch()', () => {
     it('rejects extra text surrounding valid lch()', () => {
       assert.equal(isValidLch('lch(50% 40 320) extra'), false);
       assert.equal(isValidLch('extra lch(50% 40 320)'), false);
+      assert.equal(isValidLch('lch(50% 40 320 / 1)b(7)'), false);
     });
 
     it('rejects malformed none usage', () => {
@@ -205,12 +206,7 @@ describe('isValidLch()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidLch(`lch(50%${NO_BREAK_SPACE}40${NO_BREAK_SPACE}320)`), false);
       assert.equal(isValidLch('lch(50%\v40\v320)'), false);

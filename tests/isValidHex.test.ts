@@ -105,16 +105,13 @@ describe('isValidHex()', () => {
     it('rejects extra text surrounding valid hex', () => {
       assert.equal(isValidHex('#fff extra'), false);
       assert.equal(isValidHex('extra #fff'), false);
+      assert.equal(isValidHex('#ffffff b(7)'), false);
+      assert.equal(isValidHex('#ffffffb(7)'), false);
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        PARAGRAPH_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } =
+        CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidHex(`${NO_BREAK_SPACE}#fff`), false);
       assert.equal(isValidHex(`#fff${NO_BREAK_SPACE}`), false);

@@ -206,6 +206,7 @@ describe('isValidHwb()', () => {
     it('rejects extra text surrounding valid hwb()', () => {
       assert.equal(isValidHwb('hwb(120 10% 20%) extra'), false);
       assert.equal(isValidHwb('extra hwb(120 10% 20%)'), false);
+      assert.equal(isValidHwb('hwb(120 10% 20% / 1)b(7)'), false);
     });
 
     it('rejects malformed none usage', () => {
@@ -221,12 +222,7 @@ describe('isValidHwb()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidHwb(`hwb(120${NO_BREAK_SPACE}10%${NO_BREAK_SPACE}20%)`), false);
       assert.equal(isValidHwb('hwb(120\v10%\v20%)'), false);

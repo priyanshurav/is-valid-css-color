@@ -119,13 +119,8 @@ describe('isValidCssColor()', () => {
     });
 
     it('does not trim non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        PARAGRAPH_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, PARAGRAPH_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } =
+        CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidCssColor(`${NO_BREAK_SPACE}red`), false);
       assert.equal(isValidCssColor(`red${NO_BREAK_SPACE}`), false);
@@ -158,6 +153,19 @@ describe('isValidCssColor()', () => {
       assert.equal(isValidCssColor('color-mix(in srgb, red 50%, blue 50%)'), false);
       assert.equal(isValidCssColor('light-dark(white, black)'), false);
       assert.equal(isValidCssColor('color(from red srgb r g b)'), false);
+    });
+
+    it('rejects a valid color followed by trailing function-like text', () => {
+      assert.equal(isValidCssColor('rgb(255 255 255 / 1)b(7)'), false);
+      assert.equal(isValidCssColor('hsl(120 100% 50% / 1)b(7)'), false);
+      assert.equal(isValidCssColor('hwb(120 10% 20% / 1)b(7)'), false);
+      assert.equal(isValidCssColor('lab(50 40 30 / 1)b(7)'), false);
+      assert.equal(isValidCssColor('lch(50% 40 320 / 1)b(7)'), false);
+      assert.equal(isValidCssColor('oklab(0.59 0.1 0.1 / 1)b(7)'), false);
+      assert.equal(isValidCssColor('oklch(0.5 0.2 120 / 1)b(7)'), false);
+      assert.equal(isValidCssColor('color(srgb 1 0 0 / 1)b(7)'), false);
+      assert.equal(isValidCssColor('red b(7)'), false);
+      assert.equal(isValidCssColor('#fff b(7)'), false);
     });
 
     it('rejects Unicode look-alikes after whitespace trimming', () => {

@@ -236,6 +236,8 @@ describe('isValidHsl()', () => {
     it('rejects extra text surrounding valid hsl()', () => {
       assert.equal(isValidHsl('hsl(120, 100%, 50%) extra'), false);
       assert.equal(isValidHsl('extra hsl(120, 100%, 50%)'), false);
+      assert.equal(isValidHsl('hsl(120 100% 50% / 1)b(7)'), false);
+      assert.equal(isValidHsl('hsl(120, 100%, 50%)b(7)'), false);
     });
 
     it('rejects "none" in legacy comma-separated syntax', () => {
@@ -275,12 +277,7 @@ describe('isValidHsl()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidHsl(`hsl(120${NO_BREAK_SPACE}100%${NO_BREAK_SPACE}50%)`), false);
       assert.equal(isValidHsl('hsl(120\v100%\v50%)'), false);

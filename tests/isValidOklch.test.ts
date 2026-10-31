@@ -188,6 +188,7 @@ describe('isValidOklch()', () => {
     it('rejects extra text surrounding valid oklch()', () => {
       assert.equal(isValidOklch('oklch(0.5 0.2 120) extra'), false);
       assert.equal(isValidOklch('extra oklch(0.5 0.2 120)'), false);
+      assert.equal(isValidOklch('oklch(0.5 0.2 120 / 1)b(7)'), false);
     });
 
     it('rejects malformed none usage', () => {
@@ -211,12 +212,7 @@ describe('isValidOklch()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidOklch(`oklch(0.5${NO_BREAK_SPACE}0.2${NO_BREAK_SPACE}120)`), false);
       assert.equal(isValidOklch('oklch(0.5\v0.2\v120)'), false);

@@ -211,6 +211,7 @@ describe('isValidLab()', () => {
     it('rejects extra text surrounding valid lab()', () => {
       assert.equal(isValidLab('lab(50 40 30) extra'), false);
       assert.equal(isValidLab('extra lab(50 40 30)'), false);
+      assert.equal(isValidLab('lab(50 40 30 / 1)b(7)'), false);
     });
 
     it('rejects misplaced none keywords', () => {
@@ -224,12 +225,7 @@ describe('isValidLab()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
       assert.equal(isValidLab(`lab(50${NO_BREAK_SPACE}40${NO_BREAK_SPACE}30)`), false);
       assert.equal(isValidLab('lab(50\v40\v30)'), false);

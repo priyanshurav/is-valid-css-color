@@ -194,6 +194,7 @@ describe('isValidColorNotation()', () => {
     it('rejects extra text surrounding valid color()', () => {
       assert.equal(isValidColorNotation('color(srgb 1 0 0) extra'), false);
       assert.equal(isValidColorNotation('extra color(srgb 1 0 0)'), false);
+      assert.equal(isValidColorNotation('color(srgb 1 0 0 / 1)b(7)'), false);
     });
 
     it('rejects malformed none usage', () => {
@@ -212,17 +213,21 @@ describe('isValidColorNotation()', () => {
     });
 
     it('rejects non-CSS whitespace characters', () => {
-      const {
-        NO_BREAK_SPACE,
-        LINE_SEPARATOR,
-        IDEOGRAPHIC_SPACE,
-        BYTE_ORDER_MARK,
-      } = CHARS.PRESERVED_WHITESPACE;
+      const { NO_BREAK_SPACE, LINE_SEPARATOR, IDEOGRAPHIC_SPACE, BYTE_ORDER_MARK } = CHARS.PRESERVED_WHITESPACE;
 
-      assert.equal(isValidColorNotation(`color(srgb${NO_BREAK_SPACE}1${NO_BREAK_SPACE}0${NO_BREAK_SPACE}0)`), false);
+      assert.equal(
+        isValidColorNotation(`color(srgb${NO_BREAK_SPACE}1${NO_BREAK_SPACE}0${NO_BREAK_SPACE}0)`),
+        false
+      );
       assert.equal(isValidColorNotation('color(srgb\v1\v0\v0)'), false);
-      assert.equal(isValidColorNotation(`color(srgb${LINE_SEPARATOR}1${LINE_SEPARATOR}0${LINE_SEPARATOR}0)`), false);
-      assert.equal(isValidColorNotation(`color(srgb${IDEOGRAPHIC_SPACE}1${IDEOGRAPHIC_SPACE}0${IDEOGRAPHIC_SPACE}0)`), false);
+      assert.equal(
+        isValidColorNotation(`color(srgb${LINE_SEPARATOR}1${LINE_SEPARATOR}0${LINE_SEPARATOR}0)`),
+        false
+      );
+      assert.equal(
+        isValidColorNotation(`color(srgb${IDEOGRAPHIC_SPACE}1${IDEOGRAPHIC_SPACE}0${IDEOGRAPHIC_SPACE}0)`),
+        false
+      );
       assert.equal(isValidColorNotation(`${NO_BREAK_SPACE}color(srgb 1 0 0)`), false);
       assert.equal(isValidColorNotation(`color(srgb 1 0 0)${NO_BREAK_SPACE}`), false);
       assert.equal(isValidColorNotation(`color(srgb 1 0 0${NO_BREAK_SPACE}/ 0.5)`), false);

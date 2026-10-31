@@ -111,6 +111,8 @@ describe('isValidColorKeyword()', () => {
       assert.equal(isValidColorKeyword('rgb(255, 0, 0)'), false);
       assert.equal(isValidColorKeyword('hsl(120, 100%, 50%)'), false);
       assert.equal(isValidColorKeyword('oklch(0.5 0.2 120)'), false);
+      assert.equal(isValidColorKeyword('red b(7)'), false);
+      assert.equal(isValidColorKeyword('redb(7)'), false);
     });
 
     it('rejects empty or whitespace-only strings', () => {
