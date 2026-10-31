@@ -16,7 +16,7 @@ export const labRegex = new RegExp(
  *
  * There is no legacy comma-separated form; only the modern space-separated
  * syntax is valid. The check is case-insensitive and ignores leading/trailing
- * whitespace.
+ * whitespace. Validates syntax only; component values are not range-checked.
  *
  * @param lab - The string to validate.
  * @returns `true` if `lab` is a valid CSS `lab()` color, `false` otherwise.
@@ -27,6 +27,9 @@ export const labRegex = new RegExp(
  * isValidLab('lab(50 -20 30 / 0.5)');     // true
  * isValidLab('lab(none -20 30 / 50%)');   // true
  * isValidLab('lab(50, -20, 30)');         // false
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidLab('lab(999 -20 30)');          // true
  */
 export const isValidLab = (lab: string): boolean => {
   if (typeof lab !== 'string') return false;

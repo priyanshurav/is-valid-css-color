@@ -18,17 +18,20 @@ export const oklabRegex = new RegExp(
  *
  * There is no legacy comma-separated form; only the modern space-separated
  * syntax is valid. The check is case-insensitive and ignores leading/trailing
- * whitespace.
+ * whitespace. Validates syntax only; component values are not range-checked.
  *
  * @param oklab - The string to validate.
  * @returns `true` if `oklab` is a valid CSS `oklab()` color, `false` otherwise.
  *
  * @example
  * isValidOklab('oklab(0.5 -0.1 0.1)');          // true
- * isValidOklab('oklab(50% -20% 30%)');           // true
+ * isValidOklab('oklab(50% -20% 30%)');          // true
  * isValidOklab('oklab(0.5 -0.1 0.1 / 0.5)');    // true
  * isValidOklab('oklab(none -0.1 0.1 / 50%)');   // true
  * isValidOklab('oklab(0.5, -0.1, 0.1)');        // false
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidOklab('oklab(999 -0.1 0.1)');          // true
  */
 export const isValidOklab = (oklab: string): boolean => {
   if (typeof oklab !== 'string') return false;

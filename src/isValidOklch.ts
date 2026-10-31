@@ -20,17 +20,20 @@ export const oklchRegex = new RegExp(
  *
  * There is no legacy comma-separated form; only the modern space-separated
  * syntax is valid. The check is case-insensitive and ignores leading/trailing
- * whitespace.
+ * whitespace. Validates syntax only; component values are not range-checked.
  *
  * @param oklch - The string to validate.
  * @returns `true` if `oklch` is a valid CSS `oklch()` color, `false` otherwise.
  *
  * @example
- * isValidOklch('oklch(0.5 0.15 270)');           // true
- * isValidOklch('oklch(50% 30% 270deg)');         // true
+ * isValidOklch('oklch(0.5 0.15 270)');          // true
+ * isValidOklch('oklch(50% 30% 270deg)');        // true
  * isValidOklch('oklch(0.5 0.15 270 / 0.5)');    // true
  * isValidOklch('oklch(none 0.15 270 / 50%)');   // true
  * isValidOklch('oklch(0.5, 0.15, 270)');        // false
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidOklch('oklch(999 0.15 270)');          // true
  */
 export const isValidOklch = (oklch: string): boolean => {
   if (typeof oklch !== 'string') return false;

@@ -17,7 +17,8 @@ export const colorNotationRegex = new RegExp(
  *
  * Each channel accepts a number, a percentage, or the keyword `none`.
  * The optional alpha is separated by `/`. The check is case-insensitive
- * and ignores leading/trailing whitespace.
+ * and ignores leading/trailing whitespace. Validates syntax only; component
+ * values are not range-checked.
  *
  * **Only absolute color syntax is supported.** Relative color syntax
  * (`color(from <origin> ...)`) is not recognized and will return `false`.
@@ -33,6 +34,9 @@ export const colorNotationRegex = new RegExp(
  * isValidColorNotation('color(hsl 0.5 0.3 0.1)');                // false
  * isValidColorNotation('rgb(255 0 0)');                          // false
  * isValidColorNotation('color(from red srgb r g b)');            // false
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidColorNotation('color(srgb 999 0 0)');                   // true
  */
 export const isValidColorNotation = (colorNotation: string): boolean => {
   if (typeof colorNotation !== 'string') return false;

@@ -23,10 +23,12 @@ export const modernRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${modern})$
  *   and must be consistent — mixing is not allowed; `none` is not permitted;
  *   the optional alpha is a number or percentage.
  * - **Modern** (space-separated): channels are numbers or percentages (and may
- *   be mixed), or the keyword `none`; the optional alpha is separated by `/`.
+ *   be mixed), or the keyword `none`; the optional alpha is separated by `/`
+ *   and is a number, a percentage, or `none`.
  *
  * Both `rgb()` and `rgba()` function names are accepted. The check is
- * case-insensitive and ignores leading/trailing whitespace.
+ * case-insensitive and ignores leading/trailing whitespace. Validates syntax
+ * only; component values are not range-checked.
  *
  * @param rgb - The string to validate.
  * @returns `true` if `rgb` is a valid CSS `rgb()`/`rgba()` color, `false` otherwise.
@@ -43,6 +45,9 @@ export const modernRgbRegex = new RegExp(String.raw`^rgba?\(${WS}*(?:${modern})$
  * isValidRgb('rgb(255 0 128)');              // true
  * isValidRgb('rgb(255 0 128 / 50%)');        // true
  * isValidRgb('rgb(none 0 128 / 0.5)');       // true
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidRgb('rgb(999, 0, 0)');              // true
  */
 export const isValidRgb = (rgb: string): boolean => {
   if (typeof rgb !== 'string') return false;

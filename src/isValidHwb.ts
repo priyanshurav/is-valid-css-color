@@ -18,6 +18,7 @@ export const hwbRegex = new RegExp(
  * that number and percentage component values may be freely mixed.
  *
  * The check is case-insensitive and ignores leading/trailing whitespace.
+ * Validates syntax only; component values are not range-checked.
  *
  * @param hwb - The string to validate.
  * @returns `true` if `hwb` is a valid CSS `hwb()` color, `false` otherwise.
@@ -29,6 +30,9 @@ export const hwbRegex = new RegExp(
  * isValidHwb('hwb(270 30 10)');           // true
  * isValidHwb('hwb(none 30% 10% / 50%)');  // true
  * isValidHwb('hwb(270, 0%, 0%)');         // false
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidHwb('hwb(0 999% 0%)');           // true
  */
 export const isValidHwb = (hwb: string): boolean => {
   if (typeof hwb !== 'string') return false;

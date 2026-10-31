@@ -18,7 +18,7 @@ export const lchRegex = new RegExp(
  *
  * There is no legacy comma-separated form; only the modern space-separated
  * syntax is valid. The check is case-insensitive and ignores leading/trailing
- * whitespace.
+ * whitespace. Validates syntax only; component values are not range-checked.
  *
  * @param lch - The string to validate.
  * @returns `true` if `lch` is a valid CSS `lch()` color, `false` otherwise.
@@ -29,6 +29,9 @@ export const lchRegex = new RegExp(
  * isValidLch('lch(50 30 270 / 0.5)');     // true
  * isValidLch('lch(none 30 270 / 50%)');   // true
  * isValidLch('lch(50, 30, 270)');         // false
+ *
+ * // Values are not range-checked (valid syntax)
+ * isValidLch('lch(999 30 270)');          // true
  */
 export const isValidLch = (lch: string): boolean => {
   if (typeof lch !== 'string') return false;
